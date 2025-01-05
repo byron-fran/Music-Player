@@ -13,7 +13,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byrondev.musicplayer.data.models.Song
-import com.byrondev.musicplayer.ui.theme.Gray30
 
 
 @Composable
@@ -33,7 +32,7 @@ fun SongPlayInfo (song : Song) {
         )
         Text(
             "${song.album}",
-            color = Gray30,
+            /* Todo Add color text */
             fontSize = 15.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center
