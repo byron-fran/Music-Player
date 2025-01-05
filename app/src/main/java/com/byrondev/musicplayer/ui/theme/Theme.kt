@@ -59,3 +59,10 @@ fun MusicPlayerTheme(
         content = content
     )
 }
+
+val Blue70 = Color(0XFF1d4ed8)
+val Blue80 = Color(0XFF1e40af)
+val Blue95 = Color(0XFF172554)
+val Yellow50 = Color(0XFFeab308)
+val Yellow80 = Color(0XFF854d0e)
+val Yellow95 = Color(0XFF422006)
