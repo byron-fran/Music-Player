@@ -5,8 +5,10 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.byrondev.musicplayer.components.images.BackgroundImage
 import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.ui.theme.textWhite15
 
@@ -28,9 +31,11 @@ import com.byrondev.musicplayer.ui.theme.textWhite15
 fun AlbumAppTopBar(cover :  ByteArray?, albumName : String?) {
 
     Box(
-        modifier = Modifier.fillMaxWidth().height(300.dp).background(Color.Transparent)
+        modifier = Modifier.fillMaxWidth().height(350.dp).background(Color.Transparent),
+
     ){
-//        Todo Add Background image
+
+        BackgroundImage(cover, modifier = Modifier.fillMaxSize())
         Row (
             modifier = Modifier.fillMaxWidth().background(Color.Transparent).height(70.dp),
             verticalAlignment = Alignment.Bottom
@@ -50,8 +55,15 @@ fun AlbumAppTopBar(cover :  ByteArray?, albumName : String?) {
             )
         }
 
+        CoverImage(
+            cover,
+            modifier = Modifier
+                .width(210.dp)
+                .height(220.dp)
+                .align(Alignment.Center)
+                .offset(x =0.dp, y=25.dp),
 
-        CoverImage(cover, modifier = Modifier.width(200.dp).height(200.dp))
+        )
     }
 
 }
