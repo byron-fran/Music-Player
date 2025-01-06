@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.BottomBar
-import com.byrondev.musicplayer.components.searchbar.SearchBar
 import com.byrondev.musicplayer.tabs.TabItem
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
@@ -59,7 +58,7 @@ fun LibraryScreenContent(
     })
     val scope = rememberCoroutineScope()
     Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(paddingValues)) {
-        SearchBar(navController)
+
         Spacer(modifier=Modifier.height(10.dp).fillMaxWidth())
 
         TabRow (
