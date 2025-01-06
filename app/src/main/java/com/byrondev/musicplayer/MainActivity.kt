@@ -13,6 +13,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.byrondev.musicplayer.navigation.NavManager
 import com.byrondev.musicplayer.ui.theme.MusicPlayerTheme
 import com.byrondev.musicplayer.viewModels.MusicViewModels
+import com.byrondev.musicplayer.viewModels.PlayerViewModels
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModels: MusicViewModels by viewModels()
-
+        val playerViewModels : PlayerViewModels by viewModels()
         // Create the ExoPlayer instance
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MusicPlayerTheme {
-                NavManager(viewModels, player)
+                NavManager(viewModels, player, playerViewModels)
             }
         }
 
