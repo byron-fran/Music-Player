@@ -85,11 +85,16 @@ class MusicViewModels @Inject constructor(
     fun getArtistByIdWithSong () {
         /*Todo Add this function*/
     }
-    fun getArtistByIdWithAlbums () {
+    fun getArtistByIdWithAlbums (id : Int) {
         /* Todo Add this function*/
     }
     fun clearArtistWithSongs () {
         /* Todo Add this function*/
+    }
+
+    // clear
+    fun clearSearchMusicResult () {
+        /* Todo add  this function*/
     }
 
     // Canal para gestionar las tareas
