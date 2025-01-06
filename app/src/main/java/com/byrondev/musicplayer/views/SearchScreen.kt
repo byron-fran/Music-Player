@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.BottomBar
+import com.byrondev.musicplayer.components.searchbar.SearchBarApp
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
@@ -42,7 +43,7 @@ fun SearchScreen(
     ) {
         Column (modifier = Modifier.fillMaxSize()) {
             // Todo add SearchBarApp component
-//            SearchBarApp(query, musicViewModels, active, results=result, playerViewModels, navController)
+          SearchBarApp(query, musicViewModels, active, playerViewModels, navController)
             // Todo get result to show
 //            SearchContentResult( query, result,musicViewModels,navController, playerViewModels)
         }
