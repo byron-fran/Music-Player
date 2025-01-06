@@ -28,7 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.data.models.Album
-import com.byrondev.musicplayer.ui.theme.Gray10
+import com.byrondev.musicplayer.ui.theme.Slate70
 import com.byrondev.musicplayer.ui.theme.textDarkGray13
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 
@@ -60,7 +60,10 @@ fun ButtonsPlayAlbum(musicViewModels: MusicViewModels, albumCount : Int?, album:
             Card (
                 modifier = Modifier.size(50.dp).clickable { /* Todo add event to play*/ },
                 shape = CircleShape,
-                colors = CardDefaults.cardColors(containerColor = Gray10, contentColor = Color.White)
+                colors = CardDefaults.cardColors(
+                    containerColor = Slate70,
+                    contentColor = Color.White,
+                    )
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -79,7 +82,10 @@ fun ButtonsPlayAlbum(musicViewModels: MusicViewModels, albumCount : Int?, album:
             Card (
                 modifier = Modifier.size(50.dp),
                 shape = CircleShape,
-                colors = CardDefaults.cardColors(containerColor = Gray10, contentColor = Color.White)
+                colors = CardDefaults.cardColors(
+                    containerColor = Slate70,
+                    contentColor = Color.White,
+                    )
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
