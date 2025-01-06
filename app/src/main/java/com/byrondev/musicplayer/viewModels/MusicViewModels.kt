@@ -82,7 +82,7 @@ class MusicViewModels @Inject constructor(
         }
     }
 
-    fun getArtistByIdWithSong () {
+    fun getArtistByIdWithSong (id : Int) {
         /*Todo Add this function*/
     }
     fun getArtistByIdWithAlbums (id : Int) {
