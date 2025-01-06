@@ -14,7 +14,7 @@ typealias ComposableFun = @Composable ( MusicViewModels, PlayerViewModels, NavCo
 
 sealed class TabItem( var title: String, var screen: ComposableFun) {
     @RequiresApi(Build.VERSION_CODES.S)
-    data object Albums : TabItem( "Albums", { musicViewModels, playerViewModel, navController -> AlbumsScreen(musicViewModels) } )
+    data object Albums : TabItem( "Albums", { musicViewModels, playerViewModel, navController -> AlbumsScreen( navController,musicViewModels) } )
     @RequiresApi(Build.VERSION_CODES.S)
     data object Songs : TabItem( "Songs", { musicViewModels, playerViewModel, navController ->   SongsScreen(musicViewModels, navController, playerViewModel) })
     @RequiresApi(Build.VERSION_CODES.S)
