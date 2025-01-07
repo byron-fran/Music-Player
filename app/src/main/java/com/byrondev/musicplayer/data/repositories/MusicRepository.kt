@@ -25,6 +25,7 @@ class MusicRepository @Inject constructor(
     fun getAlbumById(id: Int) = albumsDao.getAlbumWithSongs(id)
     fun getAlbumWithSongById(id: Int) = albumsDao.getAlbumWithSongs2(id)
 
+    fun getSongs() = songsDao.getAllSongs()
 
     fun getAllArtists(): Flow<List<Artist>> =
         artistsDao.getAllArtist().flowOn(Dispatchers.IO).conflate()
