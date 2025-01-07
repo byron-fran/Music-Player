@@ -40,6 +40,9 @@ class MusicViewModels @Inject constructor(
     private val _albums = MutableStateFlow<List<Album>>(emptyList())
     val albums = _albums.asStateFlow()
 
+    private val _songs = MutableStateFlow<List<Song>>(emptyList())
+    val songs : StateFlow<List<Song>> = _songs
+
     private val _songDetail = MutableStateFlow(Song())
     val songDetail = _songDetail.asStateFlow()
 
@@ -81,6 +84,15 @@ class MusicViewModels @Inject constructor(
             _albumWithSongs.value = item
         }
     }
+    // get all songs
+    fun getAllSongs () {
+        viewModelScope.launch {
+            repository.getSongs().collect{
+                _songs.value = it
+            }
+        }
+    }
+
 
     fun getArtistByIdWithSong (id : Int) {
         /*Todo Add this function*/
