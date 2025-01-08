@@ -1,7 +1,6 @@
 package com.byrondev.musicplayer.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -38,7 +37,6 @@ val Typography = Typography(
 )
 
 val textWhite15 = TextStyle(
-        color = Color.White,
         fontSize = 15.sp,
         fontWeight = FontWeight.Medium,
 
@@ -47,12 +45,20 @@ val textWhite15 = TextStyle(
 val textDarkGray13 = TextStyle (
 //    color = Gray30, Todo add color typography
     fontSize = 14.sp,
-    fontWeight = FontWeight.W400,
+    fontWeight = FontWeight.W500,
 )
 
 val textSmall  = TextStyle (
     fontSize = 11.sp,
     fontWeight = FontWeight.W400,
     textAlign = TextAlign.Center,
+
+)
+val textMedium = TextStyle(
+    fontSize = 17.sp,
+    fontWeight = FontWeight.W500
+)
+val textLarge = TextStyle (
+    fontSize = 19.sp,
 
 )
