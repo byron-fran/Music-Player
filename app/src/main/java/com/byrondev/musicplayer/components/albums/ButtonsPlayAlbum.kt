@@ -30,11 +30,11 @@ import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.ui.theme.Slate70
 import com.byrondev.musicplayer.ui.theme.textDarkGray13
-import com.byrondev.musicplayer.viewModels.MusicViewModels
+import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun ButtonsPlayAlbum(musicViewModels: MusicViewModels, albumCount : Int?, album: Album?) {
+fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int?, album: Album?) {
 
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 15.dp),
@@ -58,7 +58,7 @@ fun ButtonsPlayAlbum(musicViewModels: MusicViewModels, albumCount : Int?, album:
 
             // Card button play
             Card (
-                modifier = Modifier.size(50.dp).clickable { /* Todo add event to play*/ },
+                modifier = Modifier.size(50.dp).clickable { playerViewModels.play()},
                 shape = CircleShape,
                 colors = CardDefaults.cardColors(
                     containerColor = Slate70,
