@@ -36,6 +36,7 @@ import com.byrondev.musicplayer.components.modals.PartialBottomSheet
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.ui.theme.Blue70
 import com.byrondev.musicplayer.ui.theme.Blue80
+import com.byrondev.musicplayer.ui.theme.Zinc50
 import com.byrondev.musicplayer.ui.theme.textDarkGray13
 import com.byrondev.musicplayer.ui.theme.textWhite15
 
@@ -69,15 +70,15 @@ fun SongCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if(showTrackNumber){
-                    Text("${song.trackNumber ?: ""}", style = textDarkGray13, modifier = Modifier.width(20.dp))
+                    Text("${song.trackNumber ?: ""}", color = Zinc50, style = textDarkGray13,   modifier = Modifier.width(20.dp))
                 }
                 Column(
                     modifier = Modifier.padding(start = 10.dp),
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    Text(song.title ?: "", style = textWhite15)
+                    Text(song.title ?: "", style = textWhite15, color = Color.White)
                     Spacer(modifier = Modifier.height(5.dp))
-                    Text(song.artist ?: "Unknown", style = textDarkGray13)
+                    Text(song.artist ?: "Unknown", style = textDarkGray13, color = Zinc50)
 
                 }
             }
