@@ -19,6 +19,7 @@ import com.byrondev.musicplayer.views.LibraryScreen
 import com.byrondev.musicplayer.views.SearchScreen
 import com.byrondev.musicplayer.views.albums.AlbumDetail
 import com.byrondev.musicplayer.views.albums.AlbumsScreen
+import com.byrondev.musicplayer.views.settings.SettingsScreen
 
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -43,7 +44,7 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
             navArgument("id") { type = NavType.IntType }
         )) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: 0
-            AlbumDetail(navController, musicViewModels, player,id)
+            AlbumDetail(navController, musicViewModels,playerViewModels,id)
         }
         // Favorites Screen
         composable("FavoritesScreen") {
@@ -67,6 +68,24 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
             }
             ) {
             SearchScreen(navController, musicViewModels, playerViewModels)
+        }
+        composable("SettingsScreen",
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }
+
+            ) {
+            SettingsScreen(navController, musicViewModels)
         }
     }
 }
