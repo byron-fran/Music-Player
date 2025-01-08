@@ -14,19 +14,21 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.tabs.TabItem
+import com.byrondev.musicplayer.ui.theme.Rose60
+import com.byrondev.musicplayer.ui.theme.Slate70
+import com.byrondev.musicplayer.ui.theme.textMedium
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 import kotlinx.coroutines.launch
@@ -52,7 +54,7 @@ fun LibraryScreenContent(
     playerViewModels: PlayerViewModels,
 ) {
 
-    val tabs = listOf(TabItem.Albums, TabItem.Songs, TabItem.Artists)
+    val tabs = listOf(TabItem.Albums, TabItem.Songs, TabItem.Artists, TabItem.Playlists, TabItem.Genres)
     val pagerState = rememberPagerState (pageCount = {
         tabs.size
     })
@@ -60,23 +62,27 @@ fun LibraryScreenContent(
     Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(paddingValues)) {
 
         Spacer(modifier=Modifier.height(10.dp).fillMaxWidth())
-
-        TabRow (
+        ScrollableTabRow  (
             selectedTabIndex = pagerState.currentPage,
             containerColor = Color.Transparent,
             contentColor = Color.Transparent,
-            indicator =  {},
+            edgePadding =  0.dp,
+            indicator =  {
+
+            },
             divider =  {
-                HorizontalDivider( /* Todo add color */ thickness = 1.dp)
+                HorizontalDivider(
+                    color =  Slate70,
+                    thickness = 1.dp)
             }
             ) {
             tabs.forEachIndexed { index, tab ->
                 // OR Tab()
-                LeadingIconTab(
-                    icon = { },
-                    text = { Text(tab.title, fontSize = 17.sp) },
+                Tab (
+
+                    text = { Text(tab.title, style = textMedium) },
                     selected = pagerState.currentPage == index,
-//                    selectedContentColor = Pink60, Todo add color
+                    selectedContentColor = Rose60,
                     unselectedContentColor = Color.White,
                     onClick = {
                         scope.launch {
