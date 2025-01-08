@@ -8,6 +8,8 @@ import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 import com.byrondev.musicplayer.views.albums.AlbumsScreen
 import com.byrondev.musicplayer.views.artists.ArtistScreen
+import com.byrondev.musicplayer.views.genres.GenresScreen
+import com.byrondev.musicplayer.views.playlist.PlaylistScreen
 import com.byrondev.musicplayer.views.songs.SongsScreen
 
 typealias ComposableFun = @Composable ( MusicViewModels, PlayerViewModels, NavController ) -> Unit
@@ -19,5 +21,8 @@ sealed class TabItem( var title: String, var screen: ComposableFun) {
     data object Songs : TabItem( "Songs", { musicViewModels, playerViewModel, navController ->   SongsScreen(musicViewModels, navController, playerViewModel) })
     @RequiresApi(Build.VERSION_CODES.S)
     data object Artists : TabItem( "Artists", { musicViewModels, _, navController ->  ArtistScreen(musicViewModels, navController) })
+
+    data object Playlists : TabItem("Playlists", { musicViewModels,_,navController -> PlaylistScreen( musicViewModels, navController) })
+    data object Genres : TabItem("Genres", { musicViewModels,_,navController -> GenresScreen( musicViewModels, navController) })
 
 }
