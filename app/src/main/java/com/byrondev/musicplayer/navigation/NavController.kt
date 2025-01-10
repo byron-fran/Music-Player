@@ -55,14 +55,14 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
 
             enterTransition = {
                 slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Up,
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                     animationSpec = tween(700)
                 )
             },
             exitTransition = {
 
                 slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Down,
+                    AnimatedContentTransitionScope.SlideDirection.Right,
                     animationSpec = tween(700)
                 )
             }
