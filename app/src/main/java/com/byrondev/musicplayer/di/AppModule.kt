@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.byrondev.musicplayer.data.dao.AlbumsDao
 import com.byrondev.musicplayer.data.dao.ArtistsDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
+import com.byrondev.musicplayer.data.dao.PlaylistDao
 import com.byrondev.musicplayer.data.dao.SongDao
 import com.byrondev.musicplayer.data.database.MusicDB
 import dagger.Module
@@ -45,4 +46,8 @@ object AppModule {
     @Singleton
     @Provides
     fun providesPlaybackQueueDao(database: MusicDB) : PlaybackQueueDao = database.playbackQueueDao()
+
+    @Singleton
+    @Provides
+    fun providesPlaylist(database: MusicDB) : PlaylistDao = database.playlistDao()
 }
