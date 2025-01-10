@@ -54,6 +54,10 @@ val textSmall  = TextStyle (
     textAlign = TextAlign.Center,
 
 )
+val textExtraSmall = TextStyle(
+    fontSize = 15.sp,
+    fontWeight = FontWeight.W500,
+)
 val textMedium = TextStyle(
     fontSize = 17.sp,
     fontWeight = FontWeight.W500
