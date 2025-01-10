@@ -6,6 +6,7 @@ cloudy = "0.2.0"
 coil = "2.4.0"
 coilCompose = "3.0.4"
 coilTransformations = "2.3.0"
+collapsingtopbarcompose = "1.2.4"
 compose = "1.0.0-alpha.4"
 composeVersion = "1.0.0-alpha.3"
 datastorePreferences = "1.1.1"
@@ -35,6 +36,7 @@ toolbarCompose = "2.3.5"
 ui = "1.7.5"
 uiVersion = "1.2.0"
 animationCoreAndroid = "1.7.0"
+foundationLayoutAndroid = "1.6.8"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
@@ -58,6 +60,7 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCo
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 coil-transformations = { module = "io.coil-kt:coil-transformations", version.ref = "coil" }
 coil-transformations-v230 = { module = "io.coil-kt:coil-transformations", version.ref = "coilTransformations" }
+collapsingtopbarcompose = { module = "com.github.germainkevinbusiness:CollapsingTopBarCompose", version.ref = "collapsingtopbarcompose" }
 compose = { module = "com.github.bumptech.glide:compose", version.ref = "compose" }
 compose-v100alpha3 = { module = "com.github.bumptech.glide:compose", version.ref = "composeVersion" }
 ffmpeg-kit-full = { module = "com.arthenica:ffmpeg-kit-full", version.ref = "ffmpegKitFull" }
@@ -91,6 +94,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 toolbar-compose = { module = "me.onebone:toolbar-compose", version.ref = "toolbarCompose" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 androidx-animation-core-android = { group = "androidx.compose.animation", name = "animation-core-android", version.ref = "animationCoreAndroid" }
+androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
