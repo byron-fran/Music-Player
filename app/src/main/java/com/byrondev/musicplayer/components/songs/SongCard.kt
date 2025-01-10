@@ -23,12 +23,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byrondev.musicplayer.R
@@ -36,7 +38,7 @@ import com.byrondev.musicplayer.components.modals.PartialBottomSheet
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.ui.theme.Blue70
 import com.byrondev.musicplayer.ui.theme.Blue80
-import com.byrondev.musicplayer.ui.theme.Zinc50
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.ui.theme.textDarkGray13
 import com.byrondev.musicplayer.ui.theme.textWhite15
 
@@ -52,67 +54,80 @@ fun SongCard(
     val showBottomSheet = remember { mutableStateOf(false) }
 
     Card(
-        onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
-            contentColor = Color.Black,
-            containerColor = Color.Black
+        onClick = {
+            onClick()
 
-            )
+                  },
+        modifier = Modifier.fillMaxWidth().height(60.dp),
+        colors = CardDefaults.cardColors(
+         containerColor = Color.Black
+        )
     ) {
 
         Row(
             modifier = Modifier.padding(5.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Row(
-                modifier = Modifier,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                if(showTrackNumber){
-                    Text("${song.trackNumber ?: ""}", color = Zinc50, style = textDarkGray13,   modifier = Modifier.width(20.dp))
-                }
-                Column(
-                    modifier = Modifier.padding(start = 10.dp),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    Text(song.title ?: "", style = textWhite15, color = Color.White)
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Text(song.artist ?: "Unknown", style = textDarkGray13, color = Zinc50)
+            verticalAlignment = Alignment.Bottom,
 
-                }
-            }
-            Row {
-                song.audioBitDepth.let {
-                    if (it != null) {
-                        if (it >= 24) {
-                            Image(
-                                painter = painterResource(id = R.drawable.hi_res_logo),
-                                contentDescription = "",
-                                modifier = Modifier.size(30.dp)
-                            )
-                        } else if(song.audioBitDepth == 16 ) {
-                            Card (
-                                modifier = Modifier,
-                                border = BorderStroke(1.dp, Blue80),
-                                colors =  CardDefaults.cardColors(containerColor = Color.Transparent),
-                                shape = RoundedCornerShape(5.dp)
-                            ) {
-                                Text("CD", style = textDarkGray13, fontSize = 10.sp,  color = Blue70, modifier = Modifier.padding(5.dp))
-                            }
-                        }
+        ) {
+            SongCardInfo(song, showTrackNumber, modifier = Modifier.weight(1f))
+
+            ShowQualityAudio(song, showBottomSheet)
+        }
+   }
+   PartialBottomSheet(showBottomSheet, song)
+}
+
+
+@Composable
+fun ShowQualityAudio(song: Song, showBottomSheet: MutableState<Boolean>, modifier: Modifier = Modifier) {
+    Row (verticalAlignment = Alignment.CenterVertically) {
+        song.audioBitDepth.let {
+            if (it != null) {
+                if (it >= 24) {
+                    Image(
+                        painter = painterResource(id = R.drawable.hi_res_logo),
+                        contentDescription = "",
+                        modifier = Modifier.size(30.dp)
+                    )
+                } else if(song.audioBitDepth == 16 ) {
+                    Card (
+                        modifier = Modifier,
+                        border = BorderStroke(1.dp, Blue80),
+                        colors =  CardDefaults.cardColors(containerColor = Color.Transparent),
+                        shape = RoundedCornerShape(5.dp)
+                    ) {
+                        Text("CD", style = textDarkGray13, fontSize = 10.sp,  color = Blue70, modifier = Modifier.padding(5.dp))
                     }
                 }
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.fillMaxHeight().size(20.dp).clickable { showBottomSheet.value = true }
-                )
             }
         }
-
+        Icon(
+            imageVector = Icons.Default.MoreVert,
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier.fillMaxHeight().size(20.dp).clickable { showBottomSheet.value = true }
+        )
     }
-    // Sheet Modal
-    PartialBottomSheet(showBottomSheet, song)
+}
+
+@Composable
+fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modifier) {
+        Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if(showTrackNumber){
+            Text("${song.trackNumber ?: ""}", color = Zinc40, style = textDarkGray13,   modifier = Modifier.width(20.dp))
+        }
+        Column (
+            modifier = Modifier.padding(start = 10.dp),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Text(song.title ?: "", style = textWhite15, color = Color.White,maxLines = 1, overflow = TextOverflow.Ellipsis, )
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(song.artist ?: "Unknown", style = textDarkGray13, color = Zinc40)
+
+        }
+    }
 }
