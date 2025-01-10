@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             )
             .setHandleAudioBecomingNoisy(true)
             .build()
-
+        playerViewModels.setPlayer(player)
         enableEdgeToEdge()
 
         setContent {
