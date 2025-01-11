@@ -5,14 +5,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.byrondev.musicplayer.ui.theme.textWhite15
+import com.byrondev.musicplayer.components.globals.TextLarge
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,7 +19,7 @@ import com.byrondev.musicplayer.ui.theme.textWhite15
 fun CenterTopAppBar(title : String, iconName : ImageVector, color : Color = Color.Black, onNavigate: () -> Unit ) {
 
     CenterAlignedTopAppBar(
-        title = { Text(title, color = Color.White, style = textWhite15)},
+        title = { TextLarge(title) },
         navigationIcon = {
             Icon(
                 imageVector = iconName,
