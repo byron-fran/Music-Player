@@ -2,6 +2,7 @@ package com.byrondev.musicplayer.components.albums
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,32 +17,31 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.globals.CircleSeparation
+import com.byrondev.musicplayer.components.globals.TextExtraSmall
+import com.byrondev.musicplayer.components.globals.TextLarge
 import com.byrondev.musicplayer.components.images.BackgroundImage
 import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.data.models.Album
-import com.byrondev.musicplayer.ui.theme.Zinc40
-import com.byrondev.musicplayer.ui.theme.textDarkGray13
-import com.byrondev.musicplayer.ui.theme.textWhite15
+import com.byrondev.musicplayer.utils.fonts.formatYear
 
 @Composable
-fun AlbumHeader ( album: Album,animatedHeight : Dp, scrollOffset : State<Boolean>) {
+fun AlbumHeader (
+    album: Album,
+    scrollOffset : State<Boolean>,
+    navController: NavController,
+    modifier: Modifier = Modifier
+    ) {
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(animatedHeight),
-
-        ) {
+        modifier = modifier) {
         BackgroundImage(album.cover, modifier = Modifier.fillMaxSize())
         Column  (horizontalAlignment = Alignment.CenterHorizontally,){
 
@@ -51,22 +51,16 @@ fun AlbumHeader ( album: Album,animatedHeight : Dp, scrollOffset : State<Boolean
             ){
                 Icon(
                     imageVector =  Icons.AutoMirrored.Default.ArrowBack,
+                    modifier = Modifier.size(30.dp).clickable {  navController.popBackStack()},
                     contentDescription =  "",
                     tint = Color.White,
-                    modifier = Modifier.size(30.dp)
                 )
-                Text(
-                    album.title ?: "Unknown Album",
-                    modifier = Modifier.fillMaxWidth().padding(end = 35.dp),
-                    color= Color.White,
-                    textAlign = TextAlign.Center,
-                    style = textWhite15,
-                )
+                TextLarge(album.title ?: "Unknown Album",Modifier.fillMaxWidth().padding(end = 35.dp) )
             }
 
             AnimatedVisibility(!scrollOffset.value) {
-                Column {
-                    CoverImage(album.cover, modifier = Modifier.width(200.dp).offset(x= 0.dp, y = 45.dp))
+                Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                    CoverImage(album.cover, modifier = Modifier.width(200.dp).height(200.dp).offset(x= 0.dp, y = 45.dp))
                     AlbumInfo(album)
                 }
             }
@@ -84,10 +78,10 @@ fun AlbumInfo (album: Album?) {
         horizontalArrangement = Arrangement.spacedBy(10.dp)
 
     ) {
-        Text(album?.artist ?: "Unknown artist", style = textDarkGray13, color = Zinc40)
+        TextExtraSmall(text = album?.artist ?: "Unknown artist")
         CircleSeparation()
-        Text(album?.year?.substringBefore("-") ?: "", style = textDarkGray13, color = Zinc40)
+        TextExtraSmall(text=album?.year?.formatYear() ?: "")
         CircleSeparation()
-        Text(album?.genres ?: "", style = textDarkGray13, color = Zinc40)
+        TextExtraSmall(text = album?.genres ?: "")
     }
 }
