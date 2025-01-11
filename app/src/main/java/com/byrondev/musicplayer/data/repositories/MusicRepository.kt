@@ -4,10 +4,12 @@ import androidx.room.Transaction
 import com.byrondev.musicplayer.data.dao.AlbumsDao
 import com.byrondev.musicplayer.data.dao.ArtistsDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
+import com.byrondev.musicplayer.data.dao.PlaylistDao
 import com.byrondev.musicplayer.data.dao.SongDao
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
 import com.byrondev.musicplayer.data.models.PlaybackQueue
+import com.byrondev.musicplayer.data.models.Playlist
 import com.byrondev.musicplayer.data.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,14 +21,13 @@ class MusicRepository @Inject constructor(
     private val albumsDao: AlbumsDao,
     private val songsDao: SongDao,
     private val artistsDao: ArtistsDao,
-    private val playbackQueueDao: PlaybackQueueDao
+    private val playbackQueueDao: PlaybackQueueDao,
+    private val playlistDao: PlaylistDao
 ) {
     //Albums repositories
-    fun getAllAlbums(): Flow<List<Album>> =
-        albumsDao.getAllAlbums().flowOn(Dispatchers.IO).conflate()
+    fun getAllAlbums(): Flow<List<Album>> = albumsDao.getAllAlbums().flowOn(Dispatchers.IO).conflate()
 
-    fun getAlbumById(id: Int) = albumsDao.getAlbumWithSongs(id)
-    fun getAlbumWithSongById(id: Int) = albumsDao.getAlbumWithSongs2(id)
+    fun getAlbumWithSongById(id: Int) = albumsDao.getAlbumWithSongs(id)
 
     fun getSongs() = songsDao.getAllSongs()
 
@@ -42,6 +43,11 @@ class MusicRepository @Inject constructor(
     fun getCurrentPlaybackQueue() = playbackQueueDao.getCurrentPlaybackQueue()
 
     fun deletePlaybackQueue() = playbackQueueDao.deletePlaybackQueue()
+
+    // Playlist functions
+    suspend fun insertPlayList(playlist : Playlist) = playlistDao.insertPlaylist(playlist)
+
+    fun getAllPlaylist() = playlistDao.getAllPlaylists()
 
     @Transaction
     suspend fun insertArtistAlbumsAndSong(artist: Artist, album: Album, song: Song) {
