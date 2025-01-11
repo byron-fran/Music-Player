@@ -20,10 +20,7 @@ interface AlbumsDao {
     @Query("SELECT * FROM albums WHERE title=:title AND artist = :albumArtist LIMIT 1")
     suspend fun getAlbumByTitle(title : String, albumArtist : String) : Album?
 
-    @Query("SELECT * FROM albums WHERE id=:id")
-    fun  getAlbumWithSongs(id : Int) : Flow<Album>
-
     @Transaction
     @Query("SELECT * FROM albums WHERE id = :id")
-    fun getAlbumWithSongs2(id: Int): Flow<AlbumWithSongs>
+    fun getAlbumWithSongs(id: Int): Flow<AlbumWithSongs>
 }
