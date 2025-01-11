@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
+import com.byrondev.musicplayer.data.models.Playlist
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.data.relations.AlbumWithSongs
 import com.byrondev.musicplayer.data.repositories.MusicRepository
@@ -53,6 +54,9 @@ class MusicViewModels @Inject constructor(
         _albumWithSongs.value = null // Limpia el estado
     }
 
+    private val _playlists = MutableStateFlow<List<Playlist>>(emptyList())
+    val playlist : StateFlow<List<Playlist>> get() = _playlists
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllAlbums().collect { item ->
@@ -64,10 +68,6 @@ class MusicViewModels @Inject constructor(
                 }
 
             }
-
-
-
-
         }
     }
 
@@ -107,6 +107,19 @@ class MusicViewModels @Inject constructor(
     // clear
     fun clearSearchMusicResult () {
         /* Todo add  this function*/
+    }
+    // Playlist function
+    fun insertPlaylist(plyalist : Playlist) {
+        viewModelScope.launch {
+            repository.insertPlayList(plyalist)
+        }
+    }
+    fun getPlaylists() {
+        viewModelScope.launch {
+            repository.getAllPlaylist().collect{
+                _playlists.value = it
+            }
+        }
     }
 
     // Canal para gestionar las tareas
