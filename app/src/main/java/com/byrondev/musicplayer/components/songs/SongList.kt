@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
+import com.byrondev.musicplayer.components.globals.EmptyScreen
 import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
@@ -34,21 +36,26 @@ fun SongList(
     ){
 
     Column (modifier = Modifier.background(color = Color.Black).fillMaxSize().padding(paddingValues)){
-        LazyColumn (
-            modifier = Modifier.padding(top = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp),
-
-            ) {
-
-            itemsIndexed(songs) {index, song ->
-                Row (verticalAlignment = Alignment.CenterVertically) {
-                    CoverImage(song.cover, Modifier.height(55.dp).width(55.dp).align(Alignment.CenterVertically).padding(vertical = 2.dp), contentScale = ContentScale.Fit)
-                    SongCard (song,showTrackNumber,) {
-
+        if(songs.isNotEmpty()) {
+            LazyColumn  (
+                modifier = Modifier.padding(top = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                ) {
+                item {
+                    ButtonsPlayAlbum(playerViewModels, songs.count())
+                }
+                itemsIndexed(songs) {index, song ->
+                    Row  (verticalAlignment = Alignment.CenterVertically) {
+                        CoverImage(song.cover, Modifier.height(55.dp).width(55.dp).align(Alignment.CenterVertically).padding(vertical = 2.dp), contentScale = ContentScale.Fit)
+                        SongCard (song,showTrackNumber,) {
+                            // Todo add Event player
+                        }
                     }
                 }
             }
         }
+        else {
+            EmptyScreen("Empty songs")
+        }
     }
-
 }
