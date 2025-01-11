@@ -7,6 +7,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.albums.AlbumsList
@@ -18,21 +20,18 @@ import com.byrondev.musicplayer.viewModels.MusicViewModels
 @Composable
 fun AlbumsByArtist(navController: NavController, musicViewModels: MusicViewModels, id : Int) {
 
-    // Todo  update this
-//    val artistWithAlbums  by musicViewModels.artistWithAlbums.collectAsState()
-//     val artistName = artistWithAlbums?.artist?.name ?: "Artist Unknown"
-//    val albums = artistWithAlbums!!.albums.sortedByDescending {  it.year?.substringBefore("-")?.toInt()  }
+    val artistWithAlbums  by musicViewModels.artistWithAlbums.collectAsState()
+    val albums = artistWithAlbums?.albums?.sortedByDescending {  it.year?.substringBefore("-")?.toInt()  } ?: emptyList()
 
     LaunchedEffect(id) {
-        musicViewModels.getArtistByIdWithAlbums(id)
+        musicViewModels.getArtistWithAlbums(id)
     }
 
     Scaffold(
         topBar = { CenterTopAppBar("Albums",  Icons.AutoMirrored.Default.ArrowBack, onNavigate = {navController.popBackStack()}) },
         content = {paddingValues ->
-            AlbumsList(emptyList() /* Todo add List albums real*/ , navController,paddingValues )
+            AlbumsList(albums , navController,paddingValues )
         },
         bottomBar = { BottomBar(navController) }
     )
-
 }
