@@ -13,6 +13,8 @@ import com.byrondev.musicplayer.data.models.Artist
 import com.byrondev.musicplayer.data.models.Playlist
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.data.relations.AlbumWithSongs
+import com.byrondev.musicplayer.data.relations.ArtistWithAlbums
+import com.byrondev.musicplayer.data.relations.ArtistWithSongs
 import com.byrondev.musicplayer.data.repositories.MusicRepository
 import com.byrondev.musicplayer.utils.metadata.getAudioMetadata
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,6 +51,15 @@ class MusicViewModels @Inject constructor(
 
     private val _albumWithSongs = MutableStateFlow<AlbumWithSongs?>(null)
     val albumWithSongs = _albumWithSongs.asStateFlow();
+
+    private val _artists = MutableStateFlow<List<Artist>>(emptyList())
+    val artists : StateFlow<List<Artist>> get() = _artists
+
+    private val _artistWithSongs = MutableStateFlow<ArtistWithSongs?>(null)
+    val artistWithSongs : StateFlow<ArtistWithSongs?> get() = _artistWithSongs
+
+    private val _artistWithAlbums = MutableStateFlow<ArtistWithAlbums?>(null)
+    val artistWithAlbums : StateFlow<ArtistWithAlbums?> get() = _artistWithAlbums
 
     fun clearAlbumWithSongs() {
         _albumWithSongs.value = null // Limpia el estado
@@ -94,14 +105,33 @@ class MusicViewModels @Inject constructor(
     }
 
 
-    fun getArtistByIdWithSong (id : Int) {
-        /*Todo Add this function*/
+    fun getAllArtists () {
+        viewModelScope.launch {
+            repository.getAllArtists().collect{ items ->
+                _artists.value = items
+            }
+        }
     }
-    fun getArtistByIdWithAlbums (id : Int) {
-        /* Todo Add this function*/
+
+    fun getArtistWithSongs (id : Int) {
+       viewModelScope.launch {
+           repository.getArtistWithSongs(id).collect{items ->
+               _artistWithSongs.value = items
+           }
+       }
     }
-    fun clearArtistWithSongs () {
-        /* Todo Add this function*/
+
+    fun getArtistWithAlbums(id : Int) {
+        viewModelScope.launch {
+            repository.getArtistWithAlbums(id).collect{ items ->
+                _artistWithAlbums.value = items
+            }
+        }
+    }
+
+    fun clearArtistWithSongsAndAlbums () {
+        _artistWithSongs.value = null
+        _artistWithAlbums.value = null
     }
 
     // clear
