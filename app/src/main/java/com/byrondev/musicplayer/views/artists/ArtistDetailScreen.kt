@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -23,6 +23,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,7 +39,7 @@ import com.byrondev.musicplayer.components.texts.TextRowSeparation
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Song
-import com.byrondev.musicplayer.ui.theme.Gray10
+import com.byrondev.musicplayer.ui.theme.Slate70
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
@@ -45,32 +47,25 @@ import com.byrondev.musicplayer.viewModels.PlayerViewModels
 @Composable
 fun ArtistDetailScreen(navController: NavController, musicViewModels: MusicViewModels,playerViewModels :PlayerViewModels, id : Int) {
 
-    // Todo Update this
-//    val artistWithSongs  by musicViewModels.artistWithSongs.collectAsState()
-//    val artistWithAlbums  by musicViewModels.artistWithAlbums.collectAsState()
-//    val artist = artistWithAlbums?.artist
-//    val albums = artistWithAlbums?.albums?.sortedByDescending { it.year?.substringBefore("-")?.toInt() }
+    val artistWithSongs  by musicViewModels.artistWithSongs.collectAsState()
+    val artistWithAlbums  by musicViewModels.artistWithAlbums.collectAsState()
+    val artist = artistWithAlbums?.artist
+    val albums = artistWithAlbums?.albums?.sortedByDescending { it.year?.substringBefore("-")?.toInt() } ?: emptyList()
+    val songs = artistWithSongs?.songs ?: emptyList()
 
     LaunchedEffect(id) {
 
-        musicViewModels.getArtistByIdWithSong(id)
-        musicViewModels.getArtistByIdWithAlbums(id)
-        musicViewModels.clearArtistWithSongs()
+        musicViewModels.getArtistWithSongs(id)
+        musicViewModels.getArtistWithAlbums(id)
+        musicViewModels.clearArtistWithSongsAndAlbums()
 
     }
 
     Scaffold (
-        topBar = {  CenterTopAppBar( /* Todo add name artist*/"", Icons.AutoMirrored.Default.ArrowBack){navController.popBackStack()} },
+        topBar = {  CenterTopAppBar( artist?.name ?: "Arist unknown", Icons.AutoMirrored.Default.ArrowBack){navController.popBackStack()} },
         bottomBar = { BottomBar(navController) }
     ){ paddingValues ->
-        ArtistDetailScreenContent(
-            paddingValues,
-            navController,
-            emptyList(),
-            emptyList(),
-             0,/* Todo add id real artist*/
-
-            )
+        ArtistDetailScreenContent(paddingValues, navController, songs, albums, id)
     }
 
 }
@@ -83,7 +78,6 @@ fun ArtistDetailScreenContent(
     songs : List<Song>,
     albums : List<Album>,
     id : Int,
-
 ) {
 
     val limitedItems = songs.take(5);
@@ -95,47 +89,36 @@ fun ArtistDetailScreenContent(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
                     Card(
                         shape = CircleShape,
-                        colors =  CardDefaults.cardColors(containerColor = Gray10),
+                        colors =  CardDefaults.cardColors(containerColor = Slate70),
                     ) {
                         Image(
                             painter = painterResource(id=R.drawable.baseline_person_24),
                             contentDescription = "",
                             modifier = Modifier.padding(10.dp),
-
                         )
                     }
                 }
-
-            }
-            item {
                 TextRowSeparation("Songs", "View all", navController, "SongsByArtist/${id}")
-            }
 
+            }
             itemsIndexed(limitedItems){ index, song ->
                SongCard(song, false,) {
-
+                   // Todo add event player
                }
 
             }
             item {
                 TextRowSeparation("Albums", "View all", navController, "AlbumsByArtist/${id}")
-            }
-            item {
                 LazyRow(
-                    modifier = Modifier.fillMaxWidth().height(300.dp),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp)
-                ) {
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    modifier = Modifier.fillMaxWidth()
+                    ) {
                     items(albums){ album ->
-                        AlbumCard(album, navController)
+                        AlbumCard(album, navController, modifier = Modifier.width(185.dp))
                     }
                 }
             }
-
     }
 }
-
-
-
