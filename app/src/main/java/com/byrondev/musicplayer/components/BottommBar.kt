@@ -1,7 +1,8 @@
 package com.byrondev.musicplayer.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -38,25 +39,26 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
     val listMenuItemBottom = listOf(
         MenuItemBottom(title = "Home", icon = painterResource(id=R.drawable.home), path = "HomeScreen" ),
         MenuItemBottom(title = "Library", icon = painterResource(id=R.drawable.music), path = "LibraryScreen"),
-        MenuItemBottom(title = "Favorites", icon = painterResource(id=R.drawable.favorite_filled), path="SongDetailPlaying/${6}"),
+        MenuItemBottom(title = "Favorites", icon = painterResource(id=R.drawable.favorite_filled), path="FavoritesScreen"),
         MenuItemBottom(title = "Search", icon = painterResource(id=R.drawable.search), path = "SearchScreen"),
     )
 
     NavigationBar (
         modifier = modifier
 
-            .background(color = Color.Black)
+            .background(color = Color.DarkGray)
             .drawBehind {
-                val strokeWidth = 2.dp.toPx() // Define el grosor del borde
-                val color = Slate70 // Color del borde
+                val strokeWidth = 2.dp.toPx()
+                val color = Slate70
                 drawLine(
                     color = color,
-                    start = Offset(0f, 0f), // Comienzo de la línea (izquierda superior)
-                    end = Offset(size.width, 0f), // Fin de la línea (derecha superior)
+                    start = Offset(0f, 0f),
+                    end = Offset(size.width, 0f),
                     strokeWidth = strokeWidth
                 )
             }
-            .height(65.dp)
+            .heightIn(min = 50.dp, max = 65.dp)
+            .defaultMinSize(minHeight = 50.dp)
         ,
         containerColor = Color.Black,
 
@@ -66,9 +68,9 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
             NavigationBarItem(
                 selected = item.path == navController.currentBackStackEntry?.destination?.route.toString(),
                 onClick = { navController.navigate(item.path) },
-                icon = { Icon(item.icon, contentDescription = "Icon ${item.title}", modifier = Modifier.offset(x= 0.dp, y=10.dp)) },
-                label = { Text(item.title, style = textSmall,  modifier= Modifier.offset(x = 0.dp, y = 2.dp)) },
-                modifier = Modifier.size(item.size).align(Alignment.Bottom),
+                icon = { Icon(item.icon, contentDescription = "Icon ${item.title}", modifier = Modifier.offset(x= 0.dp, y=15.dp)) },
+                label = { Text(item.title, style = textSmall,modifier = Modifier.offset(x= 0.dp, y = 5.dp)) },
+                modifier = Modifier.size(item.size).align(Alignment.CenterVertically),
                 colors =  NavigationBarItemColors(
                     selectedIconColor = Rose60,
                     selectedTextColor = Rose60,
