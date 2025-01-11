@@ -2,6 +2,8 @@ package com.byrondev.musicplayer.components.images
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import com.byrondev.musicplayer.ui.theme.Slate80
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import com.byrondev.musicplayer.utils.produceBlurredBitmap
 
@@ -38,6 +41,7 @@ fun BackgroundImage(byteArray : ByteArray?, modifier: Modifier = Modifier) {
             )
         }
     }
-//    Todo Add Image background default
-
+    else {
+        Box (modifier.background(Slate80)) {}
+    }
 }
