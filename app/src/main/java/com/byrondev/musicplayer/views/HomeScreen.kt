@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -44,14 +45,17 @@ fun HomeScreenContent(
     paddingValues: PaddingValues,
     musicViewModels: MusicViewModels
 ) {
+    val songs = musicViewModels.songs.collectAsState()
     // List of items home
     LazyColumn(
         modifier = Modifier.padding(paddingValues).fillMaxSize(),
     )
     {
         items(1) {
-            SelectedLaunchedFiles(musicViewModels) {
-                CardHome(onClick = {it.launch(null)}, "Agregar música", painterResource(id=R.drawable.baseline_add_30))
+            if(songs.value.isEmpty()) {
+                SelectedLaunchedFiles(musicViewModels) {
+                    CardHome(onClick = { it.launch(null) }, "Agregar música", painterResource(id = R.drawable.baseline_add_30))
+                }
             }
             CardHome(onClick = { /* Todo add event*/ }, "Agregar nueva lista de reproduccion", painterResource(id=R.drawable.baseline_add_30))
             CardHome(onClick = { navController.navigate("FavoritesScreen") }, "Favoritos", painterResource(id=R.drawable.favorite_filled))
