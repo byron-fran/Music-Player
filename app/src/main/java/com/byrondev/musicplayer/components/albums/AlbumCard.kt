@@ -11,51 +11,40 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
+import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.data.models.Album
 
 
 @Composable
-fun AlbumCard(album: Album, navController: NavController) {
+fun AlbumCard(album: Album, navController: NavController, modifier: Modifier = Modifier) {
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .clickable { navController.navigate("AlbumDetail/${album.id}") }
             .fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        colors = CardDefaults.cardColors(containerColor = Color.Black),
         shape = RoundedCornerShape(5.dp)
     ) {
 
         CoverImage(album.cover, contentScale = ContentScale.Crop)
         Row(
-            modifier = Modifier.padding(top = 5.dp).fillMaxWidth(),
+            modifier = modifier.padding(top = 5.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-
-                Text(album.title ?: "Unknown Album",
-                    color = Color.White,
-                    maxLines = 1,
-                    minLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold
-                )
+            Column(modifier = modifier.weight(1f) ) {
+                TextMedium(album.title ?: "Album unknown")
                 Row (
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -72,12 +61,9 @@ fun AlbumCard(album: Album, navController: NavController) {
                 Image(
                     painter = painterResource(id = R.drawable.hi_res_logo),
                     contentDescription = "",
-                    modifier = Modifier.size(35.dp)
+                    modifier = modifier.size(30.dp)
                 )
             }
-
         }
-
     }
-
 }
