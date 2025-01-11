@@ -19,7 +19,10 @@ import com.byrondev.musicplayer.views.LibraryScreen
 import com.byrondev.musicplayer.views.SearchScreen
 import com.byrondev.musicplayer.views.albums.AlbumDetail
 import com.byrondev.musicplayer.views.albums.AlbumsScreen
+import com.byrondev.musicplayer.views.artists.AlbumsByArtist
+import com.byrondev.musicplayer.views.artists.ArtistDetailScreen
 import com.byrondev.musicplayer.views.settings.SettingsScreen
+import com.byrondev.musicplayer.views.songs.SongsByArtist
 
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -39,6 +42,53 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
         composable("LibraryScreen") {
             LibraryScreen(navController, musicViewModels, playerViewModels)
         }
+        // Artist detail screen
+        composable("ArtistDetail/{id}", arguments = listOf(
+            navArgument("id") {type = NavType.IntType}
+        )) {backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id") ?: 0
+            ArtistDetailScreen(navController, musicViewModels, playerViewModels, id)
+        }
+        // Songs by artist screen
+        composable("SongsByArtist/{id}", arguments = listOf(
+            navArgument("id") {type = NavType.IntType}),
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }
+            ) {backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id") ?: 0
+            SongsByArtist(navController, musicViewModels, playerViewModels, id)
+        }
+        // Albums by artist screen
+        composable("AlbumsByArtist/{id}", arguments = listOf(
+            navArgument("id") {type = NavType.IntType}),
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }) {backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id") ?: 0
+            AlbumsByArtist(navController, musicViewModels, id)
+        }
+
         // Album detail Screen
         composable("AlbumDetail/{id}", arguments = listOf(
             navArgument("id") { type = NavType.IntType }
@@ -89,5 +139,3 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
         }
     }
 }
-
-
