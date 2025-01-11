@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.BottomBar
+import com.byrondev.musicplayer.components.library.LibraryHeader
 import com.byrondev.musicplayer.tabs.TabItem
 import com.byrondev.musicplayer.ui.theme.Rose60
 import com.byrondev.musicplayer.ui.theme.Slate70
@@ -55,13 +56,12 @@ fun LibraryScreenContent(
 ) {
 
     val tabs = listOf(TabItem.Albums, TabItem.Songs, TabItem.Artists, TabItem.Playlists, TabItem.Genres)
-    val pagerState = rememberPagerState (pageCount = {
-        tabs.size
-    })
+    val pagerState = rememberPagerState (pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
-    Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(paddingValues)) {
 
-        Spacer(modifier=Modifier.height(10.dp).fillMaxWidth())
+    Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(paddingValues)) {
+        LibraryHeader(navController, musicViewModels)
+        Spacer(modifier=Modifier.height(5.dp).fillMaxWidth())
         ScrollableTabRow  (
             selectedTabIndex = pagerState.currentPage,
             containerColor = Color.Transparent,
