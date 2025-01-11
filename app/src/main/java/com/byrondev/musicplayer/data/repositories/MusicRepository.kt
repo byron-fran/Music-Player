@@ -31,8 +31,11 @@ class MusicRepository @Inject constructor(
 
     fun getSongs() = songsDao.getAllSongs()
 
-    fun getAllArtists(): Flow<List<Artist>> =
-        artistsDao.getAllArtist().flowOn(Dispatchers.IO).conflate()
+    fun getAllArtists(): Flow<List<Artist>> = artistsDao.getAllArtist().flowOn(Dispatchers.IO).conflate()
+
+    fun getArtistWithSongs(id : Int) = artistsDao.getArtistWithSongs(id)
+
+    fun getArtistWithAlbums(id : Int) = artistsDao.getArtistWithAlbums(id)
 
     suspend fun addArtistWithAlbumAndSong(artist: Artist, album: Album, song: Song) {
         insertArtistAlbumsAndSong(artist, album, song)
