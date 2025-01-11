@@ -14,22 +14,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.byrondev.musicplayer.ui.theme.Gray10
-import com.byrondev.musicplayer.ui.theme.textWhite15
+import com.byrondev.musicplayer.components.globals.TextMedium
+import com.byrondev.musicplayer.ui.theme.Slate70
 
 
 @Composable
 fun CardHome(onClick: () -> Unit, title : String, iconName : Painter ) {
 
     Box(
-        modifier = Modifier.fillMaxWidth().background(Gray10).height(170.dp),
+        modifier = Modifier.fillMaxWidth().background(Slate70).height(170.dp),
         contentAlignment = Alignment.Center,
 
     ) {
@@ -46,7 +45,7 @@ fun CardHome(onClick: () -> Unit, title : String, iconName : Painter ) {
             modifier = Modifier.clickable { onClick() }
         ){
 
-            Text(title, style = textWhite15,)
+           TextMedium(title)
             Icon(
                 painter = iconName,
                 modifier = Modifier.size(30.dp),
