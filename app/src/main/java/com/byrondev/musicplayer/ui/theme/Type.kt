@@ -60,9 +60,9 @@ val textExtraSmall = TextStyle(
 )
 val textMedium = TextStyle(
     fontSize = 17.sp,
-    fontWeight = FontWeight.W500
+    fontWeight = FontWeight.W500,
 )
 val textLarge = TextStyle (
-    fontSize = 19.sp,
-
+    fontSize = 21.sp,
+    fontWeight = FontWeight.ExtraBold,
 )
