@@ -33,8 +33,8 @@ data class Song(
     @ColumnInfo(name = "cover")
     val cover: ByteArray? = null,
 
-    @ColumnInfo(name = "audio_bit_depth")
-    val audioBitDepth: Int? = 0,
+    @ColumnInfo(name = "bits_per_sample")
+    val bitsPerSample: Int? = 0,
 
     @ColumnInfo(name = "sample_rate")
     val sampleRate: Int? = 0,
