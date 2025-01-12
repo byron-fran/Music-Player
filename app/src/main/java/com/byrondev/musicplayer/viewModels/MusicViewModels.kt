@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
+import com.byrondev.musicplayer.data.models.Genre
 import com.byrondev.musicplayer.data.models.Playlist
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.data.relations.AlbumWithSongs
@@ -82,9 +83,9 @@ class MusicViewModels @Inject constructor(
         }
     }
 
-    private fun addMusicData(artist: Artist, album: Album, song: Song) {
+    private fun addMusicData(artist: Artist, album: Album, song: Song, genre: Genre) {
         viewModelScope.launch {
-            repository.addArtistWithAlbumAndSong(artist, album, song)
+            repository.addArtistWithAlbumAndSong(artist, album, song, genre)
         }
     }
 
@@ -189,37 +190,25 @@ class MusicViewModels @Inject constructor(
     // Lógica para manejar una tarea
     @RequiresApi(Build.VERSION_CODES.S)
     private suspend fun handleTask(uri: Uri) {
-        delay(10)
-        Log.d("TaskProcessing", "Processing URI: $uri")
+        delay(500)
         val retriever = MediaMetadataRetriever()
 
         try {
 
             retriever.setDataSource(context, uri)
             val result = getAudioMetadata(context, uri)
-            addMusicData(result.artist, result.album, result.song)
+            addMusicData(result.artist, result.album, result.song, result.genre)
 
         } catch (error: Throwable) {
             Log.e("Error db metadata", "${error.message} artBit2")
         } finally {
             retriever.release()
         }
-
-
     }
 }
-
-
-
 
 sealed class ProcessingState {
     object Idle : ProcessingState()
     data class Processing(val currentTask: Uri) : ProcessingState()
     data class Completed(val lastTask: Uri) : ProcessingState()
 }
-
-
-
-
-
-
