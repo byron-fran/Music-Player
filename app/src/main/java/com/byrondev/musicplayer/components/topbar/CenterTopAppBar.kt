@@ -2,6 +2,8 @@ package com.byrondev.musicplayer.components.topbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -16,14 +18,19 @@ import com.byrondev.musicplayer.components.globals.TextLarge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenterTopAppBar(title : String, iconName : ImageVector, color : Color = Color.Black, onNavigate: () -> Unit ) {
+fun CenterTopAppBar(
+    title : String,
+    iconName : ImageVector = Icons.AutoMirrored.Default.ArrowBack,
+    color : Color = Color.Black,
+    onNavigate: () -> Unit,
+    ) {
 
     CenterAlignedTopAppBar(
         title = { TextLarge(title) },
         navigationIcon = {
             Icon(
                 imageVector = iconName,
-                modifier = Modifier.size(25.dp) .clickable { onNavigate() },
+                modifier = Modifier.size(30.dp) .clickable { onNavigate() },
                 contentDescription = "Icon back",
 
                 ) },
