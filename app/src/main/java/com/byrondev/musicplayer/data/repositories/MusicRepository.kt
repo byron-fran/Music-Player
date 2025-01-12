@@ -3,11 +3,13 @@ package com.byrondev.musicplayer.data.repositories
 import androidx.room.Transaction
 import com.byrondev.musicplayer.data.dao.AlbumsDao
 import com.byrondev.musicplayer.data.dao.ArtistsDao
+import com.byrondev.musicplayer.data.dao.GenresDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
 import com.byrondev.musicplayer.data.dao.PlaylistDao
 import com.byrondev.musicplayer.data.dao.SongDao
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
+import com.byrondev.musicplayer.data.models.Genre
 import com.byrondev.musicplayer.data.models.PlaybackQueue
 import com.byrondev.musicplayer.data.models.Playlist
 import com.byrondev.musicplayer.data.models.Song
@@ -22,7 +24,8 @@ class MusicRepository @Inject constructor(
     private val songsDao: SongDao,
     private val artistsDao: ArtistsDao,
     private val playbackQueueDao: PlaybackQueueDao,
-    private val playlistDao: PlaylistDao
+    private val playlistDao: PlaylistDao,
+    private val genresDao: GenresDao
 ) {
     //Albums repositories
     fun getAllAlbums(): Flow<List<Album>> = albumsDao.getAllAlbums().flowOn(Dispatchers.IO).conflate()
@@ -37,8 +40,8 @@ class MusicRepository @Inject constructor(
 
     fun getArtistWithAlbums(id : Int) = artistsDao.getArtistWithAlbums(id)
 
-    suspend fun addArtistWithAlbumAndSong(artist: Artist, album: Album, song: Song) {
-        insertArtistAlbumsAndSong(artist, album, song)
+    suspend fun addArtistWithAlbumAndSong(artist: Artist, album: Album, song: Song, genre: Genre) {
+        insertArtistAlbumsAndSong(artist, album, song, genre)
     }
 
     suspend fun insertUriToPlaybackQueue(items : List<PlaybackQueue>) = playbackQueueDao.insertUri(items)
@@ -53,11 +56,13 @@ class MusicRepository @Inject constructor(
     fun getAllPlaylist() = playlistDao.getAllPlaylists()
 
     @Transaction
-    suspend fun insertArtistAlbumsAndSong(artist: Artist, album: Album, song: Song) {
+    suspend fun insertArtistAlbumsAndSong(artist: Artist, album: Album, song: Song, genre: Genre) {
         var artistId: Int = 0
         var albumId: Int = 0
 
         try {
+
+
             // Check if artist exist
             val existingArtist = artist.name?.let { artistsDao.getArtist(it.substringBefore(",")) }
             artistId = existingArtist?.id ?: artistsDao.insertArtist(artist).toInt()
@@ -68,40 +73,20 @@ class MusicRepository @Inject constructor(
                     it1.substringBefore(",")
                 )
             } }
-            albumId = existingAlbum?.id ?: albumsDao.insertAlbum(
-                Album(
-                    artistId = artistId,
-                    title = album.title,
-                    year = album.year,
-                    artist = song.artist?.substringBefore(",") ?: "unknown",
-                    quality = album.quality,
-                    cover = song.cover,
-                    genres = album.genres,
-                    albumArtist = album.albumArtist
-                )
-            ).toInt()
-            //Check if song already exist
-            val songExist = song.title?.let { songsDao.getSongByTitle(it, song.album ?: "") }
-            if (songExist == null) {
-                songsDao.insertSong(
-                    Song(
-                        artistId = artistId,
-                        albumId = albumId,
-                        title = song.title,
-                        artist = song.artist,
-                        cover = song.cover,
-                        duration = song.duration,
-                        trackNumber = song.trackNumber,
-                        bitRate = song.bitRate,
-                        sampleRate = song.sampleRate,
-                        audioBitDepth = song.audioBitDepth,
-                        disk = song.disk,
-                        uri = song.uri,
-                        year = song.year,
-                        album = song.album,
 
-                        )
-                )
+            albumId = existingAlbum?.id ?: albumsDao.insertAlbum(album.copy( artistId = artistId,)).toInt()
+
+            //Check if song already exist
+            val songExist = song.title?.let { songsDao.getSongByTitle(song.title, song.album ?: "") }
+
+            if (songExist == null) {
+                songsDao.insertSong( song.copy(artistId = artistId, albumId = albumId,))
+            }
+            //Check if genre already exist
+            val genreExist =  genresDao.getGenreByName(genre.name)
+
+            if(genreExist == null) {
+                genresDao.insertGenre(genre)
             }
 
         } catch (error: Throwable) {
