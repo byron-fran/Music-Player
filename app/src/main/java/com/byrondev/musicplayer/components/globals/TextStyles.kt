@@ -10,6 +10,22 @@ import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.ui.theme.textExtraSmall
 import com.byrondev.musicplayer.ui.theme.textLarge
 import com.byrondev.musicplayer.ui.theme.textMedium
+import com.byrondev.musicplayer.ui.theme.textSmall
+
+@Composable
+fun TextSmall(text : String,modifier: Modifier = Modifier, color: Color = Zinc40,  ) {
+
+    Text(
+        text,
+        color = color,
+        maxLines = 1,
+        minLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        style = textSmall,
+        modifier = modifier,
+        textAlign = TextAlign.Center
+    )
+}
 
 @Composable
 fun TextExtraSmall(modifier: Modifier = Modifier,text : String, color: Color = Zinc40,  ) {
