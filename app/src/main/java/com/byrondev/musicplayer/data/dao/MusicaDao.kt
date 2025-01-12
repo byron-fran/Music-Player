@@ -12,7 +12,7 @@ data class SearchResult(
     val id: Int,
     val cover: ByteArray?,
     val type: String,
-    val audioBitDepth : Int?
+    val bitrate : Int
 
 ) {
     override fun equals(other: Any?): Boolean {
@@ -38,7 +38,7 @@ data class SearchResult(
 interface MusicDao {
 
     @Query("""
-            SELECT title AS name, artist,cover, album, uri, audio_bit_depth as audioBitDepth,  id, 'Song' AS type
+            SELECT title AS name, artist,cover, album, uri, bit_rate,  id, 'Song' AS type
             FROM songs
             WHERE LOWER(title) LIKE LOWER('%' || :query || '%')
             UNION
