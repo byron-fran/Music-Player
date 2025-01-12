@@ -1,33 +1,34 @@
 package com.byrondev.musicplayer.views
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.ui.theme.Gray10
-import com.byrondev.musicplayer.ui.theme.Pink60
-import com.byrondev.musicplayer.ui.theme.Yellow50
+import com.byrondev.musicplayer.components.BottomBar
+import com.byrondev.musicplayer.components.songs.SongList
+import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.viewModels.MusicViewModels
+import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
-
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun FavoritesScreen(navController: NavController, musicViewModels: MusicViewModels) {
-    Row (modifier = Modifier.fillMaxWidth()){
-        Row (modifier = Modifier.background(color = Pink60).weight(2f).fillMaxWidth().width(200.dp)) {
-            Text("Hola")
-        }
+fun FavoritesScreen(
+    navController: NavController,
+    musicViewModels: MusicViewModels,
+    playerViewModels: PlayerViewModels,
 
-        Row (modifier = Modifier.background(color = Gray10).weight(2f).width(200.dp)) {
-            Text("Hola")
-        }
+    )   {
+    val songsFavorite = musicViewModels.songs.collectAsState().value.filter { it.isFavorite }
 
-        Row (modifier = Modifier.background(color = Yellow50).weight(2f).fillMaxWidth().width(200.dp)) {
-            Text("Hola")
-        }
+   SongList(songsFavorite,false,PaddingValues(0.dp), playerViewModels )
+    Scaffold (
+        topBar = { CenterTopAppBar("Favorites") {navController.popBackStack()} },
+        bottomBar = { BottomBar(navController) }
+    ) { paddingValues ->
+        SongList(songsFavorite,false,paddingValues, playerViewModels )
     }
 }
