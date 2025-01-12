@@ -8,13 +8,15 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
+import com.byrondev.musicplayer.data.models.Genre
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.utils.bytearray.bitmapToByteArray
 
 data class AudioMetadata (
     val album : Album,
     val song : Song,
-    val artist : Artist
+    val artist : Artist,
+    val genre : Genre
 )
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -25,9 +27,9 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
 
     val art = retriever.embeddedPicture
     val albumArtBitmap = art?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-    val bitDepth = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITS_PER_SAMPLE) ?: ""
-    val sampleRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE) ?: ""
-    val bitrate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE) ?: ""
+    val bitRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITS_PER_SAMPLE)
+    val sampleRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE)
+    val bitsPerSample = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
     val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION) ?: ""
     val trackNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER)
     val diskNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER) ?: "1"
@@ -39,32 +41,27 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
     val genre = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
     val albumArtist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST)
     val audioCodec = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE) ?: ""
-    val cdTrackNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER) ?: ""
-    val qualityAudio: Int = when (bitDepth) {
-        "24" -> 3
-        "16" -> 2
-        else -> 1
-    }
+    val yearRelease = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR) ?: ""
 
     return  AudioMetadata(
         Album (
             title = album,
             artist = artist.substringBefore(","),
-            year = dateRelease,
+            year = dateRelease ?: yearRelease,
             genres = genre,
             cover = bitmapToByteArray(albumArtBitmap),
             albumArtist = albumArtist,
-            quality = qualityAudio
+
         ),
         Song(
             title = title,
             artist = artist,
-            audioBitDepth = bitDepth.toInt(),
-            sampleRate = sampleRate.toInt(),
-            bitRate = bitrate.toInt(),
+            bitsPerSample = bitsPerSample.let { it?.toInt() } ?: 0,
+            sampleRate = sampleRate.let { it?.toInt() } ?: 0,
+            bitRate = bitRate.let { it?.toInt() } ?: 0,
             cover = bitmapToByteArray(albumArtBitmap),
             album = album,
-            year = dateRelease,
+            year = dateRelease ?: yearRelease,
             duration = duration.toLong(),
             trackNumber = getTrackNumber(trackNumber),
             uri = uri.toString(),
@@ -74,6 +71,9 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
             audioCodec = audioCodec.substringAfter("/"),
             ),
         Artist(name = artist.substringBefore(",").substringBefore(" & ")
+        ),
+        Genre(
+            name = genre ?: ""
         )
     )
 }
