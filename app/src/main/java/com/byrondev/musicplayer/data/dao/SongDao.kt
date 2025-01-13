@@ -25,4 +25,7 @@ interface SongDao {
     @Query("UPDATE songs SET is_favorite = :isFavorite WHERE id = :id")
     suspend fun updateIsFavoriteSong(id : Int, isFavorite : Boolean)
 
+    @Query("SELECT * FROM songs WHERE genre = :genre ORDER BY title ASC")
+    fun getSongsByGenre(genre : String) : Flow<List<Song>>
+
 }
