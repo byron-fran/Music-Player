@@ -62,7 +62,7 @@ fun CardSongResult(result: SearchResult, playerViewModels: PlayerViewModels) {
                 artist = result.artist,
                 cover = result.cover,
                 uri = result.uri ?: "",
-                audioBitDepth =  result.audioBitDepth
+                bitRate =  result.bitrate
             ),
             showTrackNumber = false
         ) {
