@@ -83,42 +83,53 @@ fun ArtistDetailScreenContent(
     val limitedItems = songs.take(5);
 
     LazyColumn (modifier = Modifier.padding(paddingValues).background(Color.Black).fillMaxSize()) {
-            item {
-                Column (
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                    Card(
-                        shape = CircleShape,
-                        colors =  CardDefaults.cardColors(containerColor = Slate70),
-                    ) {
-                        Image(
-                            painter = painterResource(id=R.drawable.baseline_person_24),
-                            contentDescription = "",
-                            modifier = Modifier.padding(10.dp),
-                        )
-                    }
+        item {
+            Column (
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                Card(
+                    shape = CircleShape,
+                    colors =  CardDefaults.cardColors(containerColor = Slate70),
+                ) {
+                    Image(
+                        painter = painterResource(id=R.drawable.baseline_person_24),
+                        contentDescription = "",
+                        modifier = Modifier.padding(10.dp),
+                    )
                 }
-                TextRowSeparation("Songs", "View all", navController, "SongsByArtist/${id}")
-
             }
-            itemsIndexed(limitedItems){ index, song ->
-               SongCard(song, false,) {
-                   // Todo add event player
-               }
+            TextRowSeparation(
+                "Songs",
+                "View all",
+                modifier = Modifier.padding(top=30.dp, start = 15.dp, end = 20.dp, bottom = 10.dp),
+                onClick = {navController.navigate("SongsByArtist/${id}")}
+                )
 
-            }
-            item {
-                TextRowSeparation("Albums", "View all", navController, "AlbumsByArtist/${id}")
+        }
+        itemsIndexed(limitedItems){ index, song ->
+           SongCard(song, false,) { /* Todo add event player */ }
+
+        }
+        item {
+            if(albums.isNotEmpty()) {
+                TextRowSeparation(
+                    "Albums",
+                    "View all",
+                    modifier = Modifier
+                        .padding(top=30.dp, start = 15.dp, end = 20.dp, bottom = 20.dp),
+                    onClick = {navController.navigate("AlbumsByArtist/${id}")}
+                )
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier.fillMaxWidth()
-                    ) {
+                ) {
                     items(albums){ album ->
                         AlbumCard(album, navController, modifier = Modifier.width(185.dp))
                     }
                 }
             }
+        }
     }
 }
