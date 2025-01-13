@@ -25,6 +25,8 @@ fun GenresScreen(musicViewModels: MusicViewModels, navController: NavController)
 
     LaunchedEffect(Unit) {
         musicViewModels.getAllGenres()
+        musicViewModels.clearGenres()
+
     }
 
     LazyVerticalGrid(
