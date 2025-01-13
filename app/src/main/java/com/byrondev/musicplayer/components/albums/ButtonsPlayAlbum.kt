@@ -2,104 +2,78 @@ package com.byrondev.musicplayer.components.albums
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
-import com.byrondev.musicplayer.data.models.Album
-import com.byrondev.musicplayer.ui.theme.Slate70
-import com.byrondev.musicplayer.ui.theme.textDarkGray13
+import com.byrondev.musicplayer.components.globals.TextMedium
+import com.byrondev.musicplayer.ui.theme.Pink60
+import com.byrondev.musicplayer.ui.theme.Slate80
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int?, album: Album?) {
+fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int) {
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 15.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically
+
         ) {
-
-        Column {
-            if(albumCount!! > 0) {
-                Text("$albumCount Songs", style = textDarkGray13)
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            Text("FLAC 24 bits / 48khz", style = textDarkGray13) // Todo add real data
-        }
-
-        // Row Buttons Cards
-        Row (
-            modifier = Modifier,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-
-            // Card button play
-            Card (
-                modifier = Modifier.size(50.dp).clickable { playerViewModels.play()},
-                shape = CircleShape,
-                colors = CardDefaults.cardColors(
-                    containerColor = Slate70,
-                    contentColor = Color.White,
-                    )
+            Button (
+                onClick = { playerViewModels.play() },
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).weight(1f),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Slate80)
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.PlayArrow,
+                        painter = painterResource(id=R.drawable.baseline_play_arrow_30),
                         contentDescription = "icon to Play",
-                        tint = Color.White,
+                        tint = Pink60,
                         modifier = Modifier.size(30.dp)
                     )
+                    TextMedium(text="Play", color = Pink60)
                 }
             }
 
-            //Card Button shuffle
-            Card (
-                modifier = Modifier.size(50.dp),
-                shape = CircleShape,
-                colors = CardDefaults.cardColors(
-                    containerColor = Slate70,
-                    contentColor = Color.White,
-                    )
+        // Button 2
+        Button (
+            onClick = { /* Todo add event */ },
+            modifier = Modifier.clip(RoundedCornerShape(10.dp)).weight(1f),
+            shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Slate80,),
+            border = BorderStroke(1.dp, color = Slate80, )
+        ) {
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.shuffle),
-                        contentDescription = "icon to Play",
-                        tint = Color.White,
-                        modifier = Modifier.size(30.dp)
-                    )
-                }
+                Icon(
+                    painter = painterResource(id=R.drawable.shuffle),
+                    contentDescription = "icon to Play shuffle",
+                    tint = Pink60,
+                    modifier = Modifier.size(30.dp)
+                )
+                TextMedium(text="Shuffle ", color = Pink60)
             }
-            // End Card Button shuffle
         }
     }
 }
