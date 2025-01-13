@@ -1,69 +1,54 @@
 package com.byrondev.musicplayer.components.playlist
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.byrondev.musicplayer.ui.theme.textDarkGray13
-import com.byrondev.musicplayer.ui.theme.textWhite15
-
+import com.byrondev.musicplayer.R
+import com.byrondev.musicplayer.data.models.Playlist
+import com.byrondev.musicplayer.ui.theme.Slate80
 
 @Composable
-fun PlaylistCard() {
-    Card(
-        modifier = Modifier.fillMaxWidth().height(200.dp).clickable {   /* Todo add event */  },
-        colors =  CardDefaults.cardColors(
-            containerColor =  Color.Transparent
-        ),
-        shape = RoundedCornerShape(5.dp),
+fun PlaylistCard(playlist: Playlist, onClick : () -> Unit) {
 
+    Box(
+        modifier = Modifier
+            .width(185.dp)
+            .height(230.dp)
+            .background(Color.Black)
+            .clickable {  onClick()},
+        contentAlignment = Alignment.Center
     ) {
-        Row {
-            Card(
-                modifier = Modifier.weight(1f).height(80.dp).alpha(0.5f),
-                shape =  RoundedCornerShape(0.dp),
-            ) { Text("Playlist 1") }
-            Card (
-                modifier = Modifier.weight(1f).height(80.dp).alpha(0.5f),
-                colors =  CardDefaults.cardColors(containerColor =  Color.Cyan),
-                shape =  RoundedCornerShape(0.dp),
-            ){ Text("Playlist 2") }
-        }
-//        Row 2
-        Row {
-            Card(
-                modifier = Modifier.weight(1f).height(80.dp).alpha(0.5f),
-                colors =  CardDefaults.cardColors(
-//                    containerColor =  Todo add Color
-                ),
-                shape =  RoundedCornerShape(0.dp),
-            ) { Text("Playlist 1") }
-            Card (
-                modifier = Modifier.weight(1f).height(80.dp).alpha(0.5f),
-                colors =  CardDefaults.cardColors(/* Todo add container Color*/ ),
-                shape =  RoundedCornerShape(0.dp),
-            ){ Text("Playlist 2") }
-        }
-        Column (
-            modifier = Modifier.padding(2.dp),
-
+        Card (
+            modifier = Modifier.fillMaxWidth().height(185.dp).align(Alignment.TopStart),
+            colors = CardDefaults.cardColors(containerColor = Slate80),
+            shape = RoundedCornerShape(5.dp),
         ) {
-            Text("PlayList Rap 2024", maxLines = 1, overflow = TextOverflow.Ellipsis, style = textWhite15, modifier = Modifier.offset(x= 0.dp, y = 2.dp))
-            Text("50 songs", style = textDarkGray13, modifier = Modifier.offset(x = 0.dp, y =2.dp))
+            Box (
+                modifier = Modifier.fillMaxSize().background(Color.Transparent),
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_music_note_600),
+                    modifier = Modifier.size(100.dp),
+                    contentDescription =  "",
+                )
+            }
         }
-
+        PlaylistInfo(playlist, modifier = Modifier.align(Alignment.BottomStart))
     }
 }
