@@ -21,14 +21,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.components.globals.TextMedium
-import com.byrondev.musicplayer.ui.theme.Slate70
+import com.byrondev.musicplayer.ui.theme.Slate80
 
 
 @Composable
 fun CardHome(onClick: () -> Unit, title : String, iconName : Painter ) {
 
     Box(
-        modifier = Modifier.fillMaxWidth().background(Slate70).height(170.dp),
+        modifier = Modifier.fillMaxWidth().background(Slate80).height(170.dp),
         contentAlignment = Alignment.Center,
 
     ) {
