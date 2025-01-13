@@ -6,7 +6,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -26,10 +25,10 @@ import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int) {
+fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int, modifier: Modifier = Modifier) {
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 10.dp),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically
 

@@ -42,7 +42,7 @@ fun SongList(
                 verticalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                 item {
-                    ButtonsPlayAlbum(playerViewModels, songs.count())
+                    ButtonsPlayAlbum(playerViewModels, songs.count(), modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
                 }
                 itemsIndexed(songs) {index, song ->
                     Row  (verticalAlignment = Alignment.CenterVertically) {
