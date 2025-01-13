@@ -48,7 +48,7 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
 
             .background(color = Color.DarkGray)
             .drawBehind {
-                val strokeWidth = 2.dp.toPx()
+                val strokeWidth = 1.dp.toPx()
                 val color = Slate70
                 drawLine(
                     color = color,
@@ -68,9 +68,9 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
             NavigationBarItem(
                 selected = item.path == navController.currentBackStackEntry?.destination?.route.toString(),
                 onClick = { navController.navigate(item.path) },
-                icon = { Icon(item.icon, contentDescription = "Icon ${item.title}", modifier = Modifier.offset(x= 0.dp, y=15.dp)) },
-                label = { Text(item.title, style = textSmall,modifier = Modifier.offset(x= 0.dp, y = 5.dp)) },
-                modifier = Modifier.size(item.size).align(Alignment.CenterVertically),
+                icon = { Icon(item.icon, contentDescription = "Icon ${item.title}", modifier = Modifier.offset(x= 0.dp, y=17.dp)) },
+                label = { Text(item.title, style = textSmall,modifier = Modifier.offset(x= 0.dp, y = 8.dp)) },
+                modifier = Modifier.size(item.size).align(Alignment.Top),
                 colors =  NavigationBarItemColors(
                     selectedIconColor = Rose60,
                     selectedTextColor = Rose60,
