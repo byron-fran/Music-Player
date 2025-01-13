@@ -21,6 +21,8 @@ import com.byrondev.musicplayer.views.albums.AlbumDetail
 import com.byrondev.musicplayer.views.albums.AlbumsScreen
 import com.byrondev.musicplayer.views.artists.AlbumsByArtist
 import com.byrondev.musicplayer.views.artists.ArtistDetailScreen
+import com.byrondev.musicplayer.views.genres.SongsByGenre
+import com.byrondev.musicplayer.views.playlist.PlaylistScreen
 import com.byrondev.musicplayer.views.settings.SettingsScreen
 import com.byrondev.musicplayer.views.songs.SongsByArtist
 
@@ -98,7 +100,18 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
         }
         // Favorites Screen
         composable("FavoritesScreen") {
-            FavoritesScreen(navController, musicViewModels,)
+            FavoritesScreen(navController, musicViewModels,playerViewModels)
+        }
+        // Songs by genre Screen
+        composable("SongsByGenreScreen/{id}", arguments = listOf(
+            navArgument("id"){ type = NavType.IntType}
+        )) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id") ?:0
+            SongsByGenre(navController, musicViewModels,playerViewModels,id)
+        }
+        //Test
+        composable("PlaylistScreen") {
+            PlaylistScreen(musicViewModels, navController)
         }
         // Search Screen
         composable("SearchScreen",
