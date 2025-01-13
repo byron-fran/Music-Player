@@ -41,13 +41,13 @@ fun AlbumHeader (
     ) {
 
     Box(
-        modifier = modifier) {
-        BackgroundImage(album.cover, modifier = Modifier.fillMaxSize())
+        modifier = modifier.background(Color.Black)) {
+        BackgroundImage(album.cover, modifier = Modifier.fillMaxSize().background(Color.Black))
         Column  (horizontalAlignment = Alignment.CenterHorizontally,){
 
             Row (
-                modifier = Modifier.fillMaxWidth().background(Color.Transparent).offset(x=0.dp, y = 30.dp),
-                verticalAlignment = Alignment.Bottom
+                modifier = Modifier.fillMaxWidth().background(Color.Transparent).offset(x=0.dp, y = 40.dp),
+                verticalAlignment = Alignment.Top
             ){
                 Icon(
                     imageVector =  Icons.AutoMirrored.Default.ArrowBack,
@@ -55,7 +55,13 @@ fun AlbumHeader (
                     contentDescription =  "",
                     tint = Color.White,
                 )
-                TextLarge(album.title ?: "Unknown Album",Modifier.fillMaxWidth().padding(end = 35.dp) )
+
+               Box (
+                   modifier = Modifier.fillMaxWidth().padding(end = 30.dp),
+                   contentAlignment = Alignment.Center
+               ){
+                   TextLarge(album.title ?: "Unknown album")
+               }
             }
 
             AnimatedVisibility(!scrollOffset.value) {
@@ -79,9 +85,15 @@ fun AlbumInfo (album: Album?) {
 
     ) {
         TextExtraSmall(text = album?.artist ?: "Unknown artist")
-        CircleSeparation()
-        TextExtraSmall(text=album?.year?.formatYear() ?: "")
-        CircleSeparation()
-        TextExtraSmall(text = album?.genres ?: "")
+        album?.year?.let {
+            CircleSeparation()
+            TextExtraSmall(text=it.formatYear())
+        }
+        album?.genres?.let {
+            CircleSeparation()
+            TextExtraSmall(text=it)
+        }
+
     }
+
 }
