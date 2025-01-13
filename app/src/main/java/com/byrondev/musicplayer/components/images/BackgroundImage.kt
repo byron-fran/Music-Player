@@ -19,7 +19,7 @@ import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import com.byrondev.musicplayer.utils.produceBlurredBitmap
 
 @Composable
-fun BackgroundImage(byteArray : ByteArray?, modifier: Modifier = Modifier) {
+fun BackgroundImage(byteArray : ByteArray?, modifier: Modifier = Modifier, alpha : Float = 0.5f) {
 
     val imageBitmap = remember { byteArray?.let {  it -> decodeBitmapWithSubsampling(it, 300, 300)  } }
     var blurredBitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -35,9 +35,10 @@ fun BackgroundImage(byteArray : ByteArray?, modifier: Modifier = Modifier) {
             Image(
                 modifier = modifier,
                 bitmap = it,
-                alpha = 0.4f,
+                alpha = alpha,
                 contentScale = ContentScale.Crop,
-                contentDescription = ""
+                contentDescription = "",
+
             )
         }
     }
