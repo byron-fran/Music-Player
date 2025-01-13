@@ -19,27 +19,25 @@ import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.data.models.Genre
-import com.byrondev.musicplayer.utils.randomColorBrush
+import com.byrondev.musicplayer.ui.theme.Slate80
 
 
 @Composable
 fun GenreCard(genre: Genre, navController: NavController) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .background(
-                brush = randomColorBrush(),
-                shape = RoundedCornerShape(5.dp),
-                alpha =  0.5f
-            )
-            .clickable { /* Todo add event to go screen */ }
+            .background(Slate80, shape = RoundedCornerShape(5.dp))
+            .clickable { navController.navigate("SongsByGenreScreen/${genre.id}") }
     ) {
         Column (
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().height(100.dp)
         ) {
+
             Image(
                 painter = painterResource(id= R.drawable.baseline_sound_90),
                 contentDescription = null,
