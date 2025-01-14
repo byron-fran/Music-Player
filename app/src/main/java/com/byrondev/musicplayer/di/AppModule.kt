@@ -7,6 +7,7 @@ import com.byrondev.musicplayer.data.dao.ArtistsDao
 import com.byrondev.musicplayer.data.dao.GenresDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
 import com.byrondev.musicplayer.data.dao.PlaylistDao
+import com.byrondev.musicplayer.data.dao.SearchDao
 import com.byrondev.musicplayer.data.dao.SongDao
 import com.byrondev.musicplayer.data.database.MusicDB
 import dagger.Module
@@ -55,4 +56,8 @@ object AppModule {
     @Singleton
     @Provides
     fun providesGenres(database: MusicDB) : GenresDao = database.genresDao()
+
+    @Singleton
+    @Provides
+    fun provideSearchMusic(database: MusicDB) : SearchDao = database.searchDao()
 }

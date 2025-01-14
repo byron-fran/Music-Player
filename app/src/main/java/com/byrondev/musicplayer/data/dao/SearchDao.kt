@@ -5,14 +5,14 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 data class SearchResult(
-    val name: String,
+    val name: String = "",
     val artist : String?,
     val album : String?,
     val uri : String?,
-    val id: Int,
+    val id: Int = 0,
     val cover: ByteArray?,
-    val type: String,
-    val bitrate : Int
+    val type: String = "",
+    val bitrate : Int? =0
 
 ) {
     override fun equals(other: Any?): Boolean {
@@ -35,7 +35,7 @@ data class SearchResult(
 }
 
 @Dao
-interface MusicDao {
+interface SearchDao {
 
     @Query("""
             SELECT title AS name, artist,cover, album, uri, bit_rate,  id, 'Song' AS type
@@ -51,5 +51,5 @@ interface MusicDao {
             WHERE  LOWER(artists.name) LIKE  LOWER('%' || :query || '%'); 
             
             """)
-    fun searchSong(query : String) : Flow<List<SearchResult>>
+    fun searchMusic(query : String) : Flow<List<SearchResult>>
 }
