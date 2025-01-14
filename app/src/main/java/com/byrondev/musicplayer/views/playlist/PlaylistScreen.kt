@@ -31,7 +31,7 @@ fun PlaylistScreen(musicViewModels: MusicViewModels, navController: NavControlle
             modifier = Modifier.offset(x = 0.dp, y = 10.dp)
         ) {
             items(playlists.value) {
-                PlaylistItem(it)
+                PlaylistItem(it){navController.navigate("PlaylistDetailScreen/${it.id}")}
             }
         }
     }

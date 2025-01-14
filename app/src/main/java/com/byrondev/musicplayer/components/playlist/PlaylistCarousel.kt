@@ -24,7 +24,7 @@ fun PlaylistCarousel(playlistItems : List<Playlist>, navController: NavControlle
             )
         LazyRow (horizontalArrangement = Arrangement.spacedBy(15.dp)) {
             items(playlistItems) {
-                PlaylistCard(it) { /* Todo add navigation route*/ }
+                PlaylistCard(it) {navController.navigate("PlaylistDetailScreen/${it.id}")}
             }
         }
     }

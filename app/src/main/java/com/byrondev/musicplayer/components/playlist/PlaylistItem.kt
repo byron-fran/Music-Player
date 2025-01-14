@@ -2,6 +2,7 @@ package com.byrondev.musicplayer.components.playlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -19,11 +20,12 @@ import com.byrondev.musicplayer.data.models.Playlist
 import com.byrondev.musicplayer.ui.theme.Slate80
 
 @Composable
-fun PlaylistItem(playlist: Playlist) {
+fun PlaylistItem(playlist: Playlist, onClick : () -> Unit) {
 
     Row (
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.clickable { onClick() }
     ) {
         Box (
             modifier = Modifier
