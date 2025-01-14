@@ -15,7 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.globals.EmptyScreen
+import com.byrondev.musicplayer.components.globals.TextLarge
 import com.byrondev.musicplayer.data.models.Album
+import com.byrondev.musicplayer.ui.theme.Zinc40
 
 
 @Composable
@@ -38,6 +40,6 @@ fun AlbumsList(albums: List<Album>, navController: NavController, paddingValues 
         }
     }
     else {
-        EmptyScreen("Empty albums")
+        EmptyScreen(){ TextLarge("Empty albums", color = Zinc40) }
     }
 }

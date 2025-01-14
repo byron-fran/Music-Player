@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.globals.EmptyScreen
+import com.byrondev.musicplayer.components.globals.TextLarge
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -44,7 +46,7 @@ fun ArtistScreen (musicViewModels: MusicViewModels, navController: NavController
             }
         }
         else {
-            EmptyScreen("Artists empty")
+            EmptyScreen(){ TextLarge("Artists empty", color= Zinc40) }
         }
     }
 

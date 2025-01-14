@@ -21,8 +21,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
 import com.byrondev.musicplayer.components.globals.EmptyScreen
+import com.byrondev.musicplayer.components.globals.TextLarge
 import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.data.models.Song
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 
@@ -55,7 +57,7 @@ fun SongList(
             }
         }
         else {
-            EmptyScreen("Empty songs")
+            EmptyScreen(){ TextLarge("Songs empty", color= Zinc40) }
         }
     }
 }
