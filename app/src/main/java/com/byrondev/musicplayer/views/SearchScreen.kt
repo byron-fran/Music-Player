@@ -1,7 +1,5 @@
 package com.byrondev.musicplayer.views
 
-
-//import androidx.compose.ui.geometry.Offset
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -10,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,7 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.BottomBar
-import com.byrondev.musicplayer.components.searchbar.SearchBarApp
+import com.byrondev.musicplayer.components.globals.EmptyScreen
+import com.byrondev.musicplayer.components.globals.TextLarge
+import com.byrondev.musicplayer.components.search.SearchBarApp
+import com.byrondev.musicplayer.components.search.SearchContentResult
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
@@ -32,23 +35,29 @@ fun SearchScreen(
 
     val query  =  remember { mutableStateOf("") }
     val active = remember { mutableStateOf(false) }
-    // val result /* Todo complete this variable*/
+    val result = musicViewModels.searchResult.collectAsState()
 
     LaunchedEffect(Unit) {
         musicViewModels.clearSearchMusicResult()
     }
 
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.Black)
+        modifier = Modifier.fillMaxSize().background(Color.Black),
+        contentAlignment = Alignment.Center
     ) {
         Column (modifier = Modifier.fillMaxSize()) {
-            // Todo add SearchBarApp component
-          SearchBarApp(query, musicViewModels, active, playerViewModels, navController)
-            // Todo get result to show
-//            SearchContentResult( query, result,musicViewModels,navController, playerViewModels)
+          SearchBarApp(
+              query,
+              musicViewModels,
+              active,
+              playerViewModels,
+              onClick = {navController.popBackStack()},
+              ) { SearchContentResult( query, result,musicViewModels,navController, playerViewModels) }
+        }
+        if(!active.value ) {
+            EmptyScreen() { TextLarge("Search something", color = Zinc40) }
         }
         BottomBar(navController, modifier = Modifier.align(Alignment.BottomCenter))
     }
-
 }
 
