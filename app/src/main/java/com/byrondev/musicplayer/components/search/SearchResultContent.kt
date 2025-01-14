@@ -2,6 +2,7 @@ package com.byrondev.musicplayer.components.search
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,7 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.byrondev.musicplayer.components.globals.EmptyScreen
+import com.byrondev.musicplayer.components.globals.TextLarge
 import com.byrondev.musicplayer.data.dao.SearchResult
+import com.byrondev.musicplayer.ui.theme.Pink60
+import com.byrondev.musicplayer.ui.theme.Slate80
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.ui.theme.textDarkGray13
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
@@ -61,7 +67,7 @@ fun SearchContentResult (
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize())
+    Box(modifier = Modifier.fillMaxSize().background(Color.Black))
     {
 
         Column (modifier = Modifier.fillMaxSize().padding(  top = 10.dp)) {
@@ -75,22 +81,24 @@ fun SearchContentResult (
                 CardButtonResult("Artists",) { filterSelected.value = "Artists"}
             }
             if(resultsFiltered.isNotEmpty() ) {
-
                 LazyColumn (
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.padding(top = 15.dp, start = 5.dp)
                 ){
                     items(resultsFiltered) {result ->
                         when(result.type) {
-                            "Album" ->  CardAlbumSearch(navController, result)
+                            "Album" ->  CardAlbumSearch( result) {navController.navigate("AlbumDetail/${result.id}")}
 
-                            "Song" -> CardSongResult(result, playerViewModels)
+                            "Song" -> CardSongResult(result) { /* Todo add player event */}
 
-                            else ->  CardArtistResult(result)
+                            else ->  CardArtistResult(result) {navController.navigate("ArtistDetail/${result.id}")}
                         }
 
                     }
                 }
+            }
+            else {
+                EmptyScreen(){ TextLarge("No found result", color= Zinc40) }
             }
         }
     }
@@ -101,11 +109,11 @@ fun CardButtonResult (title : String, onClick : () -> Unit) {
     Button(
         onClick =  { onClick() },
         colors =  ButtonDefaults.buttonColors(
-            containerColor =  Color.White
+            containerColor =  Slate80
         ),
-        shape = RoundedCornerShape(20.dp)
+        shape = RoundedCornerShape(10.dp)
     )  {
 
-        Text(title, color = Color.Black, style =  textDarkGray13 )
+        Text(title, color = Pink60, style =  textDarkGray13 )
     }
 }
