@@ -66,7 +66,7 @@ fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int, modifi
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Icon(
-                    painter = painterResource(id=R.drawable.shuffle),
+                    painter = painterResource(id=R.drawable.baseline_shuffle_30),
                     contentDescription = "icon to Play shuffle",
                     tint = Pink60,
                     modifier = Modifier.size(30.dp)
