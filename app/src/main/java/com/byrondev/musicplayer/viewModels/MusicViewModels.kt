@@ -47,14 +47,18 @@ class MusicViewModels @Inject constructor(
     private val _songs = MutableStateFlow<List<Song>>(emptyList())
     val songs : StateFlow<List<Song>> = _songs
 
-    private val _songDetail = MutableStateFlow(Song())
-    val songDetail = _songDetail.asStateFlow()
+    private val _songsByGenre = MutableStateFlow<List<Song>>(emptyList())
+    val songsByGenre : StateFlow<List<Song>> = _songsByGenre
 
     private val _albumWithSongs = MutableStateFlow<AlbumWithSongs?>(null)
     val albumWithSongs = _albumWithSongs.asStateFlow();
 
     private val _artists = MutableStateFlow<List<Artist>>(emptyList())
     val artists : StateFlow<List<Artist>> get() = _artists
+
+    // genres states
+    private val _genres = MutableStateFlow<List<Genre>>(emptyList())
+    val genres : StateFlow<List<Genre>> get() = _genres
 
     private val _artistWithSongs = MutableStateFlow<ArtistWithSongs?>(null)
     val artistWithSongs : StateFlow<ArtistWithSongs?> get() = _artistWithSongs
@@ -82,6 +86,18 @@ class MusicViewModels @Inject constructor(
             }
         }
     }
+    init {
+        viewModelScope.launch {
+            repository.getSongs().collect{
+                _songs.value = it
+            }
+        }
+        viewModelScope.launch {
+            repository.getAllPlaylist().collect{ items ->
+                _playlists.value = items
+            }
+        }
+    }
 
     private fun addMusicData(artist: Artist, album: Album, song: Song, genre: Genre) {
         viewModelScope.launch {
@@ -97,19 +113,35 @@ class MusicViewModels @Inject constructor(
         }
     }
     // get all songs
-    fun getAllSongs () {
-        viewModelScope.launch {
-            repository.getSongs().collect{
-                _songs.value = it
-            }
-        }
-    }
 
 
     fun getAllArtists () {
         viewModelScope.launch {
             repository.getAllArtists().collect{ items ->
                 _artists.value = items
+            }
+        }
+    }
+    fun updateIsFavoriteSong(id : Int , isFavorite : Boolean) {
+        viewModelScope.launch {
+            repository.updateIsFavoriteSong(id, isFavorite)
+        }
+    }
+
+    // function to get genres
+    fun getAllGenres () {
+        viewModelScope.launch {
+            repository.getAllGenres().collect{ items ->
+                _genres.value = items
+            }
+        }
+    }
+
+    fun getSongsByGenre(genre: String) {
+
+        viewModelScope.launch {
+            repository.getSongsByGenre(genre).collect{
+                _songsByGenre.value = it
             }
         }
     }
@@ -138,6 +170,9 @@ class MusicViewModels @Inject constructor(
     // clear
     fun clearSearchMusicResult () {
         /* Todo add  this function*/
+    }
+    fun clearGenres () {
+        _songsByGenre.value = emptyList()
     }
     // Playlist function
     fun insertPlaylist(plyalist : Playlist) {

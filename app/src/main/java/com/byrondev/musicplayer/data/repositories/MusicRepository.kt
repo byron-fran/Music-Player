@@ -32,13 +32,20 @@ class MusicRepository @Inject constructor(
 
     fun getAlbumWithSongById(id: Int) = albumsDao.getAlbumWithSongs(id)
 
+    // Songs repositories
     fun getSongs() = songsDao.getAllSongs()
+    fun getSongsByGenre(genre : String) : Flow<List<Song>> = songsDao.getSongsByGenre(genre)
+
+    suspend fun updateIsFavoriteSong(id : Int , isFavorite : Boolean) = songsDao.updateIsFavoriteSong(id, isFavorite)
 
     fun getAllArtists(): Flow<List<Artist>> = artistsDao.getAllArtist().flowOn(Dispatchers.IO).conflate()
 
     fun getArtistWithSongs(id : Int) = artistsDao.getArtistWithSongs(id)
 
     fun getArtistWithAlbums(id : Int) = artistsDao.getArtistWithAlbums(id)
+
+    // Genres repository
+    fun getAllGenres () : Flow<List<Genre>> = genresDao.getAllGenres()
 
     suspend fun addArtistWithAlbumAndSong(artist: Artist, album: Album, song: Song, genre: Genre) {
         insertArtistAlbumsAndSong(artist, album, song, genre)
@@ -59,10 +66,7 @@ class MusicRepository @Inject constructor(
     suspend fun insertArtistAlbumsAndSong(artist: Artist, album: Album, song: Song, genre: Genre) {
         var artistId: Int = 0
         var albumId: Int = 0
-
         try {
-
-
             // Check if artist exist
             val existingArtist = artist.name?.let { artistsDao.getArtist(it.substringBefore(",")) }
             artistId = existingArtist?.id ?: artistsDao.insertArtist(artist).toInt()
@@ -92,6 +96,5 @@ class MusicRepository @Inject constructor(
         } catch (error: Throwable) {
             println("----Error ${error.message}")
         }
-
     }
 }
