@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.byrondev.musicplayer.data.dao.SearchResult
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
 import com.byrondev.musicplayer.data.models.Genre
@@ -21,6 +22,7 @@ import com.byrondev.musicplayer.utils.metadata.getAudioMetadata
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,6 +67,10 @@ class MusicViewModels @Inject constructor(
 
     private val _artistWithAlbums = MutableStateFlow<ArtistWithAlbums?>(null)
     val artistWithAlbums : StateFlow<ArtistWithAlbums?> get() = _artistWithAlbums
+
+    private val _searchResultMusic = MutableStateFlow<List<SearchResult>>(emptyList())
+    val searchResult : StateFlow<List<SearchResult>> get() = _searchResultMusic
+    val job : Job? = null
 
     fun clearAlbumWithSongs() {
         _albumWithSongs.value = null // Limpia el estado
@@ -180,10 +186,15 @@ class MusicViewModels @Inject constructor(
             repository.insertPlayList(plyalist)
         }
     }
-    fun getPlaylists() {
+
+    // Search music by query
+    fun searchMusicByQuery(query : String) {
+
         viewModelScope.launch {
-            repository.getAllPlaylist().collect{
-                _playlists.value = it
+            job?.cancel()
+            delay(500)
+            repository.searchMusicByQuery(query).collect{
+                _searchResultMusic.value = it
             }
         }
     }

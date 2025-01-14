@@ -6,6 +6,8 @@ import com.byrondev.musicplayer.data.dao.ArtistsDao
 import com.byrondev.musicplayer.data.dao.GenresDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
 import com.byrondev.musicplayer.data.dao.PlaylistDao
+import com.byrondev.musicplayer.data.dao.SearchDao
+import com.byrondev.musicplayer.data.dao.SearchResult
 import com.byrondev.musicplayer.data.dao.SongDao
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
@@ -25,7 +27,8 @@ class MusicRepository @Inject constructor(
     private val artistsDao: ArtistsDao,
     private val playbackQueueDao: PlaybackQueueDao,
     private val playlistDao: PlaylistDao,
-    private val genresDao: GenresDao
+    private val genresDao: GenresDao,
+    private val searchDao:  SearchDao
 ) {
     //Albums repositories
     fun getAllAlbums(): Flow<List<Album>> = albumsDao.getAllAlbums().flowOn(Dispatchers.IO).conflate()
@@ -62,10 +65,13 @@ class MusicRepository @Inject constructor(
 
     fun getAllPlaylist() = playlistDao.getAllPlaylists()
 
+    // search music by query
+    fun searchMusicByQuery(query: String) : Flow<List<SearchResult>> = searchDao.searchMusic(query)
+
     @Transaction
     suspend fun insertArtistAlbumsAndSong(artist: Artist, album: Album, song: Song, genre: Genre) {
-        var artistId: Int = 0
-        var albumId: Int = 0
+        var artistId = 0
+
         try {
             // Check if artist exist
             val existingArtist = artist.name?.let { artistsDao.getArtist(it.substringBefore(",")) }
@@ -78,7 +84,7 @@ class MusicRepository @Inject constructor(
                 )
             } }
 
-            albumId = existingAlbum?.id ?: albumsDao.insertAlbum(album.copy( artistId = artistId,)).toInt()
+            val albumId = existingAlbum?.id ?: albumsDao.insertAlbum(album.copy( artistId = artistId,)).toInt()
 
             //Check if song already exist
             val songExist = song.title?.let { songsDao.getSongByTitle(song.title, song.album ?: "") }
