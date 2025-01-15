@@ -39,6 +39,10 @@ class MusicViewModels @Inject constructor(
 
 ) : ViewModel() {
 
+    //state of Modal playlist
+    private val _showModalPlaylistActive = MutableStateFlow<Boolean>(false)
+    val showModalPlaylistActive : StateFlow<Boolean> get() = _showModalPlaylistActive
+
     // Estado del sistema
     private val _processingState = MutableStateFlow<ProcessingState>(ProcessingState.Idle)
     val processingState: StateFlow<ProcessingState> = _processingState
@@ -198,7 +202,9 @@ class MusicViewModels @Inject constructor(
             }
         }
     }
-
+    fun onChangeValueModal () {
+        _showModalPlaylistActive.value = !_showModalPlaylistActive.value
+    }
     // Canal para gestionar las tareas
     private val taskChannel = Channel<Uri>(Channel.UNLIMITED)
 
