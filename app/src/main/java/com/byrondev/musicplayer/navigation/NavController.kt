@@ -22,6 +22,7 @@ import com.byrondev.musicplayer.views.albums.AlbumsScreen
 import com.byrondev.musicplayer.views.artists.AlbumsByArtist
 import com.byrondev.musicplayer.views.artists.ArtistDetailScreen
 import com.byrondev.musicplayer.views.genres.SongsByGenre
+import com.byrondev.musicplayer.views.playlist.PlaylistDetailScreen
 import com.byrondev.musicplayer.views.playlist.PlaylistScreen
 import com.byrondev.musicplayer.views.settings.SettingsScreen
 import com.byrondev.musicplayer.views.songs.SongsByArtist
@@ -110,8 +111,11 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
             SongsByGenre(navController, musicViewModels,playerViewModels,id)
         }
         //Test
-        composable("PlaylistScreen") {
-            PlaylistScreen(musicViewModels, navController)
+        composable("PlaylistScreen/{songId}", arguments = listOf(
+            navArgument("songId"){type=NavType.IntType}
+        )) {backStackEntry ->
+            val songId = backStackEntry.arguments?.getInt("songId") ?: 0
+            PlaylistScreen(musicViewModels, navController,songId)
         }
         // Search Screen
         composable("SearchScreen",
@@ -149,6 +153,13 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
 
             ) {
             SettingsScreen(navController, musicViewModels)
+        }
+        // Playlist detail screen
+        composable("PlaylistDetailScreen/{id}", arguments = listOf(
+            navArgument("id") {type = NavType.IntType}
+        )){ navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getInt("id") ?: 0
+            PlaylistDetailScreen(navController, musicViewModels, playerViewModels, id)
         }
     }
 }
