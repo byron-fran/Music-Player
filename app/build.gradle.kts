@@ -119,8 +119,6 @@ dependencies {
 
     implementation (libs.accompanist.systemuicontroller)
 
-
-
     //Coil Trasnformations
     implementation (libs.glide.transformations)
     // If you want to use the GPU Filters
@@ -133,5 +131,7 @@ dependencies {
 
 //    ToolbarCol
     implementation(libs.collapsingtopbarcompose)
+
+    implementation (libs.androidx.palette)
 }
 
