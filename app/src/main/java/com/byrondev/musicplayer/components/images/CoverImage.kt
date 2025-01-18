@@ -3,15 +3,12 @@ package com.byrondev.musicplayer.components.images
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 
@@ -22,24 +19,20 @@ fun CoverImage(byteArray: ByteArray?, modifier: Modifier = Modifier, contentScal
     val imageBitmap = byteArray?.let{ decodeBitmapWithSubsampling(byteArray, 600, 600)}
 
     if (imageBitmap != null) {
-            Image(
+        Image(
+            modifier = modifier.fillMaxWidth(),
+            bitmap = imageBitmap.asImageBitmap(),
+            contentDescription = "Cover Image",
+            contentScale = contentScale
 
-                modifier = modifier.clip(RoundedCornerShape(5.dp)).fillMaxWidth(),
-                bitmap = imageBitmap.asImageBitmap(),
-                contentDescription = "Cover Image",
-                contentScale = contentScale
-
-            )
+        )
         }
     else {
-        Box(
-            modifier= modifier,
-            contentAlignment = Alignment.TopStart,
-
-        ) {
+        Box(modifier= modifier, contentAlignment = Alignment.TopStart,) {
             Image(
                 painter = painterResource(id= R.drawable.baseline_music_note_600),
-                contentDescription = "Cover Image default",)
+                contentDescription = "Cover Image default",
+                )
         }
     }
 }
