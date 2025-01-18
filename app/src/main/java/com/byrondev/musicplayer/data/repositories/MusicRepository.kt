@@ -6,6 +6,7 @@ import com.byrondev.musicplayer.data.dao.ArtistsDao
 import com.byrondev.musicplayer.data.dao.GenresDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
 import com.byrondev.musicplayer.data.dao.PlaylistDao
+import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
 import com.byrondev.musicplayer.data.dao.SearchDao
 import com.byrondev.musicplayer.data.dao.SearchResult
 import com.byrondev.musicplayer.data.dao.SongDao
@@ -14,7 +15,9 @@ import com.byrondev.musicplayer.data.models.Artist
 import com.byrondev.musicplayer.data.models.Genre
 import com.byrondev.musicplayer.data.models.PlaybackQueue
 import com.byrondev.musicplayer.data.models.Playlist
+import com.byrondev.musicplayer.data.models.PlaylistSongCrossRef
 import com.byrondev.musicplayer.data.models.Song
+import com.byrondev.musicplayer.data.relations.PlaylistWithSongs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
@@ -31,12 +34,15 @@ class MusicRepository @Inject constructor(
     private val searchDao:  SearchDao
 ) {
     //Albums repositories
-    fun getAllAlbums(): Flow<List<Album>> = albumsDao.getAllAlbums().flowOn(Dispatchers.IO).conflate()
+    fun getAllAlbums(): Flow<List<Album>> = albumsDao.getAllAlbums()
 
     fun getAlbumWithSongById(id: Int) = albumsDao.getAlbumWithSongs(id)
 
     // Songs repositories
     fun getSongs() = songsDao.getAllSongs()
+
+    fun getSongById(id : Int) : Flow<Song> = songsDao.getSongBy(id)
+
     fun getSongsByGenre(genre : String) : Flow<List<Song>> = songsDao.getSongsByGenre(genre)
 
     suspend fun updateIsFavoriteSong(id : Int , isFavorite : Boolean) = songsDao.updateIsFavoriteSong(id, isFavorite)
@@ -63,10 +69,21 @@ class MusicRepository @Inject constructor(
     // Playlist functions
     suspend fun insertPlayList(playlist : Playlist) = playlistDao.insertPlaylist(playlist)
 
-    fun getAllPlaylist() = playlistDao.getAllPlaylists()
-
     // search music by query
     fun searchMusicByQuery(query: String) : Flow<List<SearchResult>> = searchDao.searchMusic(query)
+
+    fun getAllPlaylist() :  Flow<List<PlaylistWithCountSong>> = playlistDao.getAllPlaylists()
+
+    @Transaction
+    suspend fun addSongToPlaylist(songId : Int, playlistId : Int) {
+        val crossRef = PlaylistSongCrossRef(songId=songId, playlistId=playlistId)
+        playlistDao.insertPlaylistSongCrossRef(crossRef)
+
+    }
+
+    @Transaction
+    fun getPlaylistWithSongs(playlistId : Int) : Flow<List<PlaylistWithSongs>> = playlistDao.getPlaylistWithSongs(playlistId)
+
 
     @Transaction
     suspend fun insertArtistAlbumsAndSong(artist: Artist, album: Album, song: Song, genre: Genre) {

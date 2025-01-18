@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
 import com.byrondev.musicplayer.data.dao.SearchResult
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.data.models.Artist
@@ -17,6 +18,7 @@ import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.data.relations.AlbumWithSongs
 import com.byrondev.musicplayer.data.relations.ArtistWithAlbums
 import com.byrondev.musicplayer.data.relations.ArtistWithSongs
+import com.byrondev.musicplayer.data.relations.PlaylistWithSongs
 import com.byrondev.musicplayer.data.repositories.MusicRepository
 import com.byrondev.musicplayer.utils.metadata.getAudioMetadata
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +55,9 @@ class MusicViewModels @Inject constructor(
     private val _songs = MutableStateFlow<List<Song>>(emptyList())
     val songs : StateFlow<List<Song>> = _songs
 
+    private val _song = MutableStateFlow<Song?>(null)
+    val song : StateFlow<Song?> get() = _song
+
     private val _songsByGenre = MutableStateFlow<List<Song>>(emptyList())
     val songsByGenre : StateFlow<List<Song>> = _songsByGenre
 
@@ -72,16 +77,19 @@ class MusicViewModels @Inject constructor(
     private val _artistWithAlbums = MutableStateFlow<ArtistWithAlbums?>(null)
     val artistWithAlbums : StateFlow<ArtistWithAlbums?> get() = _artistWithAlbums
 
+    private val _playlistWithSongs = MutableStateFlow<List<PlaylistWithSongs>>(emptyList())
+    val playlistWithSongs : StateFlow<List<PlaylistWithSongs>> get() = _playlistWithSongs
+
     private val _searchResultMusic = MutableStateFlow<List<SearchResult>>(emptyList())
     val searchResult : StateFlow<List<SearchResult>> get() = _searchResultMusic
-    val job : Job? = null
+    private val job : Job? = null
 
     fun clearAlbumWithSongs() {
         _albumWithSongs.value = null // Limpia el estado
     }
 
-    private val _playlists = MutableStateFlow<List<Playlist>>(emptyList())
-    val playlist : StateFlow<List<Playlist>> get() = _playlists
+    private val _playlists = MutableStateFlow<List<PlaylistWithCountSong>>(emptyList())
+    val playlist : StateFlow<List<PlaylistWithCountSong>> get() = _playlists
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -171,6 +179,17 @@ class MusicViewModels @Inject constructor(
             }
         }
     }
+    fun getSongById (id : Int) {
+        viewModelScope.launch {
+            repository.getSongById(id).collect{
+
+                _song.value = it
+            }
+        }
+    }
+    fun clearSong() {
+        _song.value = null
+    }
 
     fun clearArtistWithSongsAndAlbums () {
         _artistWithSongs.value = null
@@ -185,9 +204,28 @@ class MusicViewModels @Inject constructor(
         _songsByGenre.value = emptyList()
     }
     // Playlist function
-    fun insertPlaylist(plyalist : Playlist) {
+    fun insertPlaylist(playlist : Playlist) {
         viewModelScope.launch {
-            repository.insertPlayList(plyalist)
+            repository.insertPlayList(playlist)
+        }
+    }
+
+   fun insertSongToPlaylist(songId : Int, playlistId : Int) {
+       viewModelScope.launch {
+           repository.addSongToPlaylist(songId=songId, playlistId=playlistId)
+       }
+   }
+    fun getPlaylistWithSongs(playlistId:  Int) {
+        viewModelScope.launch {
+            repository.getPlaylistWithSongs(playlistId).collect{
+                println("----------result $it")
+                it.forEach { res ->
+                    res.songs.forEach { song->
+                        println("---------song ${song.title}")
+                    }
+                }
+                _playlistWithSongs.value = it
+            }
         }
     }
 
