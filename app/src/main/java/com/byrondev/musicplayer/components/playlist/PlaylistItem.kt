@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
-import com.byrondev.musicplayer.data.models.Playlist
+import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
 import com.byrondev.musicplayer.ui.theme.Slate80
 
 @Composable
-fun PlaylistItem(playlist: Playlist, onClick : () -> Unit) {
+fun PlaylistItem(playlist: PlaylistWithCountSong, onClick : () -> Unit) {
 
     Row (
         verticalAlignment = Alignment.CenterVertically,

@@ -10,10 +10,11 @@ import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
-import com.byrondev.musicplayer.data.models.Playlist
+import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
+import com.byrondev.musicplayer.utils.dates.formatDuration
 
 @Composable
-fun PlaylistInfo (playlist: Playlist, modifier: Modifier = Modifier) {
+fun PlaylistInfo (playlist: PlaylistWithCountSong, modifier: Modifier = Modifier) {
     Column (
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(5.dp)
@@ -23,9 +24,9 @@ fun PlaylistInfo (playlist: Playlist, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            TextExtraSmall(text="30 canciones")
+            TextExtraSmall(text="${playlist.songCount} songs")
             CircleSeparation()
-            TextExtraSmall(text="58:00")
+            TextExtraSmall(text= formatDuration(playlist.duration))
         }
     }
 }
