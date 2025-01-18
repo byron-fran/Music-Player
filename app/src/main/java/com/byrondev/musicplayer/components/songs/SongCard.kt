@@ -30,7 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
+import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.components.globals.TextSmall
@@ -38,11 +40,18 @@ import com.byrondev.musicplayer.components.modals.PartialBottomSheet
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.ui.theme.Blue70
 import com.byrondev.musicplayer.ui.theme.Blue80
+import com.byrondev.musicplayer.utils.dates.formatDuration
 
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun SongCard(song: Song, showTrackNumber : Boolean = true, onClick : () -> Unit) {
+fun SongCard(
+    song: Song,
+    showTrackNumber : Boolean = true,
+    navController: NavController,
+    onClick : () -> Unit,
+
+    ) {
 
     val showBottomSheet = remember { mutableStateOf(false) }
 
@@ -64,7 +73,7 @@ fun SongCard(song: Song, showTrackNumber : Boolean = true, onClick : () -> Unit)
             ShowQualityAudio(song, showBottomSheet)
         }
    }
-   PartialBottomSheet(showBottomSheet, song)
+   PartialBottomSheet(showBottomSheet, song, navController)
 }
 
 
@@ -76,7 +85,7 @@ fun ShowQualityAudio(song: Song, showBottomSheet: MutableState<Boolean>, modifie
                 Image(
                     painter = painterResource(id = R.drawable.hi_res_logo),
                     contentDescription = "",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(25.dp)
                 )
             } else if(song.bitRate == 16 ) {
                 Card (
@@ -93,7 +102,7 @@ fun ShowQualityAudio(song: Song, showBottomSheet: MutableState<Boolean>, modifie
             imageVector = Icons.Default.MoreVert,
             contentDescription = null,
             tint = Color.White,
-            modifier = Modifier.fillMaxHeight().size(30.dp).clickable { showBottomSheet.value = true }
+            modifier = Modifier.fillMaxHeight().size(25.dp).clickable { showBottomSheet.value = true }
         )
     }
 }
@@ -113,7 +122,14 @@ fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modi
         ) {
             TextMedium(song.title ?: "")
             Spacer(modifier = Modifier.height(5.dp))
-            TextExtraSmall(text =song.artist ?: "Unknown", )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                TextExtraSmall(text =song.artist ?: "Unknown", )
+                CircleSeparation()
+                TextExtraSmall(text= formatDuration(song.duration.toInt()))
+            }
         }
     }
 }
