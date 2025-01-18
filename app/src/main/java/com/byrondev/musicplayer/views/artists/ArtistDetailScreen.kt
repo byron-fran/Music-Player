@@ -109,7 +109,7 @@ fun ArtistDetailScreenContent(
 
         }
         itemsIndexed(limitedItems){ index, song ->
-           SongCard(song, false,) { /* Todo add event player */ }
+           SongCard(song, false,navController) { /* Todo add event player */ }
 
         }
         item {

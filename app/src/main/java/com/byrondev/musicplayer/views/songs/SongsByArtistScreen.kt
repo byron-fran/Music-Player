@@ -31,7 +31,7 @@ fun SongsByArtist(navController: NavController, musicViewModels: MusicViewModels
     Scaffold(
         topBar = { CenterTopAppBar("Songs", Icons.AutoMirrored.Default.ArrowBack, onNavigate = { navController.popBackStack()}) },
         content = {paddingValues ->
-                SongList(songs, showTrackNumber = false, paddingValues, playerViewModels)
+                SongList(songs, showTrackNumber = false, paddingValues, playerViewModels, navController)
         },
         bottomBar = { BottomBar(navController) }
     )

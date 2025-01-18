@@ -26,6 +26,6 @@ fun FavoritesScreen(
         topBar = { CenterTopAppBar("Favorites") {navController.popBackStack()} },
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
-        SongList(songsFavorite,false,paddingValues, playerViewModels )
+        SongList(songsFavorite,false,paddingValues, playerViewModels, navController )
     }
 }

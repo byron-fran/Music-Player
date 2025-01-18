@@ -16,6 +16,6 @@ import com.byrondev.musicplayer.viewModels.PlayerViewModels
 fun SongsScreen (musicViewModels: MusicViewModels, navController: NavController,playerViewModels : PlayerViewModels ) {
     val listSong = musicViewModels.songs.collectAsState()
 
-    SongList(listSong.value, showTrackNumber = false, PaddingValues(0.dp), playerViewModels)
+    SongList(listSong.value, showTrackNumber = false, PaddingValues(0.dp), playerViewModels, navController)
 
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.components.images.CoverImage
@@ -53,7 +54,7 @@ fun CardAlbumSearch  ( result : SearchResult, onClick: () -> Unit) {
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun CardSongResult(result: SearchResult, onClick : () -> Unit) {
+fun CardSongResult(result: SearchResult, navController : NavController,onClick : () -> Unit ) {
 
     Row (
         modifier = Modifier.clickable {  },
@@ -70,7 +71,8 @@ fun CardSongResult(result: SearchResult, onClick : () -> Unit) {
                 uri = result.uri ?: "",
                 bitRate =  result.bitrate
             ),
-            showTrackNumber = false
+            showTrackNumber = false,
+            navController,
         ) { onClick() }
     }
 

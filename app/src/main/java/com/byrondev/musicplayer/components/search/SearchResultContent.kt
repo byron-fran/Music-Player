@@ -47,7 +47,7 @@ fun SearchContentResult (
     results : State<List<SearchResult>>,
     musicViewModels: MusicViewModels,
     navController: NavController,
-    playerViewModels: PlayerViewModels
+    playerViewModels: PlayerViewModels,
 ){
 
     LaunchedEffect(Unit) {
@@ -89,7 +89,7 @@ fun SearchContentResult (
                         when(result.type) {
                             "Album" ->  CardAlbumSearch( result) {navController.navigate("AlbumDetail/${result.id}")}
 
-                            "Song" -> CardSongResult(result) { /* Todo add player event */}
+                            "Song" -> CardSongResult(result, navController) { /* Todo add player event */}
 
                             else ->  CardArtistResult(result) {navController.navigate("ArtistDetail/${result.id}")}
                         }

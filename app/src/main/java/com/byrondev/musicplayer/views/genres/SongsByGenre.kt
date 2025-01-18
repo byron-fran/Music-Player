@@ -33,7 +33,7 @@ fun SongsByGenre(
         topBar = { CenterTopAppBar(genre?.name ?: "") {navController.popBackStack()} },
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
-        SongList(songsByGenre.value,false,paddingValues, playerViewModels )
+        SongList(songsByGenre.value,false,paddingValues, playerViewModels , navController)
     }
 
 }

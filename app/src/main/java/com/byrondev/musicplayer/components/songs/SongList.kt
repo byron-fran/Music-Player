@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
 import com.byrondev.musicplayer.components.globals.EmptyScreen
 import com.byrondev.musicplayer.components.globals.TextLarge
@@ -34,7 +35,8 @@ fun SongList(
     songs : List<Song>,
     showTrackNumber : Boolean = true,
     paddingValues: PaddingValues,
-    playerViewModels : PlayerViewModels
+    playerViewModels : PlayerViewModels,
+    navController: NavController
     ){
 
     Column (modifier = Modifier.background(color = Color.Black).fillMaxSize().padding(paddingValues)){
@@ -49,7 +51,7 @@ fun SongList(
                 itemsIndexed(songs) {index, song ->
                     Row  (verticalAlignment = Alignment.CenterVertically) {
                         CoverImage(song.cover, Modifier.height(55.dp).width(55.dp).align(Alignment.CenterVertically).padding(vertical = 2.dp), contentScale = ContentScale.Fit)
-                        SongCard (song,showTrackNumber,) {
+                        SongCard (song,showTrackNumber, navController) {
                             // Todo add Event player
                         }
                     }
