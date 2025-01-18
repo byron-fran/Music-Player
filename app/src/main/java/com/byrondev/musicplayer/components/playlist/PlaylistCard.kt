@@ -19,11 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
-import com.byrondev.musicplayer.data.models.Playlist
+import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
 import com.byrondev.musicplayer.ui.theme.Slate80
 
 @Composable
-fun PlaylistCard(playlist: Playlist, onClick : () -> Unit) {
+fun PlaylistCard(playlist: PlaylistWithCountSong, onClick : () -> Unit) {
 
     Box(
         modifier = Modifier
