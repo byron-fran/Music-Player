@@ -49,20 +49,20 @@ val textDarkGray13 = TextStyle (
 )
 
 val textSmall  = TextStyle (
-    fontSize = 11.sp,
+    fontSize = 10.sp,
     fontWeight = FontWeight.W400,
     textAlign = TextAlign.Center,
 
 )
 val textExtraSmall = TextStyle(
-    fontSize = 15.sp,
+    fontSize = 13.sp,
     fontWeight = FontWeight.W500,
 )
 val textMedium = TextStyle(
-    fontSize = 17.sp,
+    fontSize = 15.sp,
     fontWeight = FontWeight.W500,
 )
 val textLarge = TextStyle (
-    fontSize = 21.sp,
-    fontWeight = FontWeight.ExtraBold,
+    fontSize = 20.sp,
+    fontWeight = FontWeight.Normal,
 )
