@@ -11,7 +11,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AlbumsDao {
-    @Query("SELECT * FROM albums ORDER BY year DESC")
+
+    @Query("""
+        SELECT
+            a.id as id,a.title as title,a.album_artist as artist,
+            a.year as year,a.cover as cover,
+        COUNT(CASE WHEN s.bit_rate >= 24 THEN 1 ELSE NULL END) as quality
+        FROM albums a
+        LEFT JOIN songs s ON s.album_id = a.id
+        GROUP BY a.id
+    """)
     fun getAllAlbums() : Flow<List<Album>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
