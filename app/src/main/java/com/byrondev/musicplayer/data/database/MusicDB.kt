@@ -26,7 +26,7 @@ import com.byrondev.musicplayer.data.models.Song
     Playlist::class,
     PlaylistSongCrossRef::class,
     Genre::class
-], version = 54)
+], version = 55)
 abstract class MusicDB : RoomDatabase() {
     abstract fun albumDao () : AlbumsDao
     abstract fun songDao () : SongDao
