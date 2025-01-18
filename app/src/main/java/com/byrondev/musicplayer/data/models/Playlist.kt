@@ -16,10 +16,10 @@ data class Playlist(
 
 //PlaylistSongCrossRef table intermedie
 @Entity(
-    primaryKeys = ["playlistId", "songId"],
+    primaryKeys = ["songId","playlistId"],
     tableName = "playlist_song_cross_ref"
 )
 data class PlaylistSongCrossRef (
+    val songId: Int,
     val playlistId: Int,
-    val songId: Int
 )
