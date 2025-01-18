@@ -14,10 +14,11 @@ data class PlaylistWithSongs(
         entityColumn = "id",
         associateBy = Junction(
             PlaylistSongCrossRef::class,
-            parentColumn = "playlistId",
-            entityColumn = "songId"
-            )
+            entityColumn = "songId",
+            parentColumn = "playlistId"
+
+        )
     )
-    val songs: List<Song>
+    val songs: List<Song>,
 )
 
