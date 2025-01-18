@@ -1,6 +1,7 @@
 package com.byrondev.musicplayer.components.playlist
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -45,6 +47,8 @@ fun PlaylistItems(
 
     val playlists = musicViewModels.playlist.collectAsState()
     val song = musicViewModels.song.collectAsState()
+    val context = LocalContext.current
+    val toast  = Toast.makeText(context, "Se agrego correctamente", Toast.LENGTH_SHORT)
 
     LaunchedEffect(songId) {
         if(songId != 0) {
@@ -68,7 +72,9 @@ fun PlaylistItems(
             items(playlists.value) {
                 PlaylistItem(it){
                     if(song.value != null) {
-                        //Todo add to playlist
+                        musicViewModels.insertSongToPlaylist(songId=songId, playlistId = it.id )
+                        toast.show()
+                        navController.popBackStack()
                     }
                     else {
                         navController.navigate("PlaylistDetailScreen/${it.id}")
