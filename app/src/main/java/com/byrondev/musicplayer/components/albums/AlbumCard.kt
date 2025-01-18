@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +15,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -35,10 +37,9 @@ fun AlbumCard(album: Album, navController: NavController, modifier: Modifier = M
             .clickable { navController.navigate("AlbumDetail/${album.id}") }
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.Black),
-        shape = RoundedCornerShape(5.dp)
+        shape = RoundedCornerShape(0.dp)
     ) {
-
-        CoverImage(album.cover, contentScale = ContentScale.Crop)
+        CoverImage(album.cover, contentScale = ContentScale.Crop, modifier = Modifier.height(195.dp).clip(RoundedCornerShape(5.dp)))
         Row(
             modifier = modifier.padding(top = 5.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -56,13 +57,14 @@ fun AlbumCard(album: Album, navController: NavController, modifier: Modifier = M
                     }
                 }
             }
-
-            if(album.quality == 3) {
-                Image(
-                    painter = painterResource(id = R.drawable.hi_res_logo),
-                    contentDescription = "",
-                    modifier = modifier.size(30.dp)
-                )
+            album.quality?.let {
+                if(it > 0) {
+                    Image(
+                        painter = painterResource(id = R.drawable.hi_res_logo),
+                        modifier = Modifier.size(25.dp),
+                        contentDescription = ""
+                    )
+                }
             }
         }
     }
