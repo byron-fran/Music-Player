@@ -13,6 +13,9 @@ interface SongDao {
     @Query("SELECT * FROM songs ORDER by title ASC")
     fun getAllSongs() : Flow<List<Song>>
 
+    @Query("SELECT * FROM songs WHERE id =:id LIMIT 1")
+    fun getSongBy(id : Int) : Flow<Song>
+
     @Query("SELECT * FROM songs WHERE album_id=:id")
     fun  getAlbumWithSong(id : Int) : Flow<List<Song>>
 
