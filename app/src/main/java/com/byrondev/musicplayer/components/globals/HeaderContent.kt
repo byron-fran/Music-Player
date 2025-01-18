@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -37,9 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
 import com.byrondev.musicplayer.components.images.CoverImage
-import com.byrondev.musicplayer.ui.theme.Slate70
 import com.byrondev.musicplayer.ui.theme.Slate80
-import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -62,8 +59,8 @@ fun HeaderContent(
             withContext(Dispatchers.IO) {
                 val palette = Palette.from(imageBitmap).generate()
                 val dominant = palette.getDominantColor(Color.Black.toArgb())
-                val vibrant = palette.getVibrantColor(Slate70.toArgb())
-                colors = listOf(Color(dominant), Color(vibrant))
+                val vibrant = palette.getVibrantColor(Slate80.toArgb())
+                colors = listOf( Color(dominant),Color(vibrant),)
             }
         }
     }
@@ -79,12 +76,14 @@ fun HeaderContent(
             modifier = Modifier.align(Alignment.TopCenter).offset(x=0.dp, y = 60.dp))
         Row (
             modifier = Modifier.fillMaxWidth().offset(x=10.dp, y = 40.dp).align(Alignment.TopCenter),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
             ){
             Icon(
                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                 modifier = Modifier.size(30.dp).clickable { navController.popBackStack() },
                 contentDescription = "",
-                tint = Zinc40
+                tint = Color.White
             )
            AnimateTitle(title, scrollOffset)
         }
@@ -97,7 +96,7 @@ fun HeaderContent(
                 modifier = Modifier.fillMaxWidth().align(Alignment.Center).padding(bottom = 15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                TextLarge(title, modifier = Modifier.width(300.dp))
+                TextLarge(title, modifier = Modifier)
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -105,9 +104,9 @@ fun HeaderContent(
                     ){
                     texts.forEach {
                         it?.let { text ->
-                            TextExtraSmall(text=text, color= Zinc40)
+                            TextExtraSmall(text=text, color= Color.White)
                             if(texts.last() != text) {
-                                CircleSeparation()
+                                CircleSeparation(color = Color.White)
                             }
                         }
                     }
@@ -120,7 +119,7 @@ fun HeaderContent(
 @Composable
 fun AnimateTitle(text : String,   scrollOffset : State<Boolean> ) {
     AnimatedVisibility(visible =scrollOffset.value) {
-        TextLarge(text, modifier = Modifier.fillMaxWidth().padding(end = 40.dp))
+        TextLarge(text)
     }
 }
 
@@ -136,6 +135,6 @@ fun AnimateImagePlaylist (
         enter = scaleIn() + expandVertically (expandFrom = Alignment.CenterVertically),
         exit= scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
-        CoverImage(byteArray, modifier = Modifier.size(200.dp))
+        CoverImage(byteArray, modifier = Modifier.size(230.dp))
     }
 }
