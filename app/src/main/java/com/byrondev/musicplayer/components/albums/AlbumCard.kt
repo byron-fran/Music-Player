@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +38,7 @@ fun AlbumCard(album: Album, navController: NavController, modifier: Modifier = M
         colors = CardDefaults.cardColors(containerColor = Color.Black),
         shape = RoundedCornerShape(0.dp)
     ) {
-        CoverImage(album.cover, contentScale = ContentScale.Crop, modifier = Modifier.height(195.dp).clip(RoundedCornerShape(5.dp)))
+        CoverImage(album.cover, contentScale = ContentScale.Crop, modifier = Modifier.clip(RoundedCornerShape(5.dp)))
         Row(
             modifier = modifier.padding(top = 5.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -53,7 +52,7 @@ fun AlbumCard(album: Album, navController: NavController, modifier: Modifier = M
                     TextExtraSmall(text=album.artist ?: "")
                     if(album.year != null) {
                         CircleSeparation()
-                        TextExtraSmall(text=album.year.substringBefore("-"))
+                        TextExtraSmall(text=album.year.substringBefore("-").substringBefore(";").substringBefore("/"))
                     }
                 }
             }
