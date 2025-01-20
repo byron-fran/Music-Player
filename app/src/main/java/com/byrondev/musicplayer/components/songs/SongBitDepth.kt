@@ -1,57 +1,61 @@
 package com.byrondev.musicplayer.components.songs
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.byrondev.musicplayer.R
+import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.data.models.Song
-import com.byrondev.musicplayer.ui.theme.Blue70
-import com.byrondev.musicplayer.ui.theme.Blue80
-import com.byrondev.musicplayer.ui.theme.Blue95
+import com.byrondev.musicplayer.ui.theme.Pink60
 import com.byrondev.musicplayer.ui.theme.Yellow50
-import com.byrondev.musicplayer.ui.theme.Yellow80
-import com.byrondev.musicplayer.ui.theme.Yellow95
-import com.byrondev.musicplayer.ui.theme.textDarkGray13
 import com.byrondev.musicplayer.utils.textSampleRate
 
 @Composable
 fun SongBitDepth ( song: Song) {
 
-        if (song.audioBitDepth != 0 && song.sampleRate != 0) {
-            when (song.audioBitDepth!!) {
-                16 -> {
-                    CardSongBitDepth(
-                        "CD " + song.sampleRate.toString().textSampleRate(song.audioBitDepth!!),
-                        Blue70, Blue80, Blue95
-                    )
-                }
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
 
-                24 -> {
-                    CardSongBitDepth(
-                        "Hi-res " + song.sampleRate.toString().textSampleRate(song.audioBitDepth!!),
-                        Yellow50, Yellow80, Yellow95,
+        ){
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+
+            ){
+                if (song.bitRate!= 0 && song.sampleRate != 0) {
+                    Icon(
+                        painter = painterResource(id= R.drawable.baseline_audio_quality_30),
+                        modifier = Modifier.size(30.dp),
+                        tint = if(song.bitRate!! >= 24) Yellow50 else Pink60,
+                        contentDescription = "Show icon lossless",
+
                         )
+                        CardSongBitDepth("Lossless " + song.sampleRate.toString().textSampleRate(song.bitRate), song.bitRate)
                 }
-                else -> { Text("") }
             }
         }
 }
 
+
 @Composable
-fun CardSongBitDepth(text : String, color1 : Color, color2 : Color, color3 : Color) {
+fun CardSongBitDepth(text : String, bitDepth : Int) {
     Card (
-        colors = CardDefaults.cardColors(containerColor = color3),
-        border = BorderStroke(1.dp, color2),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         shape = RoundedCornerShape(5.dp),
         modifier = Modifier.padding(vertical = 10.dp),
 
-    ){
-        Text(text, color = color1, modifier = Modifier.padding(10.dp), style = textDarkGray13,)
-    }
+    ){ TextMedium(text, color = if(bitDepth >= 24) Yellow50 else Pink60 ) }
 }
