@@ -67,7 +67,7 @@ fun HeaderContent(
 
     Box (
         modifier = Modifier
-            .height(height).background(brush = Brush.linearGradient( colors=colors )).fillMaxWidth(),
+            .height(height).background(brush = Brush.linearGradient( colors=colors ), alpha = 0.7f).fillMaxWidth(),
         contentAlignment = Alignment.Center
     ){
         AnimateImagePlaylist(
