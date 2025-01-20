@@ -17,7 +17,7 @@ interface PlaybackQueueDao {
     suspend fun insertUri(items :List< PlaybackQueue>)
 
     @Query("DELETE FROM playback_queue")
-    fun deletePlaybackQueue()
+    suspend fun deletePlaybackQueue()
 
 }
 
