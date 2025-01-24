@@ -37,6 +37,7 @@ import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
 import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.ui.theme.Slate80
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -104,9 +105,9 @@ fun HeaderContent(
                     ){
                     texts.forEach {
                         it?.let { text ->
-                            TextExtraSmall(text=text, color= Color.White)
+                            TextExtraSmall(text=text, color= Zinc40)
                             if(texts.last() != text) {
-                                CircleSeparation(color = Color.White)
+                                CircleSeparation(color = Zinc40)
                             }
                         }
                     }
