@@ -19,7 +19,7 @@ interface AlbumsDao {
         COUNT(CASE WHEN s.bit_rate >= 24 THEN 1 ELSE NULL END) as quality
         FROM albums a
         LEFT JOIN songs s ON s.album_id = a.id
-        GROUP BY a.id
+        GROUP BY a.id ORDER BY year DESC
     """)
     fun getAllAlbums() : Flow<List<Album>>
 
