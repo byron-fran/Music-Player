@@ -12,11 +12,11 @@ import com.byrondev.musicplayer.data.models.Genre
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.utils.bytearray.bitmapToByteArray
 
-data class AudioMetadata (
-    val album : Album,
-    val song : Song,
-    val artist : Artist,
-    val genre : Genre
+data class AudioMetadata(
+    val album: Album,
+    val song: Song,
+    val artist: Artist,
+    val genre: Genre,
 )
 
 @RequiresApi(Build.VERSION_CODES.S)
