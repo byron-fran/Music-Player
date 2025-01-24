@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,7 +31,13 @@ import com.byrondev.musicplayer.views.songs.SongsByArtist
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewModels: PlayerViewModels) {
+fun NavManager(
+    musicViewModels: MusicViewModels,
+    player: ExoPlayer,
+    playerViewModels: PlayerViewModels,
+    content : @Composable (navController : NavController) -> Unit
+
+    ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "LibraryScreen") {
         // Home Screen
@@ -152,7 +159,7 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
             }
 
             ) {
-            SettingsScreen(navController, musicViewModels)
+            SettingsScreen(navController, musicViewModels, playerViewModels)
         }
         // Playlist detail screen
         composable("PlaylistDetailScreen/{id}", arguments = listOf(
@@ -162,4 +169,5 @@ fun NavManager(musicViewModels: MusicViewModels, player: ExoPlayer, playerViewMo
             PlaylistDetailScreen(navController, musicViewModels, playerViewModels, id)
         }
     }
+    content(navController)
 }
