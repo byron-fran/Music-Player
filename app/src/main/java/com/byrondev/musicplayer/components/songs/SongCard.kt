@@ -2,7 +2,6 @@ package com.byrondev.musicplayer.components.songs
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
@@ -35,11 +33,9 @@ import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
-import com.byrondev.musicplayer.components.globals.TextSmall
 import com.byrondev.musicplayer.components.modals.PartialBottomSheet
 import com.byrondev.musicplayer.data.models.Song
-import com.byrondev.musicplayer.ui.theme.Blue70
-import com.byrondev.musicplayer.ui.theme.Blue80
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.utils.dates.formatDuration
 
 
@@ -87,22 +83,13 @@ fun ShowQualityAudio(song: Song, showBottomSheet: MutableState<Boolean>, modifie
                     contentDescription = "",
                     modifier = Modifier.size(25.dp)
                 )
-            } else if(song.bitRate == 16 ) {
-                Card (
-                    modifier = Modifier,
-                    border = BorderStroke(1.dp, Blue80),
-                    colors =  CardDefaults.cardColors(containerColor = Color.Transparent),
-                    shape = RoundedCornerShape(5.dp)
-                ) {
-                    TextSmall("CD", modifier = Modifier.padding(4.dp), color = Blue70)
-                }
             }
         }
         Icon(
             imageVector = Icons.Default.MoreVert,
             contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier.fillMaxHeight().size(25.dp).clickable { showBottomSheet.value = true }
+            tint = Zinc40,
+            modifier = Modifier.fillMaxHeight().size(20.dp).clickable { showBottomSheet.value = true }
         )
     }
 }
