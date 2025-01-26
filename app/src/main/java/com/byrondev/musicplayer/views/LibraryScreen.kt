@@ -3,8 +3,8 @@ package com.byrondev.musicplayer.views
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +14,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -35,65 +34,51 @@ import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun LibraryScreen(navController: NavController, musicViewModels: MusicViewModels, playerViewModels: PlayerViewModels) {
-
-    Scaffold(
-        content = { paddingValues ->
-            LibraryScreenContent(navController, paddingValues, musicViewModels, playerViewModels)
-        }
-    )
-}
-
-@RequiresApi(Build.VERSION_CODES.S)
-@Composable
-fun LibraryScreenContent(
+fun LibraryScreen(
     navController: NavController,
-    paddingValues: PaddingValues,
     musicViewModels: MusicViewModels,
     playerViewModels: PlayerViewModels,
-) {
+    ) {
 
     val tabs = listOf(TabItem.Albums, TabItem.Songs, TabItem.Artists, TabItem.Playlists, TabItem.Genres)
     val pagerState = rememberPagerState (pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
 
-    Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(paddingValues)) {
-        LibraryHeader(navController, musicViewModels)
-        Spacer(modifier=Modifier.height(5.dp).fillMaxWidth())
-        ScrollableTabRow  (
-            selectedTabIndex = pagerState.currentPage,
-            containerColor = Color.Transparent,
-            contentColor = Color.Transparent,
-            edgePadding =  0.dp,
-            indicator =  {
+    Box (
+        modifier = Modifier.fillMaxSize()
+    ){
+        Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(top = 50.dp)) {
+            LibraryHeader(navController, musicViewModels)
+            Spacer(modifier=Modifier.height(5.dp).fillMaxWidth())
+            ScrollableTabRow  (
+                selectedTabIndex = pagerState.currentPage,
+                containerColor = Color.Transparent,
+                contentColor = Color.Transparent,
+                edgePadding =  0.dp,
+                indicator =  {
 
-            },
-            divider =  {
-                HorizontalDivider(
-                    color =  Slate70,
-                    thickness = 1.dp)
-            }
+                },
+                divider =  { HorizontalDivider(color =  Slate70, thickness = 1.dp) }
             ) {
-            tabs.forEachIndexed { index, tab ->
-                // OR Tab()
-                Tab (
+                tabs.forEachIndexed { index, tab ->
+                    // OR Tab()
+                    Tab (
 
-                    text = { Text(tab.title, style = textMedium) },
-                    selected = pagerState.currentPage == index,
-                    selectedContentColor = Rose60,
-                    unselectedContentColor = Color.White,
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                )
+                        text = { Text(tab.title, style = textMedium) },
+                        selected = pagerState.currentPage == index,
+                        selectedContentColor = Rose60,
+                        unselectedContentColor = Color.White,
+                        onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                    )
+                }
             }
+            TabsContent(tabs, pagerState, musicViewModels,playerViewModels, navController)
         }
-        TabsContent(tabs, pagerState, musicViewModels,playerViewModels, navController)
-
     }
-
 }
 
 @Composable
