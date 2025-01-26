@@ -63,6 +63,6 @@ val textMedium = TextStyle(
     fontWeight = FontWeight.W500,
 )
 val textLarge = TextStyle (
-    fontSize = 20.sp,
+    fontSize = 19.sp,
     fontWeight = FontWeight.Normal,
 )

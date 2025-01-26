@@ -37,7 +37,8 @@ fun TextExtraSmall(modifier: Modifier = Modifier,text : String, color: Color = Z
         minLines = 1,
         overflow = TextOverflow.Ellipsis,
         style = textExtraSmall,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = TextAlign.Center
     )
 }
 
