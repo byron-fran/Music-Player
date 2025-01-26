@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.ui.theme.Pink60
 import com.byrondev.musicplayer.ui.theme.Slate80
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
@@ -34,7 +36,7 @@ fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int, modifi
 
         ) {
             Button (
-                onClick = { playerViewModels.play() },
+                onClick = { playerViewModels.viewModelScope.launch { playerViewModels.play() } },
                 modifier = Modifier.clip(RoundedCornerShape(5.dp)).weight(1f),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Slate80)
