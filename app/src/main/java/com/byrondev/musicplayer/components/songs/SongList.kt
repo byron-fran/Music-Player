@@ -8,26 +8,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
 import com.byrondev.musicplayer.components.globals.EmptyScreen
+import com.byrondev.musicplayer.components.globals.LazyImageCover
 import com.byrondev.musicplayer.components.globals.TextLarge
-import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
-
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
@@ -38,6 +40,10 @@ fun SongList(
     playerViewModels : PlayerViewModels,
     navController: NavController
     ){
+
+    LaunchedEffect(songs.size) {
+        playerViewModels.updateCurrentListSongs(songs)
+    }
 
     Column (modifier = Modifier.background(color = Color.Black).fillMaxSize().padding(paddingValues)){
         if(songs.isNotEmpty()) {
@@ -50,9 +56,15 @@ fun SongList(
                 }
                 itemsIndexed(songs) {index, song ->
                     Row  (verticalAlignment = Alignment.CenterVertically) {
-                        CoverImage(song.cover, Modifier.height(55.dp).width(55.dp).align(Alignment.CenterVertically).padding(vertical = 2.dp), contentScale = ContentScale.Fit)
+                        LazyImageCover(
+                            playerViewModels, song.uri,
+                            painterResource(R.drawable.baseline_music_note_600),
+                            modifier = Modifier.size(50.dp)
+                        )
                         SongCard (song,showTrackNumber, navController) {
-                            // Todo add Event player
+                            playerViewModels.viewModelScope.launch {
+                                playerViewModels.playSeekTo(index)
+                            }
                         }
                     }
                 }
