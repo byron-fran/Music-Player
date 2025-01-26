@@ -7,10 +7,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
@@ -35,10 +35,10 @@ fun NavManager(
     musicViewModels: MusicViewModels,
     player: ExoPlayer,
     playerViewModels: PlayerViewModels,
-    content : @Composable (navController : NavController) -> Unit
+    navController : NavHostController,
+    content : @Composable (navController : NavController) -> Unit,
+) {
 
-    ) {
-    val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "LibraryScreen") {
         // Home Screen
         composable("HomeScreen") {
