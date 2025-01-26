@@ -10,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.albums.AlbumsList
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.viewModels.MusicViewModels
@@ -32,6 +31,5 @@ fun AlbumsByArtist(navController: NavController, musicViewModels: MusicViewModel
         content = {paddingValues ->
             AlbumsList(albums , navController,paddingValues )
         },
-        bottomBar = { BottomBar(navController) }
     )
 }

@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.library.LibraryHeader
 import com.byrondev.musicplayer.tabs.TabItem
 import com.byrondev.musicplayer.ui.theme.Rose60
@@ -39,7 +38,6 @@ import kotlinx.coroutines.launch
 fun LibraryScreen(navController: NavController, musicViewModels: MusicViewModels, playerViewModels: PlayerViewModels) {
 
     Scaffold(
-        bottomBar = { BottomBar(navController) },
         content = { paddingValues ->
             LibraryScreenContent(navController, paddingValues, musicViewModels, playerViewModels)
         }

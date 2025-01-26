@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.globals.EmptyScreen
 import com.byrondev.musicplayer.components.globals.TextLarge
 import com.byrondev.musicplayer.components.search.SearchBarApp
@@ -57,7 +56,6 @@ fun SearchScreen(
         if(!active.value ) {
             EmptyScreen() { TextLarge("Search something", color = Zinc40) }
         }
-        BottomBar(navController, modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 

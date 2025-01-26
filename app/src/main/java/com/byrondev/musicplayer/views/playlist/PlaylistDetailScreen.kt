@@ -15,13 +15,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.globals.HeaderContent
 import com.byrondev.musicplayer.components.songs.SongList
 import com.byrondev.musicplayer.utils.dates.formatDuration
@@ -79,7 +77,6 @@ fun PlaylistDetailScreen(
             }
         }
 
-        BottomBar(navController, modifier = Modifier.align(Alignment.BottomStart))
     }
 }
 

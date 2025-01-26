@@ -10,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.songs.SongList
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.viewModels.MusicViewModels
@@ -21,7 +20,7 @@ import com.byrondev.musicplayer.viewModels.PlayerViewModels
 fun SongsByArtist(navController: NavController, musicViewModels: MusicViewModels, playerViewModels : PlayerViewModels, id : Int, ) {
 
     val artistWithSongs  by musicViewModels.artistWithSongs.collectAsState()
-    val songs = artistWithSongs?.songs?.sortedByDescending {  it.year?.substringBefore("-")?.toInt()  } ?: emptyList()
+    val songs = artistWithSongs?.songs?.sortedByDescending {  it.year?.substringBefore("-")?.substringBefore(";")?.substringBefore("/")?.toInt()  } ?: emptyList()
 
     LaunchedEffect(id) {
 
@@ -33,6 +32,5 @@ fun SongsByArtist(navController: NavController, musicViewModels: MusicViewModels
         content = {paddingValues ->
                 SongList(songs, showTrackNumber = false, paddingValues, playerViewModels, navController)
         },
-        bottomBar = { BottomBar(navController) }
     )
 }

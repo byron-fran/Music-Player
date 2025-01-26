@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
 import com.byrondev.musicplayer.components.songs.SongList
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.viewModels.MusicViewModels
@@ -31,7 +30,6 @@ fun SongsByGenre(
 
     Scaffold (
         topBar = { CenterTopAppBar(genre?.name ?: "") {navController.popBackStack()} },
-        bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         SongList(songsByGenre.value,false,paddingValues, playerViewModels , navController)
     }
