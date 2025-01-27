@@ -5,24 +5,20 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
-import com.byrondev.musicplayer.components.albums.AlbumCard
+import com.byrondev.musicplayer.components.albums.AlbumsCarousel
 import com.byrondev.musicplayer.components.songs.SongCard
 import com.byrondev.musicplayer.components.texts.TextRowSeparation
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
@@ -55,17 +51,18 @@ fun ArtistDetailScreen(navController: NavController, musicViewModels: MusicViewM
     val songs = artistWithSongs?.songs ?: emptyList()
 
     LaunchedEffect(id) {
-
         musicViewModels.getArtistWithSongs(id)
         musicViewModels.getArtistWithAlbums(id)
         musicViewModels.clearArtistWithSongsAndAlbums()
-
     }
 
-    Scaffold (
-        topBar = {  CenterTopAppBar( artist?.name ?: "Arist unknown", Icons.AutoMirrored.Default.ArrowBack){navController.popBackStack()} },
-    ){ paddingValues ->
-        ArtistDetailScreenContent(paddingValues, navController, songs, albums, id)
+    Box (modifier = Modifier.fillMaxSize().background(Color.Black)){
+        Column (
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CenterTopAppBar( artist?.name ?: "Arist unknown", Icons.AutoMirrored.Default.ArrowBack){navController.popBackStack()}
+            ArtistDetailScreenContent( navController, songs, albums, id)
+        }
     }
 
 }
@@ -73,7 +70,6 @@ fun ArtistDetailScreen(navController: NavController, musicViewModels: MusicViewM
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun ArtistDetailScreenContent(
-    paddingValues: PaddingValues,
     navController: NavController,
     songs : List<Song>,
     albums : List<Album>,
@@ -82,7 +78,7 @@ fun ArtistDetailScreenContent(
 
     val limitedItems = songs.take(5);
 
-    LazyColumn (modifier = Modifier.padding(paddingValues).background(Color.Black).fillMaxSize()) {
+    LazyColumn (modifier = Modifier.background(Color.Black).fillMaxSize()) {
         item {
             Column (
                 modifier = Modifier.fillMaxWidth(),
@@ -101,8 +97,8 @@ fun ArtistDetailScreenContent(
                 }
             }
             TextRowSeparation(
-                "Songs",
-                "View all",
+                text1="Songs",
+                text2="View all",
                 modifier = Modifier.padding(top=30.dp, start = 15.dp, end = 20.dp, bottom = 10.dp),
                 onClick = {navController.navigate("SongsByArtist/${id}")}
                 )
@@ -114,21 +110,10 @@ fun ArtistDetailScreenContent(
         }
         item {
             if(albums.isNotEmpty()) {
-                TextRowSeparation(
-                    "Albums",
-                    "View all",
-                    modifier = Modifier
-                        .padding(top=30.dp, start = 15.dp, end = 20.dp, bottom = 20.dp),
-                    onClick = {navController.navigate("AlbumsByArtist/${id}")}
-                )
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    items(albums){ album ->
-                        AlbumCard(album, navController, modifier = Modifier.width(185.dp))
-                    }
-                }
+                AlbumsCarousel(albums.filter { it.tracksTotal > 1 }, navController, text1 = "Albumes", text2 = "ver todo")  {navController.navigate("AlbumsByArtist/${id}") }
+            }
+            if(albums.isNotEmpty()) {
+                AlbumsCarousel(albums.filter { it.tracksTotal == 1 }, navController, text1 = "Singles", text2 = "")  { }
             }
         }
         item {
