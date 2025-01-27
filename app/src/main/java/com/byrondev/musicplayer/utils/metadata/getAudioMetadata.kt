@@ -11,12 +11,17 @@ import com.byrondev.musicplayer.data.models.Artist
 import com.byrondev.musicplayer.data.models.Genre
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.utils.bytearray.bitmapToByteArray
+import wseemann.media.FFmpegMediaMetadataRetriever
 
 data class AudioMetadata(
     val album: Album,
     val song: Song,
     val artist: Artist,
     val genre: Genre,
+)
+data class TrackNumbers (
+    val tracksTotal: Int = 0,
+    val trackNumber : Int = 0
 )
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -25,11 +30,13 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
     val retriever = MediaMetadataRetriever()
     retriever.setDataSource(context, uri)
 
+    val ffmpeg = FFmpegMediaMetadataRetriever()
+    ffmpeg.setDataSource(context, uri)
+
     val art = retriever.embeddedPicture
     val albumArtBitmap = art?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-    val bitRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITS_PER_SAMPLE)
+    val bitRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
     val sampleRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE)
-    val bitsPerSample = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
     val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION) ?: ""
     val trackNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER)
     val diskNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER) ?: "1"
@@ -40,35 +47,40 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
     val dateRelease = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE)
     val genre = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
     val albumArtist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST)
-    val audioCodec = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE) ?: ""
+    val audioCodec = ffmpeg.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_AUDIO_CODEC)
     val yearRelease = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR) ?: ""
+    val audioBitDepth =retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITS_PER_SAMPLE)
+    val copyright = ffmpeg.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_COPYRIGHT)
 
     return  AudioMetadata(
         Album (
             title = album,
             artist = artist.substringBefore(","),
             year = dateRelease ?: yearRelease,
-            genres = genre,
-            cover = bitmapToByteArray(albumArtBitmap),
-            albumArtist = albumArtist,
-
+            genres = genre ?: "",
+            cover = bitmapToByteArray(albumArtBitmap) ?: ByteArray(0),
+            albumArtist = albumArtist ?: "",
+            copyright = copyright,
+            releaseDate = dateRelease ?: "",
+            tracksTotal =  getTrackNumber(trackNumber).tracksTotal
         ),
         Song(
             title = title,
             artist = artist,
-            bitsPerSample = bitsPerSample.let { it?.toInt() } ?: 0,
+            audioBitDepth= audioBitDepth.let { it?.toInt() },
             sampleRate = sampleRate.let { it?.toInt() } ?: 0,
             bitRate = bitRate.let { it?.toInt() } ?: 0,
             cover = bitmapToByteArray(albumArtBitmap),
             album = album,
             year = dateRelease ?: yearRelease,
             duration = duration.toLong(),
-            trackNumber = getTrackNumber(trackNumber),
+            trackNumber = getTrackNumber(trackNumber).trackNumber,
             uri = uri.toString(),
             composer = composer,
             genre = genre,
             disk = getDiskNumber(diskNumber),
             audioCodec = audioCodec.substringAfter("/"),
+            copyright = copyright
             ),
         Artist(name = artist.substringBefore(",").substringBefore(" & ")
         ),
@@ -79,8 +91,12 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
 }
 
 
-fun getTrackNumber(trackNumber: String?): Int {
-    return trackNumber?.substringBefore("/")?.toIntOrNull() ?: 0
+fun getTrackNumber(trackNumber: String?): TrackNumbers {
+
+    return TrackNumbers(
+        trackNumber = trackNumber?.substringBefore("/")?.toIntOrNull() ?: 0,
+        tracksTotal = trackNumber?.substringAfter("/")?.toInt() ?: 0
+    )
 }
 
 fun getDiskNumber(diskNumber : String) : Int {
