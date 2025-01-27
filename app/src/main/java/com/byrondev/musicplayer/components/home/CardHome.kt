@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.components.globals.TextMedium
+import com.byrondev.musicplayer.ui.theme.Pink60
 import com.byrondev.musicplayer.ui.theme.Slate80
 
 
@@ -28,33 +28,32 @@ import com.byrondev.musicplayer.ui.theme.Slate80
 fun CardHome(onClick: () -> Unit, title : String, iconName : Painter ) {
 
     Box(
-        modifier = Modifier.fillMaxWidth().background(Slate80).height(170.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .background(Slate80, shape = RoundedCornerShape(10.dp))
+            .height(130.dp)
+            .clickable { onClick() }
+        ,
         contentAlignment = Alignment.Center,
 
     ) {
         Card(
-            modifier = Modifier.fillMaxSize().padding(10.dp),
-            shape = RoundedCornerShape(5.dp),
-            colors = CardDefaults.cardColors(
-                contentColor =  Color.White,
-                containerColor = Color.Transparent
-            )
+            modifier = Modifier.fillMaxSize(),
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent)
         ) {}
         Row  (
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.clickable { onClick() }
         ){
 
-           TextMedium(title)
+           TextMedium(title, color = Pink60)
             Icon(
                 painter = iconName,
                 modifier = Modifier.size(30.dp),
                 contentDescription = "on click icon",
-                tint = Color.White,
+                tint = Pink60,
             )
-
         }
     }
-    Spacer(modifier = Modifier.height(15.dp))
 
 }
