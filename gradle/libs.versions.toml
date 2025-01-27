@@ -10,9 +10,7 @@ collapsingtopbarcompose = "1.2.4"
 compose = "1.0.0-alpha.4"
 composeVersion = "1.0.0-alpha.3"
 datastorePreferences = "1.1.1"
-ffmpegKitFull = "4.5.1-1"
-ffmpegmediametadataretriever = "1.0.0"
-githubFfmpegmediametadataretrieverNative = "1.0.19"
+ffmpegmediametadataretrieverNative = "1.0.19"
 glide = "4.15.1"
 glideTransformations = "4.3.0"
 glideVersion = "4.16.0"
@@ -65,14 +63,8 @@ coil-transformations-v230 = { module = "io.coil-kt:coil-transformations", versio
 collapsingtopbarcompose = { module = "com.github.germainkevinbusiness:CollapsingTopBarCompose", version.ref = "collapsingtopbarcompose" }
 compose = { module = "com.github.bumptech.glide:compose", version.ref = "compose" }
 compose-v100alpha3 = { module = "com.github.bumptech.glide:compose", version.ref = "composeVersion" }
-ffmpeg-kit-full = { module = "com.arthenica:ffmpeg-kit-full", version.ref = "ffmpegKitFull" }
-ffmpegmediametadataretriever = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever", version.ref = "ffmpegmediametadataretriever" }
-ffmpegmediametadataretriever-core = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-core", version.ref = "githubFfmpegmediametadataretrieverNative" }
-ffmpegmediametadataretriever-native-arm64-v8a = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-arm64-v8a", version.ref = "githubFfmpegmediametadataretrieverNative" }
-ffmpegmediametadataretriever-native-armeabi-v7a = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-armeabi-v7a", version.ref = "githubFfmpegmediametadataretrieverNative" }
-ffmpegmediametadataretriever-native-x86 = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-x86", version.ref = "githubFfmpegmediametadataretrieverNative" }
-ffmpegmediametadataretriever-native-x86_x4 = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-x86_64", version.ref = "githubFfmpegmediametadataretrieverNative" }
-github-ffmpegmediametadataretriever-native = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native", version.ref = "githubFfmpegmediametadataretrieverNative" }
+ffmpegmediametadataretriever-core = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-core", version.ref = "ffmpegmediametadataretrieverNative" }
+ffmpegmediametadataretriever-native = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native", version.ref = "ffmpegmediametadataretrieverNative" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }
 glide-v4160 = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }

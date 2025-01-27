@@ -18,7 +18,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        ndk {
+            abiFilters; "armeabi-v7a"; "arm64-v8a"; "x86"; "x86_64"
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -102,7 +104,6 @@ dependencies {
     // Navigation Jetpack Compose Integration
     implementation (libs.androidx.navigation.compose)
 
-    implementation (libs.ffmpeg.kit.full)
     implementation(libs.cloudy)
     implementation(libs.ui)
     implementation(libs.androidx.navigation.compose.v270beta01)
@@ -133,5 +134,9 @@ dependencies {
     implementation(libs.collapsingtopbarcompose)
 
     implementation (libs.androidx.palette)
+
+
+    implementation (libs.ffmpegmediametadataretriever.core)
+    implementation (libs.ffmpegmediametadataretriever.native)
 }
 
