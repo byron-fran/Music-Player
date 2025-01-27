@@ -14,6 +14,15 @@ data class PlaybackQueue  (
     val id : String = UUID.randomUUID().toString(),
 
     @ColumnInfo(name="uri")
-    val uri : String = ""
+    val uri : String = "",
+
+    @ColumnInfo(name = "song_id")
+    val songId : Int = 0,
+
+    @ColumnInfo(name = "album_id")
+    val albumId : Int = 0,
+
+    @ColumnInfo(name = "artist_id")
+    val artistId : Int = 0,
 
 )
