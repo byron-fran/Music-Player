@@ -19,10 +19,13 @@ fun PlaylistCarousel(playlistItems : List<PlaylistWithCountSong>, navController:
         TextRowSeparation(
             "Playlists",
             "view more",
-            modifier = Modifier.padding(start = 10.dp, end = 5.dp, bottom = 15.dp ),
+            modifier = Modifier.padding(10.dp ),
             onClick = {navController.navigate("PlaylistScreen/${0}")}
             )
-        LazyRow (horizontalArrangement = Arrangement.spacedBy(15.dp)) {
+        LazyRow (
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            modifier = Modifier.padding(horizontal = 10.dp)
+            ) {
             items(playlistItems) {
                 PlaylistCard(it) {navController.navigate("PlaylistDetailScreen/${it.id}")}
             }
