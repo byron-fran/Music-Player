@@ -20,13 +20,15 @@ fun PlaylistInfo (playlist: PlaylistWithCountSong, modifier: Modifier = Modifier
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ){
         TextMedium(playlist.name)
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            TextExtraSmall(text="${playlist.songCount} songs")
-            CircleSeparation()
-            TextExtraSmall(text= formatDuration(playlist.duration))
+        if(playlist.songCount > 0) {
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                TextExtraSmall(text="${playlist.songCount} songs")
+                CircleSeparation()
+                TextExtraSmall(text= formatDuration(playlist.duration))
+            }
         }
     }
 }
