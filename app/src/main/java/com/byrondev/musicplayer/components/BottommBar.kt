@@ -1,8 +1,7 @@
 package com.byrondev.musicplayer.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -21,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.ui.theme.Rose60
 import com.byrondev.musicplayer.ui.theme.Slate70
@@ -43,6 +43,8 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
         MenuItemBottom(title = "Search", icon = painterResource(id=R.drawable.search), path = "SearchScreen"),
     )
 
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
     NavigationBar (
         modifier = modifier
 
@@ -57,20 +59,21 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
                     strokeWidth = strokeWidth
                 )
             }
-            .heightIn(min = 50.dp, max = 65.dp)
-            .defaultMinSize(minHeight = 50.dp)
+            .height(50.dp)
+
         ,
         containerColor = Color.Black,
 
     ) {
         listMenuItemBottom.forEach { item ->
-
             NavigationBarItem(
-                selected = item.path == navController.currentBackStackEntry?.destination?.route.toString(),
+                selected = item.path == currentRoute,
                 onClick = { navController.navigate(item.path) },
                 icon = { Icon(item.icon, contentDescription = "Icon ${item.title}", modifier = Modifier.offset(x= 0.dp, y=17.dp)) },
                 label = { Text(item.title, style = textSmall,modifier = Modifier.offset(x= 0.dp, y = 8.dp)) },
-                modifier = Modifier.size(item.size).align(Alignment.Top),
+                modifier = Modifier
+                    .size(item.size)
+                    .align(Alignment.Top),
                 colors =  NavigationBarItemColors(
                     selectedIconColor = Rose60,
                     selectedTextColor = Rose60,
