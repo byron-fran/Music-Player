@@ -30,15 +30,19 @@ fun TextRowSeparation(
         verticalAlignment = Alignment.CenterVertically
     ){
         TextLarge(text1)
-        Row (
-            modifier = Modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            TextMedium(text2, color = Zinc40, modifier = Modifier.clickable { onClick() },)
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                modifier = Modifier.size(30.dp),
-                contentDescription =  "Icon To view more",
-                tint = Zinc40
-            )
+        if(text2.trim().isNotEmpty()) {
+            Row (
+                modifier = Modifier.clickable { onClick() },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                TextMedium(text2, color = Zinc40,)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                    modifier = Modifier.size(30.dp),
+                    contentDescription =  "Icon To view more",
+                    tint = Zinc40
+                )
+            }
         }
     }
 
