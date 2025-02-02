@@ -2,10 +2,11 @@ package com.byrondev.musicplayer.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.byrondev.musicplayer.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -43,26 +44,33 @@ val textWhite15 = TextStyle(
     )
 
 val textDarkGray13 = TextStyle (
-//    color = Gray30, Todo add color typography
+
     fontSize = 14.sp,
     fontWeight = FontWeight.W500,
 )
 
 val textSmall  = TextStyle (
     fontSize = 10.sp,
-    fontWeight = FontWeight.W400,
-    textAlign = TextAlign.Center,
+    fontFamily = FontFamily(
+        Font(resId = R.font.montserrat_medium)
+    )
 
 )
 val textExtraSmall = TextStyle(
-    fontSize = 13.sp,
-    fontWeight = FontWeight.W500,
+    fontSize = 12.sp,
+    fontFamily = FontFamily(
+        Font(resId = R.font.montserrat_medium)
+    )
 )
 val textMedium = TextStyle(
-    fontSize = 15.sp,
-    fontWeight = FontWeight.W500,
+    fontSize = 14.sp,
+    fontFamily = FontFamily(
+        Font(resId = R.font.montserrat_bold)
+    )
 )
 val textLarge = TextStyle (
-    fontSize = 19.sp,
-    fontWeight = FontWeight.Normal,
+    fontSize = 18.sp,
+    fontFamily = FontFamily(
+        Font(resId = R.font.montserrat_bold)
+    )
 )
