@@ -3,6 +3,7 @@ package com.byrondev.musicplayer.components.playlist
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -27,7 +28,7 @@ fun PlaylistCarousel(playlistItems : List<PlaylistWithCountSong>, navController:
             modifier = Modifier.padding(horizontal = 10.dp)
             ) {
             items(playlistItems) {
-                PlaylistCard(it) {navController.navigate("PlaylistDetailScreen/${it.id}")}
+                PlaylistCard(it, modifier = Modifier.width(175.dp)) {navController.navigate("PlaylistDetailScreen/${it.id}")}
             }
         }
     }
