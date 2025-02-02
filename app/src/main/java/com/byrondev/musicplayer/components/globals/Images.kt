@@ -15,40 +15,48 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.byrondev.musicplayer.viewModels.PlayerViewModels
+import com.byrondev.musicplayer.utils.bitmap.getCoverArt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun LazyImageCover(
-    playerViewModels: PlayerViewModels,
-    uri : String,
+    uri : String?,
     imageDefault : Painter,
-    modifier: Modifier = Modifier
-    ) {
+    modifier: Modifier = Modifier,
+  ) {
 
     var albumArt by remember { mutableStateOf<ImageBitmap?>(null) }
+    val context = LocalContext.current
 
     LaunchedEffect(uri) {
         withContext(Dispatchers.IO) {
-            val bitmap = playerViewModels.getCoverArt(uri)
-            albumArt = bitmap?.asImageBitmap()
+            if(uri?.trim()?.isNotEmpty() == true) {
+                val bitmap =  getCoverArt(uri, context)
+                albumArt = bitmap?.asImageBitmap()
+            }
         }
     }
 
     if (albumArt != null) {
-        Image(
-            bitmap = albumArt!!,
-            contentDescription = "Album Art",
-            modifier = modifier.clip(RoundedCornerShape(5.dp))
-        )
+        albumArt?.let {
+            Image(
+                bitmap = albumArt!!,
+                contentDescription = "Album Art",
+                modifier = modifier.clip(RoundedCornerShape(5.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
     } else {
         Image(
             painter = imageDefault,
-            contentDescription = "Placeholder",
-            modifier = modifier.clip(RoundedCornerShape(5.dp))
+            contentDescription = "Album Art",
+            modifier = modifier.clip(RoundedCornerShape(5.dp)),
+            contentScale = ContentScale.Crop
         )
     }
 
