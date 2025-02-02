@@ -3,6 +3,7 @@ package com.byrondev.musicplayer.di
 import android.content.Context
 import androidx.room.Room
 import com.byrondev.musicplayer.data.dao.AlbumsDao
+import com.byrondev.musicplayer.data.dao.AlbumsFavoriteDao
 import com.byrondev.musicplayer.data.dao.ArtistsDao
 import com.byrondev.musicplayer.data.dao.GenresDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
@@ -60,4 +61,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideSearchMusic(database: MusicDB) : SearchDao = database.searchDao()
+
+    @Singleton
+    @Provides
+    fun provideAlbumsFavorite(database: MusicDB) : AlbumsFavoriteDao = database.albumsFavoriteDao()
 }
