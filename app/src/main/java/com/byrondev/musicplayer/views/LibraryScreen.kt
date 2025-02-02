@@ -47,7 +47,7 @@ fun LibraryScreen(
     Box (
         modifier = Modifier.fillMaxSize()
     ){
-        Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(top = 50.dp)) {
+        Column(modifier = Modifier.background(color=Color.Black).fillMaxSize().padding(top = 35.dp)) {
             LibraryHeader(navController, musicViewModels)
             Spacer(modifier=Modifier.height(5.dp).fillMaxWidth())
             ScrollableTabRow  (
@@ -55,9 +55,7 @@ fun LibraryScreen(
                 containerColor = Color.Transparent,
                 contentColor = Color.Transparent,
                 edgePadding =  0.dp,
-                indicator =  {
-
-                },
+                indicator =  {},
                 divider =  { HorizontalDivider(color =  Slate70, thickness = 1.dp) }
             ) {
                 tabs.forEachIndexed { index, tab ->
