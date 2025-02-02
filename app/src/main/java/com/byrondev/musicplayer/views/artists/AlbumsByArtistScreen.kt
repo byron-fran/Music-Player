@@ -20,12 +20,11 @@ import com.byrondev.musicplayer.viewModels.MusicViewModels
 fun AlbumsByArtist(navController: NavController, musicViewModels: MusicViewModels, id : Int) {
 
     val artistWithAlbums  by musicViewModels.artistWithAlbums.collectAsState()
-    val albums = artistWithAlbums?.albums?.sortedByDescending {  it.year?.substringBefore("-")?.toInt()  } ?: emptyList()
+    val albums = artistWithAlbums.sortedByDescending {  it.year.substringBefore("-")?.toInt()  } ?: emptyList()
 
     LaunchedEffect(id) {
         musicViewModels.getArtistWithAlbums(id)
     }
-
     Scaffold(
         topBar = { CenterTopAppBar("Albums",  Icons.AutoMirrored.Default.ArrowBack, onNavigate = {navController.popBackStack()}) },
         content = {paddingValues ->

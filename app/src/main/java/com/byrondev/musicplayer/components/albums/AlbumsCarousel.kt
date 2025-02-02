@@ -1,5 +1,7 @@
 package com.byrondev.musicplayer.components.albums
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,29 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.texts.TextRowSeparation
-import com.byrondev.musicplayer.data.models.Album
+import com.byrondev.musicplayer.data.dao.AlbumResponse
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun AlbumsCarousel(
-    albums : List<Album>,
+    albums : List<AlbumResponse>,
     navController : NavController,
     text1: String,
     text2 : String,
     onClick : () -> Unit
 ) {
-    TextRowSeparation(
-        text1,
-        text2,
-        modifier = Modifier
-            .padding(10.dp),
-        onClick = {onClick()}
-    )
+    TextRowSeparation(text1, text2, modifier = Modifier.padding(10.dp), onClick = {onClick()})
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(15.dp),
         modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
     ) {
         items(albums){ album ->
-            AlbumCard(album, navController, modifier = Modifier.width(185.dp))
+            AlbumCard(album, navController, modifier = Modifier.width(175.dp))
         }
     }
 }
