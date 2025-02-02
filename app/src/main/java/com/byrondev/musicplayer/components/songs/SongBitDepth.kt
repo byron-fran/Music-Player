@@ -35,15 +35,17 @@ fun SongBitDepth ( song: Song) {
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
 
             ){
-                if (song.bitRate!= 0 && song.sampleRate != 0) {
-                    Icon(
-                        painter = painterResource(id= R.drawable.baseline_audio_quality_30),
-                        modifier = Modifier.size(30.dp),
-                        tint = if(song.bitRate!! >= 24) Yellow50 else Pink60,
-                        contentDescription = "Show icon lossless",
+                if (song.audioBitDepth != null && song.sampleRate != 0) {
+                    song.audioBitDepth.let {
+                        Icon(
+                            painter = painterResource(id= R.drawable.baseline_audio_quality_30),
+                            modifier = Modifier.size(30.dp),
+                            tint = if(it >= 24) Yellow50 else Pink60,
+                            contentDescription = "Show icon lossless",
 
-                        )
-                        CardSongBitDepth("Lossless " + song.sampleRate.toString().textSampleRate(song.bitRate), song.bitRate)
+                            )
+                        CardSongBitDepth("Lossless " + song.sampleRate.toString().textSampleRate(it), it)
+                    }
                 }
             }
         }
