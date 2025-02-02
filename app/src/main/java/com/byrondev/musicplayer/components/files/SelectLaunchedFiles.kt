@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.byrondev.musicplayer.ui.theme.Pink60
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.ProcessingState
 import okio.Path.Companion.toPath
@@ -54,7 +56,6 @@ fun SelectedLaunchedFiles (
                     Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 )
 
-                // Procesar archivos dentro de la carpeta
                 val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
                     uriFile,
                     DocumentsContract.getTreeDocumentId(uriFile)
@@ -94,13 +95,13 @@ fun SelectedLaunchedFiles (
     LaunchedEffect(selectedFiles) {
         if (selectedFiles.isNotEmpty()) {
             for (uri in selectedFiles) {
-
                 uri?.let { musicViewModels.addTask(it,) }
             }
         }
     }
 
     Column {
+        val toast = Toast.makeText(context, "Added successful", Toast.LENGTH_SHORT)
 
         content(multipleFilesLauncher)
         Column {
@@ -114,15 +115,14 @@ fun SelectedLaunchedFiles (
                         Dialog(onDismissRequest =  {},
                         ) {
                             Column (modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally){
-                                CircularProgressIndicator(/* Todo add color */ modifier = Modifier.background(Color.Transparent).size(50.dp))
-                                Text("Agregando $fileName", color=Color.White)
+                                CircularProgressIndicator(color = Pink60, modifier = Modifier.background(Color.Transparent).size(50.dp))
+                                Text("Adding $fileName", color=Color.White)
                             }
                         }
                 }
 
                 is ProcessingState.Completed -> {
-                    val lastTask = (processingState as ProcessingState.Completed).lastTask
-                    Text("") // Todo add any alert to show success
+                   toast.show()
                 }
             }
         }
