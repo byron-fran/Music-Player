@@ -3,6 +3,7 @@ package com.byrondev.musicplayer.components.playlist
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,8 +17,8 @@ import com.byrondev.musicplayer.utils.dates.formatDuration
 @Composable
 fun PlaylistInfo (playlist: PlaylistWithCountSong, modifier: Modifier = Modifier) {
     Column (
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(5.dp)
+        modifier = modifier.height(40.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ){
         TextMedium(playlist.name)
         if(playlist.songCount > 0) {
