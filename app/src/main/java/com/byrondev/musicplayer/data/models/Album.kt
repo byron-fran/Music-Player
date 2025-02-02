@@ -29,13 +29,13 @@ data class Album (
     val genres : String = "",
 
     @ColumnInfo(name="cover")
-    val cover : ByteArray = ByteArray(0),
+    val cover : String = "",
 
     @ColumnInfo(name = "copyright")
     val copyright : String = "",
 
-    @ColumnInfo(name="quality")
-    val quality : Int = 0,
+    @ColumnInfo(name="num_of_hires_quality")
+    val numOfHiresQuality  : Int = 0,
 
     @ColumnInfo(name = "duration")
     val duration : Long = 0,
@@ -46,24 +46,13 @@ data class Album (
     @ColumnInfo(name = "tracks_total")
     val tracksTotal : Int = 0,
 
+    @ColumnInfo(name = "num_tracks")
+    val numTracks : Int = 0,
+
     @ColumnInfo(name = "created_at")
     val createdAt : Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "artist_id")
     val artistId : Int = 0 ,
 
-
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Album
-
-        return cover.contentEquals(other.cover)
-    }
-
-    override fun hashCode(): Int {
-        return cover.contentHashCode()
-    }
-}
+)
