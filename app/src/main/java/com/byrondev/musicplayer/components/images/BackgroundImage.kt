@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import com.byrondev.musicplayer.ui.theme.Slate80
+import com.byrondev.musicplayer.ui.theme.Slate70
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import com.byrondev.musicplayer.utils.produceBlurredBitmap
 
@@ -43,6 +43,6 @@ fun BackgroundImage(byteArray : ByteArray?, modifier: Modifier = Modifier, alpha
         }
     }
     else {
-        Box (modifier.background(Slate80)) {}
+        Box (modifier.background(Slate70)) {}
     }
 }
