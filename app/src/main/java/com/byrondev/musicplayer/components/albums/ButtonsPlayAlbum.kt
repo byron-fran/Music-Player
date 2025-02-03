@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels,albumCount : Int, modifier: Modifier = Modifier) {
+fun ButtonsPlayAlbum(playerViewModels: PlayerViewModels, modifier: Modifier = Modifier) {
 
     Row(
         modifier = modifier.fillMaxWidth(),
