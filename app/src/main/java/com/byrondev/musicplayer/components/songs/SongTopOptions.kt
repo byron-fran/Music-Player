@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -22,8 +22,8 @@ import com.byrondev.musicplayer.data.models.Song
 @Composable
 fun SongTopOptions(
     song : Song,
-    showModal: MutableState<Boolean>,
-    navController: NavController
+    navController: NavController,
+    onClick : () -> Unit,
     ) {
 
     Row(
@@ -32,16 +32,20 @@ fun SongTopOptions(
     ) {
         Icon(
             imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "Back",
-            modifier = Modifier.size(30.dp).clickable (onClick =  { showModal.value = false }),
+            modifier = Modifier.size(25.dp).clickable {onClick()},
             tint = Color.White
         )
         TextLarge(
             text=song.artist ?: "Unknown arist",
             modifier = Modifier
-                .clickable { navController.navigate("ArtistDetail/${song.artistId}") })
+                .widthIn(max = 250.dp)
+                .clickable {
+                    navController.navigate("ArtistDetail/${song.artistId}")
+                    onClick()
+                })
         Icon(
             imageVector = Icons.Default.MoreVert, contentDescription = "Menu options",
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(25.dp).clickable { /* Todo add event */ },
             tint = Color.White
         )
     }
