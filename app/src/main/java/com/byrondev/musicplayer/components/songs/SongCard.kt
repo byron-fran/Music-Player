@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
@@ -43,9 +44,9 @@ import com.byrondev.musicplayer.utils.dates.formatDuration
 @Composable
 fun SongCard(
     song: Song,
-    showTrackNumber : Boolean = true,
+    showTrackNumber: Boolean = true,
     navController: NavController,
-    onClick : () -> Unit,
+    onClick: () -> Unit,
 
     ) {
 
@@ -53,31 +54,39 @@ fun SongCard(
 
     Card(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth().height(60.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp),
         colors = CardDefaults.cardColors(
-         containerColor = Color.Black
-        )
+            containerColor = Color.Black
+        ),
+        shape = RoundedCornerShape(0.dp)
     ) {
         Row(
-            modifier = Modifier.padding(5.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
 
-        ) {
+            ) {
             SongCardInfo(song, showTrackNumber, modifier = Modifier.weight(1f))
-
             ShowQualityAudio(song, showBottomSheet)
         }
-   }
-   PartialBottomSheet(showBottomSheet, song, navController)
+    }
+    PartialBottomSheet(showBottomSheet, song, navController)
 }
 
 
 @Composable
-fun ShowQualityAudio(song: Song, showBottomSheet: MutableState<Boolean>, modifier: Modifier = Modifier) {
-    Row (verticalAlignment = Alignment.CenterVertically) {
-        if(song.bitRate != null){
-            if (song.bitRate >= 24) {
+fun ShowQualityAudio(
+    song: Song,
+    showBottomSheet: MutableState<Boolean>,
+    modifier: Modifier = Modifier,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        if (song.audioBitDepth != null) {
+            if (song.audioBitDepth >= 24) {
                 Image(
                     painter = painterResource(id = R.drawable.hi_res_logo),
                     contentDescription = "",
@@ -89,21 +98,24 @@ fun ShowQualityAudio(song: Song, showBottomSheet: MutableState<Boolean>, modifie
             imageVector = Icons.Default.MoreVert,
             contentDescription = null,
             tint = Zinc40,
-            modifier = Modifier.fillMaxHeight().size(20.dp).clickable { showBottomSheet.value = true }
+            modifier = Modifier
+                .fillMaxHeight()
+                .size(25.dp)
+                .clickable { showBottomSheet.value = true }
         )
     }
 }
 
 @Composable
 fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modifier) {
-        Row(
+    Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if(showTrackNumber){
-            TextExtraSmall(text ="${song.trackNumber ?: ""}" , modifier = Modifier.width(20.dp) )
+        if (showTrackNumber) {
+            TextExtraSmall(text = "${song.trackNumber ?: "1"}", modifier = Modifier.width(20.dp))
         }
-        Column (
+        Column(
             modifier = Modifier.padding(start = 10.dp),
             horizontalAlignment = Alignment.Start,
         ) {
@@ -113,9 +125,9 @@ fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modi
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                TextExtraSmall(text =song.artist ?: "Unknown", )
+                TextExtraSmall(text = song.artist ?: "Unknown")
                 CircleSeparation()
-                TextExtraSmall(text= formatDuration(song.duration.toInt()))
+                TextExtraSmall(text = formatDuration(song.duration.toInt()))
             }
         }
     }
