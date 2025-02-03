@@ -1,155 +1,124 @@
 package com.byrondev.musicplayer.views.albums
 
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.byrondev.musicplayer.components.BottomBar
+import androidx.palette.graphics.Palette
+import com.byrondev.musicplayer.components.albums.AlbumDescription
 import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
+import com.byrondev.musicplayer.components.globals.HeaderContent
+import com.byrondev.musicplayer.components.globals.TopAppBarLeft
 import com.byrondev.musicplayer.components.songs.SongCard
+import com.byrondev.musicplayer.data.models.Album
+import com.byrondev.musicplayer.ui.theme.Slate80
+import com.byrondev.musicplayer.utils.bitmap.getByteArray
+import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import com.byrondev.musicplayer.viewModels.MusicViewModels
-import kotlinx.coroutines.delay
+import com.byrondev.musicplayer.viewModels.PlayerViewModels
+import kotlinx.coroutines.launch
 
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun AlbumDetail(
     navController: NavController,
     musicViewModels: MusicViewModels,
-   player: ExoPlayer,
-    id: Int
+    playerViewModels: PlayerViewModels,
+    id: Int,
 ) {
-
     val albumWithSongs by musicViewModels.albumWithSongs.collectAsState()
-    val scrollState = rememberLazyListState()
-    val showToolbar = remember {
-        derivedStateOf {
-        scrollState.firstVisibleItemIndex > 0 || (scrollState.firstVisibleItemScrollOffset > 1000)
-    } }
-    // States for audio play
-    val isPlaying = remember {mutableStateOf(false)}
-    val currentPosition = remember { mutableLongStateOf(0) }
-    val sliderPosition = remember { mutableLongStateOf(0) }
-    val totalDuration = remember { mutableLongStateOf(0) }
+    val lazyListState = rememberLazyListState()
+    val scrollOffset = remember { derivedStateOf { lazyListState.firstVisibleItemIndex > 0} }
+    val songs = albumWithSongs?.songs ?: emptyList()
+    val album = albumWithSongs?.album ?: Album()
+    val songsOrderedByTrack = songs.sortedBy { it.trackNumber ?: Int.MAX_VALUE }
+    val context = LocalContext.current
 
-    // state of  slides
-    val totalCountSongs = remember { mutableIntStateOf(0) }
-    val pagerState = rememberPagerState (pageCount = {totalCountSongs.intValue })
-    val playingSongIndex = remember { mutableIntStateOf(0) }
-
-
-////    effects of slides
-    LaunchedEffect(pagerState.currentPage) {
-        playingSongIndex.intValue = pagerState.currentPage
-        player.seekTo(pagerState.currentPage, 0)
-    }
-
-
-
-    LaunchedEffect(player.currentMediaItemIndex) {
-        playingSongIndex.intValue = player.currentMediaItemIndex
-        pagerState.animateScrollToPage(
-            playingSongIndex.intValue,
-            animationSpec = tween(500)
-        )
-    }
-//    // Effects of player
-//
     LaunchedEffect(id) {
         musicViewModels.clearAlbumWithSongs()
         musicViewModels.getAlbumByIdWithSongs(id)
     }
-    LaunchedEffect(player.currentPosition, player.isPlaying) {
-        delay(1000)
-        currentPosition.longValue = player.currentPosition
-    }
-    LaunchedEffect(currentPosition.longValue) {
-        sliderPosition.longValue = currentPosition.longValue
-    }
 
-    LaunchedEffect(player.duration) {
-        if (player.duration > 0) {
-            totalDuration.longValue = player.duration
+    LaunchedEffect(albumWithSongs?.songs) {
+        if (albumWithSongs?.songs != null) {
+            playerViewModels.updateCurrentListSongs(songs.sortedBy {
+                it.trackNumber ?: Int.MAX_VALUE
+            })
         }
     }
+    if (albumWithSongs?.album != null) {
 
-    LaunchedEffect(Unit) {
-        if(albumWithSongs != null){
-            val songs = albumWithSongs!!.songs
+        val coverArt = getByteArray(album.cover, context )
+        val imageBitmap = remember { coverArt?.let {  decodeBitmapWithSubsampling(it, 300, 300) } }
+        val palette = imageBitmap?.let { Palette.from(it).generate() }
+        val dominant = palette?.getDominantColor(Slate80.toArgb())
+        val vibrant = palette?.getVibrantColor(Slate80.toArgb())
+        val colors = listOf( Color(dominant ?: 0),Color(vibrant ?: 0),  Color.Black, Color.Black, Color.Black)
 
-            songs.forEach { song ->
-                val itemAudio = song.uri?.let { MediaItem.fromUri(Uri.parse(it)) }
-                if (itemAudio != null) {
-                    player.addMediaItem(itemAudio)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(brush = Brush
+                    .verticalGradient(colors = colors), alpha = 0.9f)
+        ) {
+            Column {
+                TopAppBarLeft(
+                    album.title,
+                    scrollOffset,
+                    modifier = Modifier.height(90.dp)
+                ) { navController.popBackStack() }
+                LazyColumn(
+                    state = lazyListState,
+                    modifier = Modifier.fillMaxSize()
 
-
-                }
-            }
-
-        }
-
-    }
-    player.prepare()
-
-    if (albumWithSongs != null) {
-        val songs = albumWithSongs!!.songs
-
-        val album = albumWithSongs!!.album
-        val songsOrderedByTrack = songs.sortedBy { it.trackNumber ?: Int.MAX_VALUE }
-        totalCountSongs.intValue = albumWithSongs!!.songs.count()
-
-
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.Black)) {
-            LazyColumn( state = scrollState,  modifier = Modifier.padding(bottom = 100.dp)) {
-                item {
-                    // Todo add album topBar
-                    ButtonsPlayAlbum(musicViewModels, totalCountSongs.intValue, album)
-
-                }
-                items(songsOrderedByTrack) { song ->
-                    SongCard(song) {
-                        // Todo add event
+                ) {
+                    item {
+                        HeaderContent(
+                            title = album.title,
+                            bytesArray = listOf(coverArt),
+                            texts = listOf(album.artist, album.year, album.genres),
+                            navController = navController
+                        )
+                        ButtonsPlayAlbum(
+                            playerViewModels,
+                            modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
+                        )
+                    }
+                    itemsIndexed(songsOrderedByTrack) { index, song ->
+                        SongCard(song, navController = navController) {
+                            playerViewModels.viewModelScope.launch {
+                                playerViewModels.playSeekTo(index)
+                            }
+                        }
+                    }
+                    item {
+                        AlbumDescription(album)
+                        Spacer(modifier = Modifier.height(15.dp))
                     }
                 }
             }
-            Spacer( modifier = Modifier.height(100.dp).fillMaxWidth())
-            BottomBar(navController, modifier = Modifier.align(Alignment.BottomCenter))
         }
-    } else {
-        Text("Loading...")
     }
-
 }
