@@ -38,9 +38,11 @@ fun AlbumDescription(album: Album,modifier: Modifier = Modifier) {
                 TextExtraSmall(text= formatDurationText(album.duration))
             }
             album.releaseDate.trim().isNotEmpty().let {
-                val date = parseDate(album.releaseDate)
-                if(date != null) {
-                    TextExtraSmall(text="Fecha de lanzamiento: $date ")
+                if(album.releaseDate.contains("-")){
+                    val date = parseDate(album.releaseDate)
+                    if(date != null) {
+                        TextExtraSmall(text="Fecha de lanzamiento: $date ")
+                    }
                 }
             }
             album.copyright.trim().isNotEmpty().let {
