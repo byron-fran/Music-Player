@@ -50,7 +50,9 @@ fun AlbumDetail(
 ) {
     val albumWithSongs by musicViewModels.albumWithSongs.collectAsState()
     val lazyListState = rememberLazyListState()
-    val scrollOffset = remember { derivedStateOf { lazyListState.firstVisibleItemIndex > 0} }
+    val scrollOffset = remember {
+        derivedStateOf { lazyListState.firstVisibleItemIndex > 0 || lazyListState.firstVisibleItemScrollOffset > 700 }
+    }
     val songs = albumWithSongs?.songs ?: emptyList()
     val album = albumWithSongs?.album ?: Album()
     val songsOrderedByTrack = songs.sortedBy { it.trackNumber ?: Int.MAX_VALUE }
@@ -70,36 +72,43 @@ fun AlbumDetail(
     }
     if (albumWithSongs?.album != null) {
 
-        val coverArt = getByteArray(album.cover, context )
-        val imageBitmap = remember { coverArt?.let {  decodeBitmapWithSubsampling(it, 300, 300) } }
+        val coverArt = getByteArray(album.cover, context)
+        val imageBitmap = remember { coverArt?.let { decodeBitmapWithSubsampling(it, 300, 300) } }
         val palette = imageBitmap?.let { Palette.from(it).generate() }
         val dominant = palette?.getDominantColor(Slate80.toArgb())
         val vibrant = palette?.getVibrantColor(Slate80.toArgb())
-        val colors = listOf( Color(dominant ?: 0),Color(vibrant ?: 0),  Color.Black, Color.Black, Color.Black)
+        val darkVibrant = palette?.getDarkVibrantColor(Color.Black.toArgb())
+        val colors = listOf(
+            Color(dominant ?: 0),
+            Color(vibrant ?: 0),
+            Color(darkVibrant ?: 0),
+            Color.Black, Color.Black,Color.Black
+        )
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(brush = Brush
-                    .verticalGradient(colors = colors), alpha = 0.9f)
+                .background(
+                    brush = Brush
+                        .verticalGradient(colors = colors), alpha = 0.9f
+                )
         ) {
             Column {
                 TopAppBarLeft(
                     album.title,
                     scrollOffset,
-                    modifier = Modifier.height(90.dp)
+                    modifier = Modifier.height(80.dp)
                 ) { navController.popBackStack() }
                 LazyColumn(
                     state = lazyListState,
                     modifier = Modifier.fillMaxSize()
-
                 ) {
                     item {
                         HeaderContent(
                             title = album.title,
                             bytesArray = listOf(coverArt),
                             texts = listOf(album.artist, album.year, album.genres),
-                            navController = navController
+                            q = album.numOfHiresQuality
                         )
                         ButtonsPlayAlbum(
                             playerViewModels,
@@ -107,7 +116,7 @@ fun AlbumDetail(
                         )
                     }
                     itemsIndexed(songsOrderedByTrack) { index, song ->
-                        SongCard(song, navController = navController) {
+                        SongCard(song, navController = navController, cardHeight = 55.dp) {
                             playerViewModels.viewModelScope.launch {
                                 playerViewModels.playSeekTo(index)
                             }
