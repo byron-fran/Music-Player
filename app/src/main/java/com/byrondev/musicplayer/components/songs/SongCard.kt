@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
@@ -46,9 +47,9 @@ fun SongCard(
     song: Song,
     showTrackNumber: Boolean = true,
     navController: NavController,
+    cardHeight : Dp = 50.dp,
     onClick: () -> Unit,
-
-    ) {
+) {
 
     val showBottomSheet = remember { mutableStateOf(false) }
 
@@ -56,7 +57,7 @@ fun SongCard(
         onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(cardHeight),
         colors = CardDefaults.cardColors(
             containerColor = Color.Black
         ),
@@ -82,7 +83,6 @@ fun SongCard(
 fun ShowQualityAudio(
     song: Song,
     showBottomSheet: MutableState<Boolean>,
-    modifier: Modifier = Modifier,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         if (song.audioBitDepth != null) {
