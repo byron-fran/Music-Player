@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.texts.TextRowSeparation
-import com.byrondev.musicplayer.data.dao.AlbumResponse
+import com.byrondev.musicplayer.data.databaseViews.AlbumResponse
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
