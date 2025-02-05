@@ -15,24 +15,12 @@ data class Artist(
     val name : String? = "",
 
     @ColumnInfo(name="cover")
-    val cover : ByteArray? = null
+    val cover : String? = null,
 
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+    @ColumnInfo(name = "num_of_albums")
+    val numOfAlbums : Int? = 0,
 
-        other as Artist
+    @ColumnInfo(name = "num_of_songs")
+    val numOfSongs : Int? = 0
 
-        if (cover != null) {
-            if (other.cover == null) return false
-            if (!cover.contentEquals(other.cover)) return false
-        } else if (other.cover != null) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return cover?.contentHashCode() ?: 0
-    }
-}
+)
