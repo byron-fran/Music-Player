@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.ui.theme.Rose60
 import com.byrondev.musicplayer.ui.theme.Slate70
+import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.ui.theme.textSmall
 
 data class MenuItemBottom(
@@ -42,12 +43,9 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
         MenuItemBottom(title = "Favorites", icon = painterResource(id=R.drawable.favorite_filled), path="FavoritesScreen"),
         MenuItemBottom(title = "Search", icon = painterResource(id=R.drawable.search), path = "SearchScreen"),
     )
-
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-
     NavigationBar (
         modifier = modifier
-
             .background(color = Color.DarkGray)
             .drawBehind {
                 val strokeWidth = 1.dp.toPx()
@@ -59,9 +57,7 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
                     strokeWidth = strokeWidth
                 )
             }
-            .height(50.dp)
-
-        ,
+            .height(50.dp),
         containerColor = Color.Black,
 
     ) {
@@ -77,11 +73,11 @@ fun BottomBar(navController: NavController, modifier: Modifier = Modifier) {
                 colors =  NavigationBarItemColors(
                     selectedIconColor = Rose60,
                     selectedTextColor = Rose60,
-                    disabledIconColor = Color.White,
-                    disabledTextColor = Color.White,
+                    disabledIconColor = Zinc40,
+                    disabledTextColor = Zinc40,
                     selectedIndicatorColor = Color.Transparent,
-                    unselectedIconColor = Color.White,
-                    unselectedTextColor = Color.White
+                    unselectedIconColor = Zinc40,
+                    unselectedTextColor = Zinc40
                 )
             )
         }
