@@ -27,7 +27,7 @@ import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.LazyImageCover
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
-import com.byrondev.musicplayer.data.dao.AlbumResponse
+import com.byrondev.musicplayer.data.databaseViews.AlbumResponse
 import com.byrondev.musicplayer.utils.dates.parseYear
 
 

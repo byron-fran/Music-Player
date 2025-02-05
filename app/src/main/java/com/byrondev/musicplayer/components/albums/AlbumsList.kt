@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.globals.EmptyScreen
 import com.byrondev.musicplayer.components.globals.TextLarge
-import com.byrondev.musicplayer.data.dao.AlbumResponse
+import com.byrondev.musicplayer.data.databaseViews.AlbumResponse
 import com.byrondev.musicplayer.ui.theme.Zinc40
 
 
