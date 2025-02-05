@@ -67,12 +67,17 @@ fun TextMedium(text : String ,modifier: Modifier = Modifier, color: Color = Colo
 }
 
 @Composable
-fun TextLarge(text : String ,modifier: Modifier = Modifier, color: Color = Color.White) {
+fun TextLarge(
+    text : String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.White,
+    maxLines: Int = 1
+    ) {
     Text(
         text,
         color = color,
         style = textLarge,
-        maxLines = 1,
+        maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         modifier = modifier,
         textAlign = TextAlign.Center
