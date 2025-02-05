@@ -48,6 +48,7 @@ fun SongCard(
     showTrackNumber: Boolean = true,
     navController: NavController,
     cardHeight : Dp = 50.dp,
+    color : Color = Color.Transparent,
     onClick: () -> Unit,
 ) {
 
@@ -58,9 +59,7 @@ fun SongCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(cardHeight),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Black
-        ),
+        colors = CardDefaults.cardColors(containerColor = color),
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
