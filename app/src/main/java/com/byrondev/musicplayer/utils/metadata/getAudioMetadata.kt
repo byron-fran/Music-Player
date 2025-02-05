@@ -53,7 +53,9 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
         Album (
             title = album ?: title,
             artist = artist.substringBefore(","),
-            year = yearRelease ?: dateRelease.toString().substringBefore("-").substringBefore("/"),
+            year = yearRelease
+                ?.substringBefore("-")?.substringBefore("/")?.substringBefore(";") ?:
+                dateRelease.toString().substringBefore("-").substringBefore("/").substringBefore(";"),
             genres = genre ?: "",
             albumArtist = albumArtist ?: artist,
             copyright = copyright ?: "",
