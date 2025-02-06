@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -60,6 +61,7 @@ fun PlaylistItems(
         modifier = Modifier
             .offset(x = 0.dp, y = 10.dp)
             .padding(horizontal = 5.dp)
+            .fillMaxSize()
     ) {
         item {
             ButtonPlaylistAdd { musicViewModels.onChangeValueModal() }

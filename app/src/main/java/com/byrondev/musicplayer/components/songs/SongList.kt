@@ -3,9 +3,9 @@ package com.byrondev.musicplayer.components.songs
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,7 +33,6 @@ import kotlinx.coroutines.launch
 fun SongList(
     songs: List<Song>,
     showTrackNumber: Boolean = true,
-    paddingValues: PaddingValues,
     playerViewModels: PlayerViewModels,
     navController: NavController,
 ) {
@@ -44,7 +43,7 @@ fun SongList(
 
     if (songs.isNotEmpty()) {
         LazyColumn(
-            modifier = Modifier.padding(top = 10.dp),
+            modifier = Modifier.padding(top = 10.dp).fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             item {

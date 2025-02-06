@@ -2,10 +2,15 @@ package com.byrondev.musicplayer.views.genres
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.components.songs.SongList
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
@@ -27,11 +32,14 @@ fun SongsByGenre(
     LaunchedEffect(genre?.name ) {
         musicViewModels.getSongsByGenre(genre = genre?.name ?: "")
     }
-
-    Scaffold (
-        topBar = { CenterTopAppBar(genre?.name ?: "") {navController.popBackStack()} },
-    ) { paddingValues ->
-        SongList(songsByGenre.value,false,paddingValues, playerViewModels , navController)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column {
+            CenterTopAppBar(
+                genre?.name ?: "Unknown genre",
+                Icons.AutoMirrored.Default.ArrowBack,
+                onNavigate = { navController.popBackStack() })
+            SongList(songsByGenre.value, showTrackNumber = false, playerViewModels, navController)
+        }
     }
 
 }
