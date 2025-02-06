@@ -3,23 +3,18 @@ package com.byrondev.musicplayer.components.songs
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -33,12 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
+import com.byrondev.musicplayer.components.globals.IconSmall
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
-import com.byrondev.musicplayer.components.modals.PartialBottomSheet
 import com.byrondev.musicplayer.data.models.Song
-import com.byrondev.musicplayer.ui.theme.Zinc40
+import com.byrondev.musicplayer.layout.SheetModalLayout
 import com.byrondev.musicplayer.utils.dates.formatDuration
+import com.byrondev.musicplayer.viewModels.MusicViewModels
+import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -47,41 +44,48 @@ fun SongCard(
     song: Song,
     showTrackNumber: Boolean = true,
     navController: NavController,
-    cardHeight : Dp = 50.dp,
-    color : Color = Color.Transparent,
+    musicViewModels: MusicViewModels,
+    playerViewModels: PlayerViewModels,
+    cardHeight: Dp = 50.dp,
+    color: Color = Color.Transparent,
     onClick: () -> Unit,
 ) {
 
-    val showBottomSheet = remember { mutableStateOf(false) }
+    val showModalSheet = remember { mutableStateOf(false) }
 
     Card(
         onClick = { onClick() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(cardHeight),
+        modifier = Modifier.fillMaxWidth().height(cardHeight),
         colors = CardDefaults.cardColors(containerColor = color),
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
-            modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.padding(5.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
 
             ) {
             SongCardInfo(song, showTrackNumber, modifier = Modifier.weight(1f))
-            ShowQualityAudio(song, showBottomSheet)
+            ShowQualityAudio(
+                song,
+                showModalSheet,
+                playerViewModels,
+                musicViewModels,
+                navController
+            )
         }
     }
-    PartialBottomSheet(showBottomSheet, song, navController)
+
 }
 
 
 @Composable
 fun ShowQualityAudio(
     song: Song,
-    showBottomSheet: MutableState<Boolean>,
+    showModalSheet: MutableState<Boolean>,
+    playerViewModels: PlayerViewModels,
+    musicViewModels: MusicViewModels,
+    navController: NavController,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         if (song.audioBitDepth != null) {
@@ -93,18 +97,17 @@ fun ShowQualityAudio(
                 )
             }
         }
-        Icon(
-            imageVector = Icons.Default.MoreVert,
-            contentDescription = null,
-            tint = Zinc40,
-            modifier = Modifier
-                .fillMaxHeight()
-                .size(25.dp)
-                .clickable { showBottomSheet.value = true }
-        )
+        IconSmall(R.drawable.more_vert_30, tint = Color.White) { showModalSheet.value = true }
+        SheetModalLayout(showModalSheet) {
+            SongOptionsItems(
+                playerViewModels,
+                musicViewModels,
+                navController,
+                song
+            )
+        }
     }
 }
-
 @Composable
 fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modifier) {
     Row(
@@ -118,7 +121,7 @@ fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modi
             modifier = Modifier.padding(start = 10.dp),
             horizontalAlignment = Alignment.Start,
         ) {
-            TextMedium(song.title ?: "")
+            TextMedium(song.title ?: "", color = Color.White)
             Spacer(modifier = Modifier.height(5.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
