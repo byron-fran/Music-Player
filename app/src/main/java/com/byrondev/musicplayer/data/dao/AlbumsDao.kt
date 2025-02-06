@@ -33,7 +33,8 @@ interface AlbumsDao {
         a.album_artist, a.release_date, a.tracks_total,a.created_at,
         COUNT(s.album_id)  as num_tracks,
         SUM(s.duration) as duration,
-        CASE WHEN af.album_id NOT NULL THEN 1 ELSE 0 END as is_favorite
+        CASE WHEN af.album_id NOT NULL THEN 1 ELSE 0 END as is_favorite,
+        a.num_of_hires_quality
         FROM albums a
         LEFT JOIN songs s ON s.album_id = a.id
         LEFT JOIN albums_favorite af ON af.album_id = a.id
