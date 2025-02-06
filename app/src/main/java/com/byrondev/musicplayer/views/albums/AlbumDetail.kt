@@ -29,12 +29,15 @@ import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
 import com.byrondev.musicplayer.components.albums.AlbumDescription
 import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
+import com.byrondev.musicplayer.components.globals.AudioQuality
 import com.byrondev.musicplayer.components.globals.HeaderContent
 import com.byrondev.musicplayer.components.globals.TopAppBarLeft
 import com.byrondev.musicplayer.components.songs.SongCard
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.ui.theme.Slate80
 import com.byrondev.musicplayer.utils.bitmap.getByteArray
+import com.byrondev.musicplayer.utils.colors.getLuminosity
+import com.byrondev.musicplayer.utils.colors.getSaturation
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
@@ -75,23 +78,31 @@ fun AlbumDetail(
         val coverArt = getByteArray(album.cover, context)
         val imageBitmap = remember { coverArt?.let { decodeBitmapWithSubsampling(it, 300, 300) } }
         val palette = imageBitmap?.let { Palette.from(it).generate() }
-        val dominant = palette?.getDominantColor(Slate80.toArgb())
-        val vibrant = palette?.getVibrantColor(Slate80.toArgb())
-        val darkVibrant = palette?.getDarkVibrantColor(Color.Black.toArgb())
+
+        val colorsExtracted = listOfNotNull(
+            palette?.getDominantColor(Color.Black.toArgb()),
+            palette?.getVibrantColor(Color.Black.toArgb()),
+            palette?.getDarkVibrantColor(Color.Black.toArgb())
+        )
+        val lightestColor = colorsExtracted.maxByOrNull { getLuminosity(it) } ?: Slate80.toArgb()
+        val mostColorful = colorsExtracted.maxByOrNull { getSaturation(it) } ?: colorsExtracted.firstOrNull() ?: Slate80.toArgb()
+
+        val maxAudioBitDepth = songs.maxByOrNull { it.audioBitDepth ?: 0 }
+        val maxAudioSampleRate = songs.maxByOrNull { it.sampleRate ?: 0 }
+        val audioFormat = songs.firstOrNull { it.audioCodec != null }
+
         val colors = listOf(
-            Color(dominant ?: 0),
-            Color(vibrant ?: 0),
-            Color(darkVibrant ?: 0),
-            Color.Black, Color.Black,Color.Black
+            Color(lightestColor),
+            Color(lightestColor),
+            Color(mostColorful),
+            Color.Black,
+            Color.Black,
         )
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    brush = Brush
-                        .verticalGradient(colors = colors), alpha = 0.9f
-                )
+                .background(brush = Brush.verticalGradient(colors = colors), alpha = 0.7f)
         ) {
             Column {
                 TopAppBarLeft(
@@ -107,24 +118,34 @@ fun AlbumDetail(
                         HeaderContent(
                             title = album.title,
                             bytesArray = listOf(coverArt),
-                            texts = listOf(album.artist, album.year, album.genres),
-                            q = album.numOfHiresQuality
-                        )
+                            texts = listOf(album.artist, album.year, album.genres)
+                        ) {
+                            AudioQuality(
+                                maxAudioBitDepth?.audioBitDepth,
+                                maxAudioSampleRate?.sampleRate,
+                                audioFormat?.audioCodec
+                            )
+                        }
                         ButtonsPlayAlbum(
                             playerViewModels,
                             modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
                         )
                     }
                     itemsIndexed(songsOrderedByTrack) { index, song ->
-                        SongCard(song, navController = navController, cardHeight = 55.dp) {
+                        SongCard(
+                            song,
+                            navController = navController,
+                            cardHeight = 55.dp,
+                            color = Color.Black
+                        ) {
                             playerViewModels.viewModelScope.launch {
                                 playerViewModels.playSeekTo(index)
                             }
                         }
                     }
                     item {
-                        AlbumDescription(album)
-                        Spacer(modifier = Modifier.height(15.dp))
+                        AlbumDescription(album, modifier = Modifier.background(Color.Black))
+                        Spacer(modifier = Modifier.height(15.dp).background(Color.Black))
                     }
                 }
             }
