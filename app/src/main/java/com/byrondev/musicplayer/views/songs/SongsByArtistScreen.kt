@@ -5,14 +5,14 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.songs.SongList
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.viewModels.MusicViewModels
@@ -40,11 +40,16 @@ fun SongsByArtist(
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             CenterTopAppBar(
-                "Songs",
-                Icons.AutoMirrored.Default.ArrowBack,
-                onNavigate = { navController.popBackStack() })
-            SongList(songs, showTrackNumber = false, playerViewModels, navController)
+                stringResource(id= R.string.library_songs),
+                onNavigate = { navController.popBackStack() }
+            )
+            SongList(
+                songs,
+                showTrackNumber = false,
+                playerViewModels,
+                navController,
+                musicViewModels,
+            )
         }
     }
-
 }

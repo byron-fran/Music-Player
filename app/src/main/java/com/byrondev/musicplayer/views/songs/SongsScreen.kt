@@ -11,9 +11,18 @@ import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun SongsScreen (musicViewModels: MusicViewModels, navController: NavController,playerViewModels : PlayerViewModels ) {
+fun SongsScreen(
+    musicViewModels: MusicViewModels,
+    navController: NavController,
+    playerViewModels: PlayerViewModels,
+) {
     val listSong = musicViewModels.songs.collectAsState()
 
-    SongList(listSong.value, showTrackNumber = false, playerViewModels, navController)
+    SongList(
+        listSong.value,
+        showTrackNumber = false,
+        playerViewModels, navController,
+        musicViewModels
+    )
 
 }

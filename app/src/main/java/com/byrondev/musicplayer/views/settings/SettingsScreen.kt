@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,13 +18,18 @@ import com.byrondev.musicplayer.components.files.SelectedLaunchedFiles
 import com.byrondev.musicplayer.components.settings.SettingsCard
 import com.byrondev.musicplayer.components.topbar.CenterTopAppBar
 import com.byrondev.musicplayer.viewModels.MusicViewModels
+import com.byrondev.musicplayer.viewModels.PlayerViewModels
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun SettingsScreen(navController: NavController, musicViewModels: MusicViewModels) {
+fun SettingsScreen(
+    navController: NavController,
+    musicViewModels: MusicViewModels,
+    playerViewModels: PlayerViewModels
+    ) {
 
     Scaffold(
-        topBar = { CenterTopAppBar("Settings", Icons.AutoMirrored.Default.ArrowBack) {navController.popBackStack()} },
+        topBar = { CenterTopAppBar("Settings", ) {navController.popBackStack()} },
         containerColor = Color.Black,
         contentColor =  Color.White,
 

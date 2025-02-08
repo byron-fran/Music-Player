@@ -5,8 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,23 +21,28 @@ fun SongsByGenre(
     navController: NavController,
     musicViewModels: MusicViewModels,
     playerViewModels: PlayerViewModels,
-    id : Int
-    ) {
+    id: Int,
+) {
 
     val songsByGenre = musicViewModels.songsByGenre.collectAsState()
     val genre = musicViewModels.genres.collectAsState().value.find { it.id == id }
 
-    LaunchedEffect(genre?.name ) {
+    LaunchedEffect(genre?.name) {
         musicViewModels.getSongsByGenre(genre = genre?.name ?: "")
     }
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             CenterTopAppBar(
-                genre?.name ?: "Unknown genre",
-                Icons.AutoMirrored.Default.ArrowBack,
-                onNavigate = { navController.popBackStack() })
-            SongList(songsByGenre.value, showTrackNumber = false, playerViewModels, navController)
+                title=genre?.name ?: "",
+                onNavigate = { navController.popBackStack() }
+            )
+            SongList(
+                songsByGenre.value,
+                showTrackNumber = false,
+                playerViewModels,
+                navController,
+                musicViewModels,
+            )
         }
     }
-
 }
