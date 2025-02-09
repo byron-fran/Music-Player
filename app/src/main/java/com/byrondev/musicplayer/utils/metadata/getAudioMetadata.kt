@@ -52,11 +52,11 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
     return  AudioMetadata(
         Album (
             title = album ?: title,
-            artist = artist.substringBefore(","),
+            artist = albumArtist ?: artist,
             year = yearRelease
                 ?.substringBefore("-")?.substringBefore("/")?.substringBefore(";") ?:
                 dateRelease.toString().substringBefore("-").substringBefore("/").substringBefore(";"),
-            genres = genre ?: "",
+            genres = genre ?: "Genre ",
             albumArtist = albumArtist ?: artist,
             copyright = copyright ?: "",
             releaseDate = dateRelease ?: "",
@@ -64,13 +64,13 @@ fun getAudioMetadata (context : Context, uri : Uri)  : AudioMetadata {
         ),
         Song(
             title = title,
-            artist = artist,
+            artist =  artist,
             audioBitDepth= audioBitDepth.let { it?.toInt() } ?: 0,
             sampleRate = sampleRate.let { it?.toInt() } ?: 0,
             bitRate = bitRate.let { it?.toInt() } ?: 0,
             album = album ?: title,
             year = dateRelease ?: yearRelease,
-            duration = duration.toLong(), //
+            duration = duration.toLong(),
             trackNumber = getTrackNumber(trackNumber).trackNumber ,
             uri = uri.toString(),
             composer = composer ?: "",
