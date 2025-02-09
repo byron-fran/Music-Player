@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.ui.theme.Pink60
 import com.byrondev.musicplayer.ui.theme.Yellow50
-import com.byrondev.musicplayer.ui.theme.Zinc40
 import com.byrondev.musicplayer.utils.textSampleRate
 
 @Composable
@@ -53,7 +52,7 @@ fun AudioQuality(
                 }
                 else {
                     if(audioFormat != null && audioSampleRate != 0) {
-                        TextExtraSmall(text="${audioFormat.uppercase()} - ${audioSampleRate.toString().textSampleRate(null)} ", color = Zinc40)
+                        TextExtraSmall(text="${audioFormat.uppercase()} - ${audioSampleRate.toString().textSampleRate(null)} ")
                     }
                 }
             }
