@@ -25,17 +25,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.IconSmall
+import com.byrondev.musicplayer.components.globals.LazyImageCover
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
+import com.byrondev.musicplayer.components.menu.MenuItem
 import com.byrondev.musicplayer.data.models.Song
 import com.byrondev.musicplayer.layout.SheetModalLayout
 import com.byrondev.musicplayer.utils.dates.formatDuration
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
+import kotlinx.coroutines.launch
 
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -55,12 +59,16 @@ fun SongCard(
 
     Card(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth().height(cardHeight),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(cardHeight),
         colors = CardDefaults.cardColors(containerColor = color),
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
-            modifier = Modifier.padding(5.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
 
@@ -78,7 +86,7 @@ fun SongCard(
 
 }
 
-
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun ShowQualityAudio(
     song: Song,
@@ -103,11 +111,17 @@ fun ShowQualityAudio(
                 playerViewModels,
                 musicViewModels,
                 navController,
-                song
-            )
+                song,
+                showModalSheet
+            ) {
+                MenuItem(R.drawable.baseline_play_arrow_30, R.string.song_play_next) {
+                    // Todo add event
+                }
+            }
         }
     }
 }
+
 @Composable
 fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modifier) {
     Row(
@@ -130,6 +144,36 @@ fun SongCardInfo(song: Song, showTrackNumber: Boolean, modifier: Modifier = Modi
                 TextExtraSmall(text = song.artist ?: "Unknown")
                 CircleSeparation()
                 TextExtraSmall(text = formatDuration(song.duration.toInt()))
+            }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.S)
+@Composable
+fun SongCardWithCover(
+    song: Song, index: Int,
+    navController: NavController,
+    playerViewModels: PlayerViewModels,
+    musicViewModels: MusicViewModels,
+) {
+    Row(
+
+    ) {
+        LazyImageCover(
+            song.uri,
+            imageDefault = painterResource(R.drawable.image_music_default),
+            modifier = Modifier.size(50.dp)
+        )
+        SongCard(
+            song,
+            showTrackNumber = false,
+            navController,
+            musicViewModels,
+            playerViewModels
+        ) {
+            playerViewModels.viewModelScope.launch {
+                playerViewModels.playSeekTo(index)
             }
         }
     }
