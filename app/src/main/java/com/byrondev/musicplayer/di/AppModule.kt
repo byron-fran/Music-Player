@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.byrondev.musicplayer.data.dao.AlbumsDao
 import com.byrondev.musicplayer.data.dao.AlbumsFavoriteDao
 import com.byrondev.musicplayer.data.dao.ArtistsDao
+import com.byrondev.musicplayer.data.dao.FavoritesSongDao
 import com.byrondev.musicplayer.data.dao.GenresDao
 import com.byrondev.musicplayer.data.dao.PlaybackQueueDao
 import com.byrondev.musicplayer.data.dao.PlaylistDao
@@ -65,4 +66,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideAlbumsFavorite(database: MusicDB) : AlbumsFavoriteDao = database.albumsFavoriteDao()
+
+    @Singleton
+    @Provides
+    fun favoritesSongProvide(database: MusicDB) : FavoritesSongDao = database.favoritesSongDao()
 }
