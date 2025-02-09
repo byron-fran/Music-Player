@@ -62,7 +62,7 @@ fun AlbumCard(
                     .background(Color.Black),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                TextMedium(album.title)
+                TextMedium(album.title, color = Color.White)
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)

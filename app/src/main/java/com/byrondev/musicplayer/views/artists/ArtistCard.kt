@@ -10,17 +10,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
-import com.byrondev.musicplayer.components.globals.LazyImageCover
+import com.byrondev.musicplayer.components.globals.IconMedium
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.data.models.Artist
@@ -46,11 +46,7 @@ fun ArtistCard(artist: Artist, onClick: () -> Unit) {
             contentAlignment = Alignment.Center
 
         ) {
-            LazyImageCover(
-                artist.cover,
-                painterResource(id = R.drawable.artist_50),
-                modifier = Modifier.size(50.dp)
-            )
+            IconMedium( id= R.drawable.artist_50,) {}
         }
         ArtistCardInfo(artist)
     }
@@ -62,23 +58,20 @@ fun ArtistCardInfo(artist: Artist, modifier: Modifier = Modifier) {
         modifier = modifier.height(40.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        TextMedium(artist.name ?: "Arist unknown")
+        TextMedium(artist.name ?: stringResource(id=R.string.unknown_artist), color= Color.White)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             artist.numOfSongs?.let {
-                var song = "Song"
-                if (it > 1) song += "s"
-                TextExtraSmall(text = "${artist.numOfSongs} $song")
+                if (it > 1) TextExtraSmall(text = "${artist.numOfSongs} " + stringResource(id=R.string.library_songs))
+                else TextExtraSmall(text = "${artist.numOfSongs} " + stringResource(R.string.song))
             }
             artist.numOfAlbums?.let {
                 CircleSeparation()
-                var text = "Album"
-                if (it > 1) text += "s"
-                TextExtraSmall(text = "$it $text")
+                if (it > 1) TextExtraSmall(text = "$it " + stringResource(R.string.library_albums))
+                else TextExtraSmall(text = "$it " + stringResource(R.string.album))
             }
         }
-
     }
 }
