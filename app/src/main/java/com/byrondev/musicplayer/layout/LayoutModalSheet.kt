@@ -1,6 +1,9 @@
 package com.byrondev.musicplayer.layout
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -13,19 +16,23 @@ import com.byrondev.musicplayer.ui.theme.Slate80
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SheetModalLayout(
-    showModalSheet : MutableState<Boolean>,
-    content : @Composable () -> Unit
+    showModalSheet: MutableState<Boolean>,
+    content: @Composable () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     if (showModalSheet.value) {
-        ModalBottomSheet (
+        ModalBottomSheet(
             modifier = Modifier.height(350.dp),
             sheetState = sheetState,
             onDismissRequest = { showModalSheet.value = false },
             containerColor = Slate80
-        ){
-            content()
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 10.dp).fillMaxSize(),
+            ) {
+                content()
+            }
         }
     }
 }
