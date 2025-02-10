@@ -21,13 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
 import com.byrondev.musicplayer.components.albums.AlbumDescription
+import com.byrondev.musicplayer.components.albums.AlbumDetailOptions
 import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
 import com.byrondev.musicplayer.components.globals.AudioQuality
 import com.byrondev.musicplayer.components.globals.HeaderContent
@@ -35,7 +35,8 @@ import com.byrondev.musicplayer.components.globals.TopAppBarLeft
 import com.byrondev.musicplayer.components.songs.SongCard
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.utils.bitmap.getByteArray
-import com.byrondev.musicplayer.utils.colors.selectBestColor
+import com.byrondev.musicplayer.utils.colors.chooseColorFromPalette
+import com.byrondev.musicplayer.utils.colors.listColors
 import com.byrondev.musicplayer.utils.decodeBitmapWithSubsampling
 import com.byrondev.musicplayer.viewModels.MusicViewModels
 import com.byrondev.musicplayer.viewModels.PlayerViewModels
@@ -63,7 +64,6 @@ fun AlbumDetail(
         musicViewModels.clearAlbumWithSongs()
         musicViewModels.getAlbumByIdWithSongs(id)
     }
-
     LaunchedEffect(albumWithSongs?.songs) {
         if (albumWithSongs?.songs != null) {
             playerViewModels.updateCurrentListSongs(songs.sortedBy {
@@ -80,21 +80,9 @@ fun AlbumDetail(
         val maxAudioBitDepth = songs.maxByOrNull { it.audioBitDepth ?: 0 }
         val maxAudioSampleRate = songs.maxByOrNull { it.sampleRate ?: 0 }
         val audioFormat = songs.firstOrNull { it.audioCodec != null }
+        val bestColor = chooseColorFromPalette(palette)
+        val gradientColors = listColors(bestColor)
 
-        val dominant = palette?.dominantSwatch?.rgb?.let { Color(it) } ?: Color.Transparent
-        val vibrant = palette?.vibrantSwatch?.rgb?.let { Color(it) } ?: Color.Transparent
-        val darkVibrant = palette?.darkVibrantSwatch?.rgb?.let { Color(it) } ?: Color.Transparent
-        val lightVibrant = palette?.lightVibrantSwatch?.rgb?.let { Color(it) } ?: Color.Transparent
-
-        val selectedColor = selectBestColor(listOf(dominant, vibrant, darkVibrant, lightVibrant))
-
-        val gradientColors = listOf(
-            selectedColor.copy(alpha = 0.8f),
-            selectedColor.copy(alpha = 0.7f),
-            selectedColor.copy(alpha = 0.5f),
-            Color.Black,
-            Color.Black
-        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,14 +92,22 @@ fun AlbumDetail(
                 TopAppBarLeft(
                     album.title,
                     scrollOffset,
-                    modifier = Modifier.height(80.dp),
-                    playerViewModels = playerViewModels,
-                ) { navController.popBackStack() }
+                    onClick = { navController.popBackStack() }
+                ) {
+                    AlbumDetailOptions(
+                        musicViewModels,
+                        navController,
+                        album,
+                        showModalLayout = it
+                    )
+                }
+                
                 LazyColumn(
                     state = lazyListState,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     item {
+                        Spacer(modifier = Modifier.fillMaxWidth().height(10.dp))
                         HeaderContent(
                             title = album.title,
                             bytesArray = listOf(coverArt),
@@ -127,7 +123,6 @@ fun AlbumDetail(
                             playerViewModels,
                             modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
                         )
-                        Spacer(modifier = Modifier.height(15.dp).background(Color.Black).fillMaxWidth())
                     }
                     itemsIndexed(songsOrderedByTrack) { index, song ->
                         SongCard(
@@ -135,18 +130,16 @@ fun AlbumDetail(
                             navController = navController,
                             musicViewModels = musicViewModels,
                             playerViewModels = playerViewModels,
-                            cardHeight = 55.dp,
-                            color = Color.Black,
-
-                            ) {
+                            cardHeight = 55.dp
+                        ) {
                             playerViewModels.viewModelScope.launch {
                                 playerViewModels.playSeekTo(index)
                             }
                         }
                     }
                     item {
-                        AlbumDescription(album, modifier = Modifier.background(Color.Black))
-                        Spacer(modifier = Modifier.height(15.dp).background(Color.Black))
+                        AlbumDescription(album)
+                        Spacer(modifier = Modifier.height(15.dp))
                     }
                 }
             }
