@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
-import com.byrondev.musicplayer.components.globals.IconMedium
+import com.byrondev.musicplayer.components.globals.SmallImage
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
 import com.byrondev.musicplayer.data.models.Artist
@@ -40,13 +40,13 @@ fun ArtistCard(artist: Artist, onClick: () -> Unit) {
     ) {
         Box(
             modifier = Modifier
-                .width(60.dp)
-                .height(60.dp)
+                .width(50.dp)
+                .height(50.dp)
                 .background(Slate80, shape = RoundedCornerShape(5.dp)),
             contentAlignment = Alignment.Center
 
         ) {
-            IconMedium( id= R.drawable.artist_50,) {}
+            SmallImage(R.drawable.artist_50)
         }
         ArtistCardInfo(artist)
     }
