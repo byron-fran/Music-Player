@@ -28,19 +28,13 @@ interface PlaylistDao {
 
     @Query(""" 
         SELECT p.id, p.name, 
-            COUNT(ps.songId) AS songCount,
-            COALESCE(SUM(s.duration), 0) AS duration
+            COUNT(ps.songId) AS number_of_songs,
+            COALESCE(SUM(s.duration), 0) AS duration,
+            p.color1, p.color2
         FROM playlist p
         LEFT JOIN playlist_song_cross_ref ps ON p.id = ps.playlistId
         LEFT JOIN songs s ON ps.songId = s.id
         GROUP BY p.id
     """)
-    fun getAllPlaylists() :Flow <List<PlaylistWithCountSong>>
+    fun getAllPlaylists() :Flow <List<Playlist>>
 }
-
-data class PlaylistWithCountSong(
-    val id : Int = 0,
-    val name : String = "",
-    val songCount : Int = 0,
-    val duration : Int = 0
-)
