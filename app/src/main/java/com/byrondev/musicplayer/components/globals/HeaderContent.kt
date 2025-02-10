@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.compose.ui.zIndex
 import com.byrondev.musicplayer.components.images.CoverImage
 
 @Composable
@@ -19,7 +22,7 @@ fun HeaderContent(
     title: String,
     texts: List<String?>,
     bytesArray: List<ByteArray?>,
-    navController: NavController,
+    content : @Composable () -> Unit
 ) {
     val byteArray = bytesArray.first()
     val newTexts = texts.filter { it?.length!! > 0 }
@@ -28,17 +31,17 @@ fun HeaderContent(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .height(310.dp)
 
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
-            CoverImage(byteArray)
+            CoverImage(byteArray, modifier = Modifier.size(210.dp).zIndex(1f))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(5.dp),
                 modifier = Modifier.padding(top = 10.dp)
             ) {
-                TextLarge(title)
+                TextLarge(title, modifier = Modifier.widthIn(max = 350.dp), maxLines = 2, color = Color.White)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -48,9 +51,9 @@ fun HeaderContent(
                         if (texts.last() != t) {
                             CircleSeparation()
                         }
-
                     }
                 }
+                content()
             }
         }
     }
