@@ -8,18 +8,20 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.texts.TextRowSeparation
-import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
+import com.byrondev.musicplayer.data.models.Playlist
 
 @Composable
-fun PlaylistCarousel(playlistItems : List<PlaylistWithCountSong>, navController: NavController) {
+fun PlaylistCarousel(playlistItems : List<Playlist>, navController: NavController) {
 
     Column {
         TextRowSeparation(
-            "Playlists",
-            "view more",
+            stringResource(R.string.library_playlists),
+            stringResource(R.string.see_more),
             modifier = Modifier.padding(10.dp ),
             onClick = {navController.navigate("PlaylistScreen/${0}")}
             )
