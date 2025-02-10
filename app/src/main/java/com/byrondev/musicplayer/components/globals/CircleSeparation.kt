@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
-import com.byrondev.musicplayer.ui.theme.Zinc40
+import com.byrondev.musicplayer.ui.theme.Gray
 
 @Composable
-fun CircleSeparation  (color : Color = Zinc40){
+fun CircleSeparation  (color : Color = Gray){
     Icon(
         painter = painterResource(id = R.drawable.baseline_circle_30),
         tint = color,
