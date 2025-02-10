@@ -1,46 +1,49 @@
 package com.byrondev.musicplayer.components.playlist
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.byrondev.musicplayer.R
-import com.byrondev.musicplayer.data.dao.PlaylistWithCountSong
-import com.byrondev.musicplayer.ui.theme.Slate80
+import com.byrondev.musicplayer.components.globals.SmallImage
+import com.byrondev.musicplayer.data.models.Playlist
 
 @Composable
-fun PlaylistItem(playlist: PlaylistWithCountSong, onClick : () -> Unit) {
+fun PlaylistItem(playlist: Playlist, onClick: () -> Unit) {
 
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.clickable { onClick() }
     ) {
-        Box (
+        Box(
             modifier = Modifier
-                .width(60.dp)
-                .height(60.dp)
-                .background(Slate80, shape = RoundedCornerShape(5.dp)),
+                .width(50.dp)
+                .height(50.dp)
+                .background(
+                    brush = Brush
+                        .verticalGradient(
+                            colors = listOf(
+                                Color(playlist.color1),
+                                Color(playlist.color2)
+                            )
+                        ),
+                    shape = RoundedCornerShape(5.dp),
+                    alpha = 0.6f
+                ),
             contentAlignment = Alignment.Center
-
         ) {
-            // Todo replace image of playlist if has it
-            Image(
-                painter = painterResource(id = R.drawable.baseline_music_note_600),
-                contentDescription = "Icon",
-                modifier = Modifier.size(30.dp)
-            )
+            SmallImage(R.drawable.playlist_50, tint = Color.White)
         }
         PlaylistInfo(playlist)
     }
