@@ -61,7 +61,7 @@ data class Song(
     val uri: String = "",
 
     @ColumnInfo(name = "listeners")
-    val listeners: Long = 0,
+    val listeners: Long? = 0,
 
     @ColumnInfo(name = "composer")
     val composer: String? = "",
