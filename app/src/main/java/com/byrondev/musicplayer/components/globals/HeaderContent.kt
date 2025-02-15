@@ -7,24 +7,21 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import com.byrondev.musicplayer.components.images.CoverImage
 
 @Composable
 fun HeaderContent(
     title: String,
     texts: List<String?>,
-    bytesArray: List<ByteArray?>,
+    coverImage : @Composable () -> Unit,
     content : @Composable () -> Unit
 ) {
-    val byteArray = bytesArray.first()
+
     val newTexts = texts.filter { it?.length!! > 0 }
 
     Box(
@@ -35,7 +32,8 @@ fun HeaderContent(
 
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
-            CoverImage(byteArray, modifier = Modifier.size(210.dp).zIndex(1f))
+
+            coverImage()
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(5.dp),

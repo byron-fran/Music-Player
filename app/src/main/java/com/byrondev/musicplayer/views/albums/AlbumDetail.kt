@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
@@ -32,6 +34,7 @@ import com.byrondev.musicplayer.components.albums.ButtonsPlayAlbum
 import com.byrondev.musicplayer.components.globals.AudioQuality
 import com.byrondev.musicplayer.components.globals.HeaderContent
 import com.byrondev.musicplayer.components.globals.TopAppBarLeft
+import com.byrondev.musicplayer.components.images.CoverImage
 import com.byrondev.musicplayer.components.songs.SongCard
 import com.byrondev.musicplayer.data.models.Album
 import com.byrondev.musicplayer.utils.bitmap.getByteArray
@@ -110,8 +113,8 @@ fun AlbumDetail(
                         Spacer(modifier = Modifier.fillMaxWidth().height(10.dp))
                         HeaderContent(
                             title = album.title,
-                            bytesArray = listOf(coverArt),
-                            texts = listOf(album.artist, album.year, album.genres)
+                            texts = listOf(album.artist, album.year, album.genres),
+                            coverImage =  {  CoverImage(coverArt, modifier = Modifier.size(210.dp).zIndex(1f)) }
                         ) {
                             AudioQuality(
                                 maxAudioBitDepth?.audioBitDepth,

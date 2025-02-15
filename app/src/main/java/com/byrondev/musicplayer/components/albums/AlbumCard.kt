@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
+import com.byrondev.musicplayer.components.globals.ImageDefault
 import com.byrondev.musicplayer.components.globals.LazyImageCover
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
@@ -47,8 +48,13 @@ fun AlbumCard(
     ) {
         LazyImageCover(
             album.cover,
-            painterResource(id = R.drawable.image_cd_default),
-            modifier = Modifier.aspectRatio(1f)
+            modifier = Modifier.aspectRatio(1f),
+            content =  {
+                ImageDefault(
+                    R.drawable.image_cd_default,
+                    modifier = Modifier.aspectRatio(1f)
+                    )
+            }
         )
         Row(
             modifier = modifier

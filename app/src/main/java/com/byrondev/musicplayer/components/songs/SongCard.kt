@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.byrondev.musicplayer.R
 import com.byrondev.musicplayer.components.globals.CircleSeparation
 import com.byrondev.musicplayer.components.globals.IconSmall
+import com.byrondev.musicplayer.components.globals.ImageDefault
 import com.byrondev.musicplayer.components.globals.LazyImageCover
 import com.byrondev.musicplayer.components.globals.TextExtraSmall
 import com.byrondev.musicplayer.components.globals.TextMedium
@@ -162,8 +163,13 @@ fun SongCardWithCover(
     ) {
         LazyImageCover(
             song.uri,
-            imageDefault = painterResource(R.drawable.image_music_default),
-            modifier = Modifier.size(50.dp)
+            modifier = Modifier.size(50.dp),
+            content = {
+                ImageDefault(
+                    R.drawable.image_music_default,
+                    modifier = Modifier.size(50.dp),
+                    )
+            }
         )
         SongCard(
             song,
