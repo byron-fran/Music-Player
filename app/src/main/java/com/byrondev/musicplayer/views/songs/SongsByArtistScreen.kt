@@ -45,7 +45,6 @@ fun SongsByArtist(
             )
             SongList(
                 songs,
-                showTrackNumber = false,
                 playerViewModels,
                 navController,
                 musicViewModels,

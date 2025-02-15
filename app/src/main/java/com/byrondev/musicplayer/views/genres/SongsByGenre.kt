@@ -30,6 +30,7 @@ fun SongsByGenre(
     LaunchedEffect(genre?.name) {
         musicViewModels.getSongsByGenre(genre = genre?.name ?: "")
     }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             CenterTopAppBar(
@@ -38,7 +39,6 @@ fun SongsByGenre(
             )
             SongList(
                 songsByGenre.value,
-                showTrackNumber = false,
                 playerViewModels,
                 navController,
                 musicViewModels,

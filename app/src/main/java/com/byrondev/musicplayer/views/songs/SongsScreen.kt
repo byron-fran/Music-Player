@@ -20,8 +20,8 @@ fun SongsScreen(
 
     SongList(
         listSong.value,
-        showTrackNumber = false,
-        playerViewModels, navController,
+        playerViewModels,
+        navController,
         musicViewModels
     )
 
