@@ -26,6 +26,11 @@ data class Playlist(
 
     @ColumnInfo(name = "color2")
     val color2: Int = randomColor().toArgb(),
+
+    @ColumnInfo(name = "uri1")
+    val uri1: String? = null,
+
+
 )
 
 
