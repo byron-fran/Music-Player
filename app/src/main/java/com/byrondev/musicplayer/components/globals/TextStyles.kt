@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.byrondev.musicplayer.ui.theme.Zinc40
+import com.byrondev.musicplayer.ui.theme.Gray
 import com.byrondev.musicplayer.ui.theme.textExtraSmall
 import com.byrondev.musicplayer.ui.theme.textLarge
 import com.byrondev.musicplayer.ui.theme.textMedium
@@ -14,12 +14,12 @@ import com.byrondev.musicplayer.ui.theme.textSmall
 
 @Composable
 fun TextSmall(
-    text : String,
+    text: String,
     modifier: Modifier = Modifier,
-    color: Color = Zinc40,
-    textAlign: TextAlign =TextAlign.Center,
-    maxLines: Int = 1
-    ) {
+    color: Color = Gray,
+    textAlign: TextAlign = TextAlign.Center,
+    maxLines: Int = 1,
+) {
 
     Text(
         text,
@@ -36,10 +36,11 @@ fun TextSmall(
 @Composable
 fun TextExtraSmall(
     modifier: Modifier = Modifier,
-    text : String,
-    color: Color = Zinc40,maxLines : Int = 1,
-    textAlign: TextAlign = TextAlign.Center
-    ) {
+    text: String,
+    color: Color = Gray,
+    maxLines: Int = 1,
+    textAlign: TextAlign = TextAlign.Center,
+) {
 
     Text(
         text,
@@ -54,7 +55,11 @@ fun TextExtraSmall(
 }
 
 @Composable
-fun TextMedium(text : String ,modifier: Modifier = Modifier, color: Color = Color.White) {
+fun TextMedium(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Gray,
+) {
     Text(
         text,
         color = color,
@@ -68,11 +73,11 @@ fun TextMedium(text : String ,modifier: Modifier = Modifier, color: Color = Colo
 
 @Composable
 fun TextLarge(
-    text : String,
+    text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.White,
-    maxLines: Int = 1
-    ) {
+    color: Color = Gray,
+    maxLines: Int = 1,
+) {
     Text(
         text,
         color = color,
