@@ -52,7 +52,7 @@ val textDarkGray13 = TextStyle (
 val textSmall  = TextStyle (
     fontSize = 10.sp,
     fontFamily = FontFamily(
-        Font(resId = R.font.montserrat_medium)
+        Font(resId = R.font.montserrat_regular)
     )
 
 )
@@ -63,9 +63,9 @@ val textExtraSmall = TextStyle(
     )
 )
 val textMedium = TextStyle(
-    fontSize = 14.sp,
+    fontSize = 15.sp,
     fontFamily = FontFamily(
-        Font(resId = R.font.montserrat_bold)
+        Font(resId = R.font.montserrat_medium)
     )
 )
 val textLarge = TextStyle (
